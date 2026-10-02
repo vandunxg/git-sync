@@ -1,0 +1,25 @@
+# negative controls (re-run after review fixes) 2026-10-02T13:18:48+07:00
+== C1: remove the empty credential.helper reset
+test git_auth::tests::real_git_gets_credential_only_through_the_bound_broker ... FAILED
+test git_auth::tests::hardening_options_override_hostile_repository_config ... FAILED
+test result: FAILED. 20 passed; 2 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== C5: drop core.hooksPath hardening
+test git_auth::tests::hardening_options_override_hostile_repository_config ... FAILED
+test result: FAILED. 21 passed; 1 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== C2: disable process-tree check
+test git_auth::tests::unbound_or_foreign_peer_is_denied ... FAILED
+test result: FAILED. 21 passed; 1 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== C6: trust exited job PID
+test git_auth::tests::exited_job_process_is_no_longer_trusted ... FAILED
+test result: FAILED. 21 passed; 1 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== C3: disable path binding
+test git_auth::tests::other_jobs_broker_never_serves_this_jobs_request ... FAILED
+test git_auth::tests::real_git_gets_credential_only_through_the_bound_broker ... FAILED
+test git_auth::tests::wrong_protocol_host_or_path_is_denied ... FAILED
+test result: FAILED. 19 passed; 3 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== C4: ignore expiry
+test git_auth::tests::old_handle_never_removes_a_newer_brokers_socket ... FAILED
+test git_auth::tests::broker_expires_and_removes_its_socket ... FAILED
+test result: FAILED. 20 passed; 2 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s
+== restored
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 38 filtered out; finished in 0.50s

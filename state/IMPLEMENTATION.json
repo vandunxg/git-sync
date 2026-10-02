@@ -322,9 +322,25 @@
       ]
     },
     "P03-T04": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "REVIEW_READY",
+      "evidence": [
+        "state/evidence/P03-T04/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P03-T04/run-20261002-01/checks.log",
+        "state/evidence/P03-T04/run-20261002-01/negative-controls.log",
+        "state/evidence/P03-T04/run-20261002-01/scope-check.json",
+        "state/evidence/P03-T04/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P03-T04/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-CREDENTIAL-BROKER": "PASS (broker scope; production helper binary P05-T01)",
+        "TEST-REDACTION": "PARTIAL (git_auth redaction only)"
+      },
+      "review": {
+        "by": "independent security review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED",
+        "record": "state/evidence/P03-T04/run-20261002-01/REVIEW.md"
+      },
+      "blocker": "owner must explicitly accept the residual security risks in REVIEW.md (security decisions are owner-approved)"
     },
     "P04-T01": {
       "status": "NOT_STARTED",

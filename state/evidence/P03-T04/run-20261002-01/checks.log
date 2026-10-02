@@ -1,0 +1,50 @@
+# checks 2026-10-02T13:20:50+07:00 base e92817c git version 2.54.0 rustc 1.96.0 (ac68faa20 2026-05-25) (Arch Linux rust 1:1.96.0-1)
+== cargo fmt --check
+exit=0
+== cargo clippy -D warnings
+exit=0
+== cargo test -p gbm-infrastructure --lib -- git_auth platform
+test git_auth::tests::child_env_is_a_closed_allowlist ... ok
+test git_auth::tests::drop_removes_socket_and_duplicate_job_is_refused ... ok
+test git_auth::tests::exited_job_process_is_no_longer_trusted ... ok
+test git_auth::tests::bound_job_peer_receives_only_its_credential ... ok
+test git_auth::tests::helper_command_is_quoted_and_absolute ... ok
+test git_auth::tests::invalid_grants_are_rejected ... ok
+test git_auth::tests::other_jobs_broker_never_serves_this_jobs_request ... ok
+test git_auth::tests::overlong_socket_path_is_a_clear_error ... ok
+test git_auth::tests::protocol_parser_is_bounded_and_rejects_injection ... ok
+test git_auth::tests::hardening_options_override_hostile_repository_config ... ok
+test git_auth::tests::redaction_covers_headers_encodings_and_more_prefixes ... ok
+test git_auth::tests::real_git_gets_credential_only_through_the_bound_broker ... ok
+test git_auth::tests::redaction_removes_known_and_token_shaped_secrets ... ok
+test git_auth::tests::remote_urls_are_allowlisted_and_credential_free ... ok
+test git_auth::tests::silent_client_does_not_block_the_job_helper ... ok
+test git_auth::tests::stale_sockets_are_swept_and_live_ones_kept ... ok
+test git_auth::tests::store_and_erase_are_never_forwarded ... ok
+test git_auth::tests::unbound_or_foreign_peer_is_denied ... ok
+test git_auth::tests::wrong_protocol_host_or_path_is_denied ... ok
+test platform::tests::ancestry_follows_live_process_tree ... ok
+test platform::tests::creates_private_runtime_dir_with_mode_0700 ... ok
+test platform::tests::parent_pid_handles_parenthesized_comm ... ok
+test platform::tests::rejects_group_readable_existing_dir ... ok
+test platform::tests::rejects_relative_or_missing_base ... ok
+test platform::tests::rejects_symlinked_runtime_dir ... ok
+test git_auth::tests::redaction_is_linear_on_hostile_input ... ok
+test git_auth::tests::old_handle_never_removes_a_newer_brokers_socket ... ok
+test git_auth::tests::broker_expires_and_removes_its_socket ... ok
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.50s
+== cargo test --workspace
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+test result: ok. 60 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.32s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.13s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
