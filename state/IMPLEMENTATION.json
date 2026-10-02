@@ -369,9 +369,22 @@
       }
     },
     "P04-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P04-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P04-T02/run-20261002-01/checks.log",
+        "state/evidence/P04-T02/run-20261002-01/negative-controls.log",
+        "state/evidence/P04-T02/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-IDENTITY": "PASS (domain + preview + on-disk)",
+        "TEST-ROOT": "PASS (filesystem half; root selection/picker cancel covered by CR-BE-EARLY storage/backend tests)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (round 2) after recommended fixes",
+        "record": "state/evidence/P04-T02/run-20261002-01/REVIEW.md"
+      }
     },
     "P04-T03": {
       "status": "NOT_STARTED",

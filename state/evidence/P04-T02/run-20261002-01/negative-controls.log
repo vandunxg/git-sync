@@ -1,0 +1,7 @@
+N1 symlink check removed: exit=101 caught_by=['test filesystem::tests::symlink_escapes_are_refused_and_outside_stays_untouched ... FAILED']
+N2 existing leaf adopted: exit=101 caught_by=['test filesystem::tests::creates_private_mirror_path_once_and_reopens_it ... FAILED', 'test filesystem::tests::pre_existing_folders_with_the_expected_name_are_not_adopted ... FAILED']
+N3 foreign project not checked: exit=101 caught_by=['test mapping::tests::case_insensitive_project_clashes_are_blocked_not_adopted ... FAILED']
+N4 workspace leaf without id suffix: exit=101 caught_by=['test identity::tests::case_and_sanitize_collisions_stay_distinct_by_id ... FAILED', 'test identity::tests::hostile_display_names_are_neutralized ... FAILED', 'test identity::tests::stored_paths_must_have_the_expected_shape ... FAILED', 'test identity::tests::storage_paths_embed_the_provider_id ... FAILED']
+N6 mapped-but-renamed project not blocking: exit=101 caught_by=['test mapping::tests::a_mapped_project_renamed_in_gitlab_still_blocks_its_new_path ... FAILED']
+N7 world-writable root accepted: exit=101 caught_by=['test filesystem::tests::only_a_verified_manifest_makes_a_root_mutable ... FAILED']
+N5 case-variant check removed: exit=101 caught_by=['test filesystem::tests::case_variant_siblings_are_refused ... FAILED']

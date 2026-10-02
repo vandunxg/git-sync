@@ -3,3 +3,4 @@
 //! Depends on neither the application layer nor any adapter (ARCHITECTURE.md).
 
 pub mod contract;
+pub mod identity;

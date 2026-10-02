@@ -1,5 +1,6 @@
 //! Infrastructure adapters. Each module implements narrow application ports.
 
+pub mod filesystem;
 pub mod git_auth;
 pub mod github;
 pub mod gitlab;

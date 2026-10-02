@@ -3,4 +3,5 @@
 pub mod credentials;
 pub mod discovery;
 pub mod ipc;
+pub mod mapping;
 pub mod providers;
