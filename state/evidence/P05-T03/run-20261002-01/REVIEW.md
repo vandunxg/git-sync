@@ -23,4 +23,5 @@ Runner bundle additions: no weakening found.
 8. Snapshots cover source-mirror heads/tags only; no destination-only state, HEAD,
    other namespaces; LFS/submodules not_covered.
 
-Owner decision: PENDING.
+Owner decision: ACCEPTED residual risks 1–8 (owner answer in session, 2026-10-02:
+"Chấp nhận, làm tiếp"). Follow-ups tracked in IMPLEMENTATION.json.
