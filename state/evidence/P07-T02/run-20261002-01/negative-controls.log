@@ -1,0 +1,17 @@
+N1 verified completion not recognised: caught_by=['reconcile::tests::interrupted_pushes_are_decided_by_the_observed_destination']
+N2 partial write treated as nothing written: caught_by=['reconcile::tests::interrupted_pushes_are_decided_by_the_observed_destination']
+N3 unobservable destination assumed unwritten: caught_by=['reconcile::tests::interrupted_pushes_are_decided_by_the_observed_destination']
+N4 write stage without checkpoint requeued: caught_by=['reconcile::tests::interrupted_before_any_write_gets_a_new_attempt']
+N5 interrupted create re-created blindly: caught_by=['reconcile::tests::a_crash_after_remote_project_creation_never_duplicates_the_project']
+N6 canceled before confirmed stop: caught_by=['reconcile::tests::cancel_is_reported_honestly']
+N7 cancel during push reported certain: caught_by=['reconcile::tests::cancel_is_reported_honestly']
+N8 every missed interval scans: caught_by=['reconcile::tests::resume_after_a_long_suspend_yields_one_scan']
+N9 uptime parser accepts garbage: caught_by=['platform::tests::uptime_parsing_is_strict']
+
+## After review round 1 fixes (2026-10-02T20:19:48+07:00); script scratchpad/nc20.py
+N17 resolve from non-interrupted state: caught_by=[]
+N17b both state guards removed: caught_by=['sqlite::tests::reconcile_store::a_push_killed_by_a_restart_never_resumes_its_plan_or_approval']
+N17 is a redundant layer: the UPDATE ... WHERE state = 'interrupted' backstop also refuses; N17b (both removed) is caught. N1-N16, N18 caught (run above in session, same script).
+
+## After review round 2 fixes
+N19 checkpoint plan not revoked: caught; N20 cancel uncertainty overwritten: caught; N21 duplicate pending attempt: caught; N22 partial push re-run without review: caught (all by sqlite::tests::reconcile_store::in_job_plans_cancels_and_partials_stay_owner_decisions)

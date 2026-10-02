@@ -97,7 +97,11 @@ pub fn allowed_transition(from: JobState, to: JobState) -> bool {
             // the job may still end in any outcome, or be interrupted by a restart.
             | (Running, CancelRequested)
             | (CancelRequested, Canceled | Succeeded | Partial | Failed | Interrupted)
-            | (Interrupted, Queued) // only after reconciliation (caller's obligation)
+            // Only through `resolve_interrupted`, after reconciliation: it closes the
+            // attempt with its reconciled outcome and revokes its plan's approvals. The
+            // spec's "interrupted -> queued" is a *new* linked attempt row with no plan
+            // (the stale plan/approval is never resumed), never this row re-queued.
+            | (Interrupted, Succeeded | Partial | Failed)
     )
 }
 
@@ -125,7 +129,7 @@ pub enum Enqueued {
     New(i64),
     /// The same logical job is already pending or running.
     Existing(String),
-    /// The latest attempt of this logical job failed: no automatic re-run.
+    /// The latest attempt failed or partially pushed: no automatic re-run.
     NeedsOwner(String),
 }
 
@@ -337,7 +341,7 @@ impl Database {
                 .ok_or(StoreError::NotFound)?;
             let current_text: String = row.try_get("state").map_err(StoreError::from_sqlx)?;
             let current = JobState::parse(&current_text).ok_or(StoreError::Corrupt)?;
-            if !allowed_transition(current, to) {
+            if current == JobState::Interrupted || !allowed_transition(current, to) {
                 return Err(StoreError::InvalidTransition {
                     current: current_text,
                 });
@@ -470,8 +474,8 @@ impl Database {
             if let Some((id,)) = existing {
                 return Ok(Enqueued::Existing(id));
             }
-            let latest: Option<(String, String, i64)> = sqlx::query_as(
-                "SELECT id, state, attempt FROM jobs WHERE idempotency_key = ? \
+            let latest: Option<(String, String, i64, Option<String>)> = sqlx::query_as(
+                "SELECT id, state, attempt, error_code FROM jobs WHERE idempotency_key = ? \
                  ORDER BY attempt DESC LIMIT 1",
             )
             .bind(job.idempotency_key)
@@ -480,12 +484,15 @@ impl Database {
             .map_err(StoreError::from_sqlx)?;
             // A failed logical job is never re-run by a plain request: retries go
             // through `enqueue_retry` (transient, pre-write only) or an owner action.
-            if let Some((id, state, _)) = &latest
-                && state == JobState::Failed.as_str()
+            // Neither is a partially pushed one: it needs owner review first.
+            if let Some((id, state, _, code)) = &latest
+                && (state == JobState::Failed.as_str()
+                    || (state == JobState::Partial.as_str()
+                        && matches!(code.as_deref(), Some("PUSH_PARTIAL" | "CANCEL_UNCERTAIN"))))
             {
                 return Ok(Enqueued::NeedsOwner(id.clone()));
             }
-            let attempt = latest.map_or(job.attempt, |(_, _, n)| n + 1);
+            let attempt = latest.map_or(job.attempt, |(_, _, n, _)| n + 1);
             insert_job(&mut tx, job, attempt).await.map(Enqueued::New)
         }
         .await;
@@ -656,5 +663,263 @@ impl Database {
         .await
         .map_err(StoreError::from_sqlx)?;
         row.as_ref().map(record).transpose()
+    }
+}
+
+/// Kinds of durable checkpoint (`job_checkpoints.kind`).
+const CHECKPOINT_KINDS: [&str; 2] = ["project_create", "push"];
+const MAX_CHECKPOINT_PAYLOAD: usize = 4096;
+
+/// How a reconciled interrupted attempt is closed.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum InterruptedClose {
+    Succeeded,
+    Partial,
+    Failed,
+}
+
+impl InterruptedClose {
+    fn state(self) -> JobState {
+        match self {
+            Self::Succeeded => JobState::Succeeded,
+            Self::Partial => JobState::Partial,
+            Self::Failed => JobState::Failed,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StoredCheckpoint {
+    pub kind: String,
+    pub payload: String,
+}
+
+impl Database {
+    /// Records the running attempt's safe checkpoint (replacing the previous one) before
+    /// the effect it describes starts. The payload is the caller's encoded intent; it
+    /// must never contain command argv or secrets.
+    pub async fn save_checkpoint(
+        &self,
+        job_id: &str,
+        kind: &str,
+        payload: &str,
+        now: &str,
+    ) -> Result<(), StoreError> {
+        require_id("id", job_id)?;
+        require_timestamp("now", now)?;
+        if !CHECKPOINT_KINDS.contains(&kind) {
+            return Err(StoreError::InvalidInput("checkpoint_kind"));
+        }
+        if payload.is_empty() || payload.len() > MAX_CHECKPOINT_PAYLOAD {
+            return Err(StoreError::InvalidInput("checkpoint_payload"));
+        }
+        let mut tx = self.begin().await?;
+        let result = async {
+            let state: Option<(String,)> = sqlx::query_as("SELECT state FROM jobs WHERE id = ?")
+                .bind(job_id)
+                .fetch_optional(&mut *tx)
+                .await
+                .map_err(StoreError::from_sqlx)?;
+            let (state,) = state.ok_or(StoreError::NotFound)?;
+            // Only the attempt that is actually running records its progress.
+            if state != JobState::Running.as_str() {
+                return Err(StoreError::InvalidTransition { current: state });
+            }
+            sqlx::query(
+                "INSERT INTO job_checkpoints (job_id, kind, payload, updated_at) \
+                 VALUES (?, ?, ?, ?) ON CONFLICT(job_id) DO UPDATE SET \
+                 kind = excluded.kind, payload = excluded.payload, \
+                 updated_at = excluded.updated_at",
+            )
+            .bind(job_id)
+            .bind(kind)
+            .bind(payload)
+            .bind(now)
+            .execute(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            Ok(())
+        }
+        .await;
+        finish(tx, result).await
+    }
+
+    pub async fn checkpoint(&self, job_id: &str) -> Result<Option<StoredCheckpoint>, StoreError> {
+        require_id("id", job_id)?;
+        let row: Option<(String, String)> =
+            sqlx::query_as("SELECT kind, payload FROM job_checkpoints WHERE job_id = ?")
+                .bind(job_id)
+                .fetch_optional(&self.pool)
+                .await
+                .map_err(StoreError::from_sqlx)?;
+        Ok(row.map(|(kind, payload)| StoredCheckpoint { kind, payload }))
+    }
+
+    /// Closes a reconciled `interrupted` attempt in one IMMEDIATE transaction (REQ-10):
+    /// - the attempt gets its reconciled outcome and releases its locks;
+    /// - the approvals and the plan it ran expire now, so they can never be resumed;
+    /// - with `new_attempt_id` (only for a `Failed` close), the next attempt of the same
+    ///   logical job is queued without a plan (it must plan again from fresh state); a
+    ///   persisted project-create intent is carried over so the create is re-run with
+    ///   the same marker (lookup first, no duplicate project).
+    pub async fn resolve_interrupted(
+        &self,
+        id: &str,
+        close: InterruptedClose,
+        error_code: Option<&str>,
+        new_attempt_id: Option<&str>,
+        now: &str,
+    ) -> Result<i64, StoreError> {
+        require_id("id", id)?;
+        require_error_code(error_code)?;
+        require_timestamp("now", now)?;
+        if let Some(new_id) = new_attempt_id {
+            require_id("id", new_id)?;
+            if close != InterruptedClose::Failed {
+                return Err(StoreError::InvalidInput("new_attempt"));
+            }
+        }
+        let mut tx = self.begin().await?;
+        let result = async {
+            let row = sqlx::query(
+                "SELECT state, repository_id, account_id, plan_id, mapping_id, kind, attempt, \
+                 idempotency_key, coverage_json FROM jobs WHERE id = ?",
+            )
+            .bind(id)
+            .fetch_optional(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?
+            .ok_or(StoreError::NotFound)?;
+            let state: String = row.try_get("state").map_err(StoreError::from_sqlx)?;
+            if state != JobState::Interrupted.as_str() {
+                return Err(StoreError::InvalidTransition { current: state });
+            }
+            let plan_id: Option<String> = row.try_get("plan_id").map_err(StoreError::from_sqlx)?;
+            // Every plan this attempt may have run: the job's own plan and the plan named
+            // by its push checkpoint (in-job planning leaves `jobs.plan_id` empty).
+            let mut plans: Vec<String> = plan_id.into_iter().collect();
+            let push: Option<(String,)> = sqlx::query_as(
+                "SELECT payload FROM job_checkpoints WHERE job_id = ? AND kind = 'push'",
+            )
+            .bind(id)
+            .fetch_optional(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            if let Some((payload,)) = push {
+                let value: serde_json::Value =
+                    serde_json::from_str(&payload).map_err(|_| StoreError::Corrupt)?;
+                let planned = value
+                    .get("planId")
+                    .and_then(serde_json::Value::as_str)
+                    .ok_or(StoreError::Corrupt)?;
+                plans.push(planned.to_owned());
+            }
+            let revision = bump_revision(&mut tx).await?;
+            // A recorded CANCEL_UNCERTAIN is kept unless the destination was verified.
+            let updated = sqlx::query(
+                "UPDATE jobs SET state = ?, error_code = CASE WHEN error_code = \
+                 'CANCEL_UNCERTAIN' AND ? != 'succeeded' THEN error_code ELSE ? END, \
+                 updated_at = ?, revision = ? WHERE id = ? AND state = 'interrupted'",
+            )
+            .bind(close.state().as_str())
+            .bind(close.state().as_str())
+            .bind(error_code)
+            .bind(now)
+            .bind(revision)
+            .bind(id)
+            .execute(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            if updated.rows_affected() != 1 {
+                return Err(StoreError::InvalidTransition { current: state });
+            }
+            for plan_id in &plans {
+                for sql in [
+                    "UPDATE approvals SET expires_at = ? WHERE plan_id = ?",
+                    "UPDATE plans SET expires_at = ? WHERE id = ?",
+                ] {
+                    sqlx::query(sql)
+                        .bind(now)
+                        .bind(plan_id)
+                        .execute(&mut *tx)
+                        .await
+                        .map_err(StoreError::from_sqlx)?;
+                }
+            }
+            let Some(new_id) = new_attempt_id else {
+                return Ok(revision);
+            };
+            let kind_text: String = row.try_get("kind").map_err(StoreError::from_sqlx)?;
+            let kind = [
+                JobKind::Scan,
+                JobKind::Plan,
+                JobKind::Sync,
+                JobKind::RestoreTest,
+            ]
+            .into_iter()
+            .find(|k| k.as_str() == kind_text)
+            .ok_or(StoreError::Corrupt)?;
+            let repository_id: Option<String> = row
+                .try_get("repository_id")
+                .map_err(StoreError::from_sqlx)?;
+            let account_id: Option<String> =
+                row.try_get("account_id").map_err(StoreError::from_sqlx)?;
+            let mapping_id: Option<String> =
+                row.try_get("mapping_id").map_err(StoreError::from_sqlx)?;
+            let key: String = row
+                .try_get("idempotency_key")
+                .map_err(StoreError::from_sqlx)?;
+            let coverage: String = row
+                .try_get("coverage_json")
+                .map_err(StoreError::from_sqlx)?;
+            let (pending,): (i64,) = sqlx::query_as(
+                "SELECT count(*) FROM jobs WHERE idempotency_key = ? AND state NOT IN \
+                 ('succeeded', 'partial', 'failed', 'canceled')",
+            )
+            .bind(&key)
+            .fetch_one(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            if pending > 0 {
+                // The logical job already has a pending attempt: no duplicate.
+                return Ok(revision);
+            }
+            let (latest,): (i64,) =
+                sqlx::query_as("SELECT max(attempt) FROM jobs WHERE idempotency_key = ?")
+                    .bind(&key)
+                    .fetch_one(&mut *tx)
+                    .await
+                    .map_err(StoreError::from_sqlx)?;
+            let next = NewJob {
+                id: new_id,
+                repository_id: repository_id.as_deref(),
+                account_id: account_id.as_deref(),
+                plan_id: None,
+                mapping_id: mapping_id.as_deref(),
+                not_before: None,
+                kind,
+                stage: "preflight",
+                attempt: latest + 1,
+                idempotency_key: &key,
+                now,
+                coverage_json: &coverage,
+            };
+            validate_new_job(&next)?;
+            let revision = insert_job(&mut tx, &next, next.attempt).await?;
+            sqlx::query(
+                "INSERT INTO job_checkpoints (job_id, kind, payload, updated_at) \
+                 SELECT ?, kind, payload, ? FROM job_checkpoints \
+                 WHERE job_id = ? AND kind = 'project_create'",
+            )
+            .bind(new_id)
+            .bind(now)
+            .bind(id)
+            .execute(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            Ok(revision)
+        }
+        .await;
+        finish(tx, result).await
     }
 }

@@ -1,0 +1,75 @@
+## P07-T02 checks 2026-10-02T20:05:33+07:00 (lifecycle: Full)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.12s
+exit=0
+$ cargo test --workspace
+test result: ok. 114 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 151 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.93s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.18s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-infrastructure (repeat 1)
+test result: ok. 151 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.87s
+$ cargo test -p gbm-infrastructure (repeat 2)
+test result: ok. 151 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.91s
+$ cargo test -p gbm-infrastructure (repeat 3)
+test result: ok. 151 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.87s
+
+## P07-T02 checks after review round 1 fixes 2026-10-02T20:19:11+07:00 (lifecycle: Full)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.97s
+exit=0
+$ cargo test --workspace
+test result: ok. 116 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 153 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.83s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.14s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-infrastructure (repeat 1)
+test result: ok. 153 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.80s
+$ cargo test -p gbm-infrastructure (repeat 2)
+test result: ok. 153 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.82s
+$ cargo test -p gbm-infrastructure (repeat 3)
+test result: ok. 153 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.65s
+
+## P07-T02 checks after review round 2 fixes 2026-10-02T20:23:52+07:00
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.56s
+exit=0
+$ cargo test --workspace
+test result: ok. 116 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 154 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.97s
+exit=0
+$ cargo test -p gbm-infrastructure (repeat 1)
+test result: ok. 154 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.00s
+$ cargo test -p gbm-infrastructure (repeat 2)
+test result: ok. 154 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.65s
+$ cargo test -p gbm-infrastructure (repeat 3)
+test result: ok. 154 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.28s

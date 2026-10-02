@@ -270,5 +270,66 @@ pub fn signal_process(id: ProcessId, signal: StopSignal) {
     }
 }
 
+/// Parses the first field of `/proc/uptime` (seconds since boot, *including* time
+/// spent suspended, i.e. CLOCK_BOOTTIME) into milliseconds.
+pub fn parse_uptime_ms(text: &str) -> Option<u64> {
+    let first = text.split_whitespace().next()?;
+    let (secs, frac) = first.split_once('.').unwrap_or((first, "0"));
+    if secs.is_empty()
+        || !secs.bytes().all(|b| b.is_ascii_digit())
+        || frac.is_empty()
+        || !frac.bytes().all(|b| b.is_ascii_digit())
+    {
+        return None;
+    }
+    let secs: u64 = secs.parse().ok()?;
+    let millis: u64 = format!("{frac:0<3}").get(..3)?.parse().ok()?;
+    secs.checked_mul(1000)?.checked_add(millis)
+}
+
+fn uptime_ms() -> Option<u64> {
+    parse_uptime_ms(&fs::read_to_string("/proc/uptime").ok()?)
+}
+
+/// Suspended time below this is treated as measurement noise (`/proc/uptime` has 10 ms
+/// resolution, plus the skew between reading it and `Instant::now`).
+pub const SUSPEND_THRESHOLD_MS: u64 = 5_000;
+
+/// Detects time spent suspended between two checks: boot time advances during
+/// suspend, `Instant` (CLOCK_MONOTONIC on Linux) does not. The shell uses a detected
+/// resume only as a hint to evaluate `reconcile::scan_due` now; coalescing (at most one
+/// due scan) is decided there. It never schedules anything by itself.
+pub struct SuspendDetector {
+    boot_ms: u64,
+    monotonic: std::time::Instant,
+}
+
+impl SuspendDetector {
+    pub fn start() -> Result<Self, PlatformError> {
+        Ok(Self {
+            boot_ms: uptime_ms().ok_or(PlatformError::Unsupported)?,
+            monotonic: std::time::Instant::now(),
+        })
+    }
+
+    /// Milliseconds spent suspended since the previous call (or `start`), then resets.
+    pub fn suspended_ms(&mut self) -> Result<u64, PlatformError> {
+        let boot_now = uptime_ms().ok_or(PlatformError::Unsupported)?;
+        let mono_now = std::time::Instant::now();
+        let boot_elapsed = boot_now.saturating_sub(self.boot_ms);
+        let mono_elapsed =
+            u64::try_from(mono_now.duration_since(self.monotonic).as_millis()).unwrap_or(u64::MAX);
+        self.boot_ms = boot_now;
+        self.monotonic = mono_now;
+        Ok(boot_elapsed.saturating_sub(mono_elapsed))
+    }
+
+    /// Whether the machine was suspended for at least `SUSPEND_THRESHOLD_MS` since the
+    /// previous check.
+    pub fn resumed(&mut self) -> Result<bool, PlatformError> {
+        Ok(self.suspended_ms()? >= SUSPEND_THRESHOLD_MS)
+    }
+}
+
 #[cfg(test)]
 mod tests;

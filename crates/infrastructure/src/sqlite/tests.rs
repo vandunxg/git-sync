@@ -19,6 +19,7 @@ const LATER: &str = "2026-01-01T00:05:00Z";
 const COVERAGE: &str = r#"{"gitRefs":"not_checked","localObjects":"not_checked","lfs":"not_checked","submodules":"none"}"#;
 const MIGRATION_0001: &str = include_str!("../../migrations/0001_initial.sql");
 const MIGRATION_0002: &str = include_str!("../../migrations/0002_scheduler.sql");
+const MIGRATION_0003: &str = include_str!("../../migrations/0003_checkpoints.sql");
 
 fn db_path(sandbox: &Sandbox) -> PathBuf {
     sandbox.path().join("state.sqlite")
@@ -103,12 +104,12 @@ async fn fresh_database_is_migrated_and_configured() -> TestResult {
         report,
         MigrationReport {
             from_version: None,
-            to_version: 2,
-            applied: vec![1, 2],
+            to_version: 3,
+            applied: vec![1, 2, 3],
             backup: None
         }
     );
-    assert_eq!(SCHEMA_VERSION, 2);
+    assert_eq!(SCHEMA_VERSION, 3);
     let (fk,): (i64,) = sqlx::query_as("PRAGMA foreign_keys")
         .fetch_one(db.pool())
         .await?;
@@ -148,7 +149,8 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
         &[
             ("0001_initial.sql", MIGRATION_0001),
             ("0002_scheduler.sql", MIGRATION_0002),
-            ("0003_description.sql", v2),
+            ("0003_checkpoints.sql", MIGRATION_0003),
+            ("0004_description.sql", v2),
         ],
     )
     .await?;
@@ -159,12 +161,12 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
             report.to_version,
             report.applied.clone()
         ),
-        (Some(2), 3, vec![3])
+        (Some(3), 4, vec![4])
     );
     let backup = report.backup.ok_or("backup missing")?;
     assert!(backup.exists());
 
-    // The backup is a complete, openable v2 database with the sample data.
+    // The backup is a complete, openable v3 database with the sample data.
     let pool = SqlitePoolOptions::new()
         .connect_with(connect_options(&backup)?)
         .await?;
@@ -174,7 +176,7 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
     let (max,): (i64,) = sqlx::query_as("SELECT max(version) FROM _sqlx_migrations")
         .fetch_one(&pool)
         .await?;
-    assert_eq!((repos, max), (1, 2));
+    assert_eq!((repos, max), (1, 3));
     pool.close().await;
 
     let pool = SqlitePoolOptions::new()
@@ -207,7 +209,8 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
         &[
             ("0001_initial.sql", MIGRATION_0001),
             ("0002_scheduler.sql", MIGRATION_0002),
-            ("0003_x.sql", broken),
+            ("0003_checkpoints.sql", MIGRATION_0003),
+            ("0004_x.sql", broken),
         ],
     )
     .await?;
@@ -218,7 +221,7 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
     assert!(matches!(error, StoreError::MigrationFailed(_)), "{error}");
 
     let (db, report) = Database::open(&path).await?;
-    assert_eq!(report.from_version, Some(2));
+    assert_eq!(report.from_version, Some(3));
     assert_eq!(
         count(
             &db,
@@ -230,7 +233,7 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
     assert_eq!(count(&db, "SELECT count(*) FROM repositories").await?, 1);
     assert_eq!(
         count(&db, "SELECT max(version) FROM _sqlx_migrations").await?,
-        2
+        3
     );
     db.close().await;
 
@@ -240,11 +243,12 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
         &[
             ("0001_initial.sql", MIGRATION_0001),
             ("0002_scheduler.sql", MIGRATION_0002),
-            ("0003_x.sql", fixed),
+            ("0003_checkpoints.sql", MIGRATION_0003),
+            ("0004_x.sql", fixed),
         ],
     )
     .await?;
-    assert_eq!(open_with(&path, &m).await?.applied, vec![3]);
+    assert_eq!(open_with(&path, &m).await?.applied, vec![4]);
     Ok(())
 }
 
@@ -257,7 +261,8 @@ async fn newer_modified_or_foreign_databases_are_refused() -> TestResult {
         &[
             ("0001_initial.sql", MIGRATION_0001),
             ("0002_scheduler.sql", MIGRATION_0002),
-            ("0003_future.sql", "CREATE TABLE future (id TEXT);"),
+            ("0003_checkpoints.sql", MIGRATION_0003),
+            ("0004_future.sql", "CREATE TABLE future (id TEXT);"),
         ],
     )
     .await?;
@@ -424,11 +429,14 @@ async fn transitions_follow_the_state_machine() -> TestResult {
         !allowed_transition(Queued, Succeeded),
         "cannot succeed without running"
     );
-    assert!(allowed_transition(Interrupted, Queued));
-    assert!(
-        !allowed_transition(Interrupted, Running),
-        "requires requeue after reconciliation"
-    );
+    // An interrupted attempt is only ever closed (after reconciliation); the logical
+    // job continues as a new attempt, never by re-queuing or re-running this row.
+    for to in [Queued, Running, CancelRequested, Canceled, Interrupted] {
+        assert!(!allowed_transition(Interrupted, to), "{to:?}");
+    }
+    for to in [Succeeded, Partial, Failed] {
+        assert!(allowed_transition(Interrupted, to), "{to:?}");
+    }
     for waiting in [WaitingForApproval, WaitingForRetry] {
         assert!(
             all.iter()
@@ -525,8 +533,19 @@ async fn restart_recovery_interrupts_owned_jobs() -> TestResult {
         db.recover_interrupted_jobs(LATER).await?,
         Vec::<String>::new()
     );
-    db.transition_job("job-run", JobState::Queued, "preflight", None, LATER)
-        .await?;
+    // Leaving `interrupted` goes through reconciliation (`resolve_interrupted`).
+    db.resolve_interrupted(
+        "job-run",
+        InterruptedClose::Failed,
+        Some("PLAN_STALE"),
+        Some("job-run-2"),
+        LATER,
+    )
+    .await?;
+    assert_eq!(
+        db.get_job("job-run-2").await?.ok_or("missing")?.state,
+        JobState::Queued
+    );
     db.close().await;
     Ok(())
 }
@@ -864,7 +883,8 @@ async fn database_and_backup_files_are_owner_only() -> TestResult {
         &[
             ("0001_initial.sql", MIGRATION_0001),
             ("0002_scheduler.sql", MIGRATION_0002),
-            ("0003_x.sql", "CREATE TABLE x (id TEXT);"),
+            ("0003_checkpoints.sql", MIGRATION_0003),
+            ("0004_x.sql", "CREATE TABLE x (id TEXT);"),
         ],
     )
     .await?;
@@ -1221,6 +1241,351 @@ mod scheduler_queue {
         assert!(
             db.active_jobs().await?.iter().any(|a| a.id == "c-3"),
             "interrupted jobs are reported as lock holders"
+        );
+        Ok(())
+    }
+}
+
+mod reconcile_store {
+    //! TEST-CRASH through the store: recover → load checkpoint → reconcile → close the
+    //! interrupted attempt; the stale plan and approval expire and are never resumed.
+
+    use gbm_application::destination::{CreateIntent, Visibility};
+    use gbm_application::reconcile::{
+        Checkpoint, CheckpointRecord, ClosedAs, Reconciliation, reconcile_interrupted,
+    };
+
+    use super::*;
+
+    const AT: &str = "2026-01-01T00:07:00Z";
+
+    async fn seed(db: &Database) -> TestResult {
+        seed_repository(db, "repo-1").await?;
+        db.upsert_account(&NewAccount {
+            id: "acc-gl",
+            provider: "gitlab",
+            ..account("acc-gl", "77")
+        })
+        .await?;
+        for sql in [
+            "INSERT INTO roots (id, canonical_path, ownership_marker, created_at) \
+             VALUES ('root-1', '/x', 'm', '2026-01-01T00:00:00Z')",
+            "INSERT INTO mappings (id, repository_id, root_id, gitlab_account_id, namespace_id, \
+             intended_project_path, mirror_relative_path) VALUES ('map-1', 'repo-1', 'root-1', \
+             'acc-gl', 'gl-ns-1', 'x-gh1', '.gbm/mirrors/gh-1.git')",
+            "INSERT INTO snapshots (id, repository_id, kind, status, digest, object_format, \
+             created_at, coverage_json) VALUES ('snap-1', 'repo-1', 'source', 'ready', 'd', \
+             'sha1', '2026-01-01T00:00:00Z', '{}')",
+            "INSERT INTO plans (id, repository_id, source_snapshot_id, mapping_id, source_digest, \
+             destination_digest, plan_digest, policy_revision, operations_json, \
+             requires_approval, expires_at) VALUES ('plan-1', 'repo-1', 'snap-1', 'map-1', 's', \
+             'd', 'p', 1, '[]', 1, '2026-01-01T00:10:00Z')",
+            "INSERT INTO approvals (id, plan_id, plan_digest, policy_revision, approved_at, \
+             expires_at) VALUES ('ap-1', 'plan-1', 'p', 1, '2026-01-01T00:01:00Z', \
+             '2026-01-01T00:10:00Z')",
+        ] {
+            sqlx::query(sql).execute(db.pool()).await?;
+        }
+        Ok(())
+    }
+
+    async fn close(
+        db: &Database,
+        id: &str,
+        decision: &Reconciliation,
+        new_id: &str,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let closing = decision.closing().ok_or("decision keeps the job")?;
+        let state = match closing.state {
+            ClosedAs::Succeeded => InterruptedClose::Succeeded,
+            ClosedAs::Partial => InterruptedClose::Partial,
+            ClosedAs::Failed => InterruptedClose::Failed,
+        };
+        let code = closing
+            .error
+            .map(serde_json::to_value)
+            .transpose()?
+            .and_then(|v| v.as_str().map(str::to_owned));
+        db.resolve_interrupted(
+            id,
+            state,
+            code.as_deref(),
+            closing.new_attempt.then_some(new_id),
+            AT,
+        )
+        .await?;
+        Ok(())
+    }
+
+    async fn text(db: &Database, sql: &'static str) -> Result<String, Box<dyn std::error::Error>> {
+        let (value,): (String,) = sqlx::query_as(sql).fetch_one(db.pool()).await?;
+        Ok(value)
+    }
+
+    #[tokio::test]
+    async fn a_push_killed_by_a_restart_never_resumes_its_plan_or_approval() -> TestResult {
+        let sandbox = Sandbox::new("db-reconcile-push")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed(&db).await?;
+        db.enqueue_job(&NewJob {
+            plan_id: Some("plan-1"),
+            mapping_id: Some("map-1"),
+            ..job("sync-1", Some("repo-1"), "k-sync")
+        })
+        .await?;
+        let push = CheckpointRecord::Push {
+            plan_id: "plan-1".to_owned(),
+            snapshot_id: "snap-1".to_owned(),
+        };
+        // Only the running attempt records checkpoints.
+        assert!(matches!(
+            db.save_checkpoint("sync-1", push.kind(), &push.payload(), NOW)
+                .await,
+            Err(StoreError::InvalidTransition { .. })
+        ));
+        db.transition_job("sync-1", JobState::Running, "push", None, NOW)
+            .await?;
+        for (kind, payload) in [("argv", "{}"), ("push", ""), ("push", &"x".repeat(4097))] {
+            assert!(matches!(
+                db.save_checkpoint("sync-1", kind, payload, NOW).await,
+                Err(StoreError::InvalidInput(_))
+            ));
+        }
+        db.save_checkpoint("sync-1", push.kind(), &push.payload(), NOW)
+            .await?;
+
+        // Crash + restart.
+        assert_eq!(db.recover_interrupted_jobs(LATER).await?, vec!["sync-1"]);
+        let stored = db.checkpoint("sync-1").await?.ok_or("checkpoint lost")?;
+        assert_eq!(
+            CheckpointRecord::decode(&stored.kind, &stored.payload),
+            Some(push)
+        );
+        // The interrupted row can neither be re-queued nor run directly.
+        for to in [JobState::Queued, JobState::Running, JobState::Failed] {
+            assert!(matches!(
+                db.transition_job("sync-1", to, "push", None, AT).await,
+                Err(StoreError::InvalidTransition { .. })
+            ));
+        }
+        // The destination still equals the plan's start (decided in the application
+        // tests): close it as a new attempt.
+        close(&db, "sync-1", &Reconciliation::NewAttempt, "sync-2").await?;
+
+        let old = db.get_job("sync-1").await?.ok_or("job")?;
+        assert_eq!(
+            (old.state, old.error_code.as_deref()),
+            (JobState::Failed, Some("PLAN_STALE"))
+        );
+        let new = db.get_job("sync-2").await?.ok_or("job")?;
+        assert_eq!(
+            (new.state, new.attempt, new.stage.as_str()),
+            (JobState::Queued, 2, "preflight")
+        );
+        assert_eq!(
+            count(
+                &db,
+                "SELECT count(*) FROM jobs WHERE id = 'sync-2' AND plan_id IS NULL"
+            )
+            .await?,
+            1,
+            "the next attempt plans again"
+        );
+        assert_eq!(
+            count(
+                &db,
+                "SELECT count(*) FROM job_checkpoints WHERE job_id = 'sync-2'"
+            )
+            .await?,
+            0,
+            "a push checkpoint is not carried over"
+        );
+        assert_eq!(
+            text(&db, "SELECT expires_at FROM approvals WHERE id = 'ap-1'").await?,
+            AT
+        );
+        assert_eq!(
+            text(&db, "SELECT expires_at FROM plans WHERE id = 'plan-1'").await?,
+            AT
+        );
+        // Locks are released: the new attempt can start.
+        db.transition_job("sync-2", JobState::Running, "fetch", None, AT)
+            .await?;
+        // A closed attempt cannot be closed again.
+        assert!(matches!(
+            db.resolve_interrupted("sync-1", InterruptedClose::Failed, None, None, AT)
+                .await,
+            Err(StoreError::InvalidTransition { .. })
+        ));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn create_intents_carry_over_and_unobservable_jobs_escalate() -> TestResult {
+        let sandbox = Sandbox::new("db-reconcile-create")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed(&db).await?;
+        let intent = CreateIntent {
+            namespace_id: 7,
+            namespace_full_path: "backups".to_owned(),
+            path: "x-gh1".to_owned(),
+            visibility: Visibility::Private,
+            source_private: true,
+            marker: "f3a9c1d2e4b5a6978877".to_owned(),
+        };
+        let create = CheckpointRecord::ProjectCreate(intent.clone());
+        db.enqueue_job(&NewJob {
+            mapping_id: Some("map-1"),
+            ..job("c-1", Some("repo-1"), "k-c")
+        })
+        .await?;
+        db.transition_job("c-1", JobState::Running, "preflight", None, NOW)
+            .await?;
+        db.save_checkpoint("c-1", create.kind(), &create.payload(), NOW)
+            .await?;
+        db.recover_interrupted_jobs(LATER).await?;
+        let stored = db.checkpoint("c-1").await?.ok_or("checkpoint lost")?;
+        let Some(CheckpointRecord::ProjectCreate(loaded)) =
+            CheckpointRecord::decode(&stored.kind, &stored.payload)
+        else {
+            return Err("intent did not round-trip".into());
+        };
+        let decision =
+            reconcile_interrupted("preflight", &Checkpoint::ProjectCreate(&loaded), None, 0);
+        assert_eq!(decision, Reconciliation::RerunCreateIntent);
+        close(&db, "c-1", &decision, "c-2").await?;
+        // The new attempt re-runs the very same intent (same marker).
+        let carried = db
+            .checkpoint("c-2")
+            .await?
+            .ok_or("intent not carried over")?;
+        assert_eq!(
+            CheckpointRecord::decode(&carried.kind, &carried.payload),
+            Some(CheckpointRecord::ProjectCreate(intent))
+        );
+
+        // A job stuck in a write stage without a checkpoint holds its locks only until
+        // it is decided: here at once (uncertain), releasing them.
+        db.transition_job("c-2", JobState::Running, "fetch", None, AT)
+            .await?;
+        db.transition_job("c-2", JobState::Succeeded, "finalize", None, AT)
+            .await?;
+        db.enqueue_job(&NewJob {
+            mapping_id: Some("map-1"),
+            ..job("v-1", Some("repo-1"), "k-v")
+        })
+        .await?;
+        db.transition_job("v-1", JobState::Running, "verify", None, AT)
+            .await?;
+        db.recover_interrupted_jobs(AT).await?;
+        db.enqueue_job(&NewJob {
+            mapping_id: Some("map-1"),
+            ..job("w-1", Some("repo-1"), "k-w")
+        })
+        .await?;
+        assert!(matches!(
+            db.transition_job("w-1", JobState::Running, "fetch", None, AT)
+                .await,
+            Err(StoreError::ActiveJobExists)
+        ));
+        let decision = reconcile_interrupted("verify", &Checkpoint::BeforeWrite, None, 0);
+        assert_eq!(decision, Reconciliation::Uncertain);
+        // A keep decision never closes anything.
+        assert!(Reconciliation::KeepInterrupted.closing().is_none());
+        close(&db, "v-1", &decision, "unused").await?;
+        let v = db.get_job("v-1").await?.ok_or("job")?;
+        assert_eq!(
+            (v.state, v.error_code.as_deref()),
+            (JobState::Failed, Some("VERIFY_FAILED"))
+        );
+        assert_eq!(
+            count(
+                &db,
+                "SELECT count(*) FROM jobs WHERE idempotency_key = 'k-v'"
+            )
+            .await?,
+            1,
+            "an uncertain outcome is not retried automatically"
+        );
+        db.transition_job("w-1", JobState::Running, "fetch", None, AT)
+            .await?;
+        // Only a failed close may queue a new attempt.
+        db.recover_interrupted_jobs(AT).await?;
+        assert!(matches!(
+            db.resolve_interrupted("w-1", InterruptedClose::Partial, None, Some("w-2"), AT)
+                .await,
+            Err(StoreError::InvalidInput(_))
+        ));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn in_job_plans_cancels_and_partials_stay_owner_decisions() -> TestResult {
+        let sandbox = Sandbox::new("db-reconcile-injob")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed(&db).await?;
+        // The plan was built inside the job: only the push checkpoint names it.
+        db.enqueue_job(&NewJob {
+            mapping_id: Some("map-1"),
+            ..job("j-1", Some("repo-1"), "k-j")
+        })
+        .await?;
+        db.transition_job("j-1", JobState::Running, "push", None, NOW)
+            .await?;
+        let push = CheckpointRecord::Push {
+            plan_id: "plan-1".to_owned(),
+            snapshot_id: "snap-1".to_owned(),
+        };
+        db.save_checkpoint("j-1", push.kind(), &push.payload(), NOW)
+            .await?;
+        db.transition_job("j-1", JobState::CancelRequested, "push", None, NOW)
+            .await?;
+        db.recover_interrupted_jobs(LATER).await?;
+        close(&db, "j-1", &Reconciliation::PartialNeedsReview, "unused").await?;
+        assert_eq!(
+            text(&db, "SELECT expires_at FROM approvals WHERE id = 'ap-1'").await?,
+            AT,
+            "the checkpoint's plan approval expires"
+        );
+        assert_eq!(
+            text(&db, "SELECT expires_at FROM plans WHERE id = 'plan-1'").await?,
+            AT
+        );
+        let j = db.get_job("j-1").await?.ok_or("job")?;
+        assert_eq!(
+            (j.state, j.error_code.as_deref()),
+            (JobState::Partial, Some("CANCEL_UNCERTAIN")),
+            "the pending cancel stays on record"
+        );
+        // A partially pushed logical job is not re-run by a plain request.
+        assert_eq!(
+            db.enqueue_or_existing(&NewJob {
+                mapping_id: Some("map-1"),
+                ..job("j-2", Some("repo-1"), "k-j")
+            })
+            .await?,
+            Enqueued::NeedsOwner("j-1".to_owned())
+        );
+
+        // A new attempt is never duplicated next to a pending one of the same job.
+        db.enqueue_job(&job("d-1", Some("repo-1"), "k-d")).await?;
+        db.transition_job("d-1", JobState::Running, "fetch", None, AT)
+            .await?;
+        db.recover_interrupted_jobs(AT).await?;
+        db.enqueue_job(&NewJob {
+            attempt: 2,
+            ..job("d-x", Some("repo-1"), "k-d")
+        })
+        .await?;
+        close(&db, "d-1", &Reconciliation::NewAttempt, "d-2").await?;
+        assert_eq!(db.get_job("d-2").await?, None);
+        assert_eq!(
+            count(
+                &db,
+                "SELECT count(*) FROM jobs WHERE idempotency_key = 'k-d'"
+            )
+            .await?,
+            2
         );
         Ok(())
     }

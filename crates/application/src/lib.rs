@@ -9,6 +9,7 @@ pub mod mapping;
 pub mod observation;
 pub mod plan;
 pub mod providers;
+pub mod reconcile;
 pub mod recovery;
 pub mod scheduler;
 pub mod snapshot;

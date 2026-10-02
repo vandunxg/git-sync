@@ -641,9 +641,40 @@
       ]
     },
     "P07-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "lifecycle": "Full",
+      "evidence": [
+        "state/evidence/P07-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P07-T02/run-20261002-01/checks.log",
+        "state/evidence/P07-T02/run-20261002-01/negative-controls.log",
+        "state/evidence/P07-T02/run-20261002-01/scope-check.json",
+        "state/evidence/P07-T02/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P07-T02/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-CRASH": "PASS (decision level + real SQLite store: checkpoint, restart recovery, reconcile, close; stale plan/approval expired; no duplicate project)",
+        "TEST-PROCESS-CANCEL": "PASS for honest terminal mapping; child tree cancel/reap by P05-T01 runner test",
+        "TEST-LIFECYCLE": "PARTIAL: coalesced scan/suspend detection; close/tray/quit native behaviour is P10-T02"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "Round 3 APPROVED",
+        "record": "state/evidence/P07-T02/run-20261002-01/REVIEW.md"
+      },
+      "ownerRiskAcceptance": "PENDING (Medium A: shutdown/startup wiring deferred; Medium B: orphaned git push after crash)",
+      "followUps": [
+        "Shell wiring: recover -> reconcile -> start scheduler; quit = cancel + bounded wait",
+        "P10-T01: real kill-the-app crash test"
+      ],
+      "pendingLowRisks": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6",
+        "L7"
+      ]
     },
     "P07-T03": {
       "status": "NOT_STARTED",

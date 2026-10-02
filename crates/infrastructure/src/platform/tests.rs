@@ -95,3 +95,25 @@ fn parent_pid_handles_parenthesized_comm() {
     assert!(parent_pid(std::process::id()).is_some());
     assert_eq!(parent_pid(u32::MAX), None);
 }
+
+#[test]
+fn uptime_parsing_is_strict() {
+    assert_eq!(parse_uptime_ms("12345.67 54321.00\n"), Some(12_345_670));
+    assert_eq!(parse_uptime_ms("5 1"), Some(5_000));
+    for bad in ["", "abc 1", "-1.0 2", "1.2x 3", ". 1", "1. 2", "1.+5 2"] {
+        assert_eq!(parse_uptime_ms(bad), None, "{bad:?}");
+    }
+}
+
+#[test]
+fn no_suspend_is_detected_while_awake() -> TestResult {
+    let mut detector = SuspendDetector::start()?;
+    std::thread::sleep(std::time::Duration::from_millis(50));
+    // /proc/uptime has 10 ms resolution; allow for it.
+    assert!(detector.suspended_ms()? < 1_000);
+    assert!(
+        !detector.resumed()?,
+        "awake time is never reported as a resume"
+    );
+    Ok(())
+}

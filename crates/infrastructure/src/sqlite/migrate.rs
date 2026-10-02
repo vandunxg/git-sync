@@ -14,7 +14,7 @@ use super::{StoreError, restrict_permissions};
 pub(crate) static MIGRATOR: Migrator = sqlx::migrate!("./migrations");
 
 /// Latest schema version this build understands.
-pub const SCHEMA_VERSION: i64 = 2;
+pub const SCHEMA_VERSION: i64 = 3;
 
 /// What `Database::open` did to the schema.
 #[derive(Debug, Clone, PartialEq, Eq)]
