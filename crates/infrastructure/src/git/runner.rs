@@ -229,6 +229,38 @@ impl RefPrefix {
     }
 }
 
+/// A bundle file path: absolute, UTF-8, inside an existing canonical directory, with a
+/// `.bundle` file name of safe characters. The file itself may not exist yet.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct BundleFile(PathBuf);
+
+impl BundleFile {
+    pub fn new(path: &Path) -> Result<Self, RunError> {
+        let (Some(parent), Some(name)) = (path.parent(), path.file_name().and_then(|n| n.to_str()))
+        else {
+            return Err(RunError::InvalidArgument);
+        };
+        let safe_name = name.ends_with(".bundle")
+            && !name.starts_with(['-', '.'])
+            && name
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-'));
+        let canonical_parent = fs::canonicalize(parent).map_err(|_| RunError::InvalidArgument)?;
+        if !path.is_absolute()
+            || !safe_name
+            || canonical_parent != parent
+            || path.to_str().is_none()
+        {
+            return Err(RunError::InvalidArgument);
+        }
+        Ok(Self(path.to_path_buf()))
+    }
+
+    pub fn path(&self) -> &Path {
+        &self.0
+    }
+}
+
 /// One typed command-line word. Free-form strings cannot be expressed.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Arg {
@@ -241,6 +273,10 @@ pub enum Arg {
     RefPrefix(RefPrefix),
     Ref(FullRef),
     Oid(ObjectId),
+    /// `bundle` only: the bundle file.
+    Bundle(BundleFile),
+    /// `bundle create` only: `--glob=<prefix>*`, every ref under one namespace.
+    RefGlob(RefPrefix),
 }
 
 /// Subcommands the app may run. Anything else cannot be expressed.
@@ -254,6 +290,7 @@ pub enum Subcommand {
     Init,
     Fsck,
     UpdateRef,
+    Bundle,
     Version,
 }
 
@@ -268,6 +305,7 @@ impl Subcommand {
             Self::Init => "init",
             Self::Fsck => "fsck",
             Self::UpdateRef => "update-ref",
+            Self::Bundle => "bundle",
             Self::Version => "version",
         }
     }
@@ -300,6 +338,7 @@ impl Subcommand {
             ],
             Self::Fsck => &["--full", "--strict", "--no-dangling", "--no-progress"],
             Self::UpdateRef => &["-d", "--no-deref"],
+            Self::Bundle => &["create", "verify", "list-heads", "--quiet"],
             Self::Version => &[],
         }
     }
@@ -369,6 +408,9 @@ impl GitInvocation {
                 Arg::Flag(flag) if options_ended || !allowed.contains(flag) => {
                     return Err(RunError::InvalidArgument);
                 }
+                Arg::Bundle(_) | Arg::RefGlob(_) if subcommand != Subcommand::Bundle => {
+                    return Err(RunError::InvalidArgument);
+                }
                 Arg::EndOfOptions if options_ended => return Err(RunError::InvalidArgument),
                 Arg::EndOfOptions => options_ended = true,
                 _ => {}
@@ -428,6 +470,8 @@ impl GitInvocation {
             Arg::RefSpec(spec) => spec.0.clone(),
             Arg::RefPrefix(prefix) => prefix.0.clone(),
             Arg::Ref(name) => name.0.clone(),
+            Arg::Bundle(file) => file.0.to_string_lossy().into_owned(),
+            Arg::RefGlob(prefix) => format!("--glob={}*", prefix.0),
             Arg::Oid(oid) => oid.as_str().to_owned(),
         }));
         argv

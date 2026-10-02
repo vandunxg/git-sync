@@ -8,5 +8,6 @@ pub mod gitlab;
 mod http;
 pub mod platform;
 pub mod secrets;
+pub mod snapshots;
 pub mod sqlite;
 pub mod storage;

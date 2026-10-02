@@ -733,3 +733,40 @@ fn a_cancelled_token_starts_nothing() -> TestResult {
     assert!(!marker.exists());
     Ok(())
 }
+
+#[test]
+fn bundle_arguments_are_typed_and_scoped_to_bundle() -> TestResult {
+    let scratch = Scratch::new("bundle-args")?;
+    let file = scratch.0.join("snap.bundle");
+    let bundle = BundleFile::new(&file)?;
+    let glob = RefPrefix::new("refs/gbm/snapshots/s1/")?;
+    let ok = GitInvocation::new(
+        Subcommand::Bundle,
+        vec![
+            Arg::Flag("create"),
+            Arg::Bundle(bundle.clone()),
+            Arg::RefGlob(glob.clone()),
+        ],
+    )?;
+    let argv = ok.argv();
+    assert_eq!(
+        argv.last().map(String::as_str),
+        Some("--glob=refs/gbm/snapshots/s1/*")
+    );
+    // Bundle/glob words are refused for other subcommands.
+    assert!(GitInvocation::new(Subcommand::Fetch, vec![Arg::RefGlob(glob)]).is_err());
+    assert!(GitInvocation::new(Subcommand::Fetch, vec![Arg::Bundle(bundle)]).is_err());
+    assert!(GitInvocation::new(Subcommand::Bundle, vec![Arg::Flag("unbundle")]).is_err());
+    // Bundle paths: absolute, canonical parent, safe `.bundle` name.
+    for bad in [
+        PathBuf::from("snap.bundle"),
+        scratch.0.join("snap.tar"),
+        scratch.0.join("-x.bundle"),
+        scratch.0.join("a b.bundle"),
+        scratch.0.join("missing-dir").join("x.bundle"),
+        scratch.0.join("..").join("x.bundle"),
+    ] {
+        assert!(BundleFile::new(&bad).is_err(), "{}", bad.display());
+    }
+    Ok(())
+}

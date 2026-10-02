@@ -453,9 +453,30 @@
       ]
     },
     "P05-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "BLOCKED_ON_OWNER",
+      "blocker": "Owner acceptance of residual risks 1-8 in REVIEW.md",
+      "evidence": [
+        "state/evidence/P05-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P05-T03/run-20261002-01/checks.log",
+        "state/evidence/P05-T03/run-20261002-01/negative-controls.log",
+        "state/evidence/P05-T03/run-20261002-01/scope-check.json",
+        "state/evidence/P05-T03/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P05-T03/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-BUNDLE-RESTORE": "PASS (real git, source removed)",
+        "TEST-SNAPSHOT": "PASS for good/corrupt storage; disk-full via classification + gate only (real full filesystem not exercised)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED round 2, subject to owner residual-risk acceptance",
+        "record": "state/evidence/P05-T03/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "P06: derive ChangeKind from ancestry/observed state",
+        "P06: destination recovery capture",
+        "GC of orphaned staging/verify dirs and namespaces"
+      ]
     },
     "P05-T04": {
       "status": "NOT_STARTED",
