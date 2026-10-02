@@ -15,7 +15,7 @@ use serde::Deserialize;
 use crate::http::{Limits, ProviderHttp, classify_failure, header_str};
 
 pub const GITLAB_ORIGIN: &str = "https://gitlab.com/";
-const PRIVATE_TOKEN: HeaderName = HeaderName::from_static("private-token");
+pub(crate) const PRIVATE_TOKEN: HeaderName = HeaderName::from_static("private-token");
 
 #[derive(Deserialize)]
 struct TokenBody {
@@ -33,7 +33,7 @@ struct UserBody {
 }
 
 pub struct GitLabClient {
-    http: ProviderHttp,
+    pub(crate) http: ProviderHttp,
 }
 
 /// GitLab reports `expires_at` as a date (`YYYY-MM-DD`). The conservative instant is
@@ -55,7 +55,7 @@ impl GitLabClient {
     }
 
     #[cfg(test)]
-    fn for_test(origin: &str, limits: &Limits) -> Result<Self, ProviderError> {
+    pub(crate) fn for_test(origin: &str, limits: &Limits) -> Result<Self, ProviderError> {
         Ok(Self {
             http: ProviderHttp::for_test(origin, limits)?,
         })
@@ -159,6 +159,8 @@ impl GitLabClient {
         Ok((items, next))
     }
 }
+
+pub mod destination;
 
 #[cfg(test)]
 mod tests;

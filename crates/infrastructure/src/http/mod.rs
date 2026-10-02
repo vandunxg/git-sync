@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use gbm_application::providers::ProviderError;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
-use reqwest::{Client, StatusCode, Url, redirect};
+use reqwest::{Client, Method, StatusCode, Url, redirect};
 
 pub(crate) const USER_AGENT: &str = concat!("git-backup-manager/", env!("CARGO_PKG_VERSION"));
 const MAX_BODY_BYTES: usize = 1024 * 1024;
@@ -62,6 +62,11 @@ impl ProviderHttp {
         Ok(Self { client, origin })
     }
 
+    /// The bound origin (scheme, host, port; trailing slash).
+    pub(crate) fn origin(&self) -> &Url {
+        &self.origin
+    }
+
     /// GET `path` on the bound origin with one auth header. The header value is marked
     /// sensitive so it is omitted from reqwest's Debug output.
     pub(crate) async fn get(
@@ -69,6 +74,28 @@ impl ProviderHttp {
         path: &str,
         auth: (HeaderName, &str),
         extra: &[(HeaderName, HeaderValue)],
+    ) -> Result<HttpResponse, ProviderError> {
+        self.send(Method::GET, path, auth, extra, None).await
+    }
+
+    /// POST a JSON body to `path` on the bound origin (same rules as `get`). The
+    /// response may be lost after the provider acted: callers must reconcile.
+    pub(crate) async fn post_json(
+        &self,
+        path: &str,
+        auth: (HeaderName, &str),
+        body: Vec<u8>,
+    ) -> Result<HttpResponse, ProviderError> {
+        self.send(Method::POST, path, auth, &[], Some(body)).await
+    }
+
+    async fn send(
+        &self,
+        method: Method,
+        path: &str,
+        auth: (HeaderName, &str),
+        extra: &[(HeaderName, HeaderValue)],
+        body: Option<Vec<u8>>,
     ) -> Result<HttpResponse, ProviderError> {
         let url = self
             .origin
@@ -79,7 +106,12 @@ impl ProviderHttp {
         }
         let mut value = HeaderValue::from_str(auth.1).map_err(|_| ProviderError::MalformedToken)?;
         value.set_sensitive(true);
-        let mut request = self.client.get(url).header(auth.0, value);
+        let mut request = self.client.request(method, url).header(auth.0, value);
+        if let Some(body) = body {
+            request = request
+                .header(reqwest::header::CONTENT_TYPE, "application/json")
+                .body(body);
+        }
         for (name, value) in extra {
             request = request.header(name.clone(), value.clone());
         }

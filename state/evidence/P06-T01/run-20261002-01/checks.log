@@ -1,0 +1,73 @@
+## P06-T01 checks 2026-10-02T16:26:22+07:00 (git 2.54.0, rustc 1.96.0)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.38s
+exit=0
+$ cargo test --workspace
+test result: ok. 70 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 135 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.43s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.22s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-application destination
+test destination::tests::adoption_requires_namespace_access_and_an_unmapped_project ... ok
+test destination::tests::a_timed_out_create_that_succeeded_remotely_is_reconciled_not_duplicated ... ok
+test destination::tests::an_unrelated_same_name_project_is_never_adopted ... ok
+test destination::tests::commit_is_bound_to_digest_and_expiry_and_never_adopts ... ok
+test destination::tests::create_then_rerun_reconciles_without_duplicate ... ok
+test destination::tests::failures_are_reported_and_never_retried_blindly ... ok
+test destination::tests::invalid_intents_are_rejected_before_any_request ... ok
+test destination::tests::the_digest_covers_every_decision_field ... ok
+test destination::tests::preview_marks_only_definitely_absent_paths_creatable ... ok
+test destination::tests::our_marker_in_another_namespace_or_with_content_is_not_accepted ... ok
+test destination::tests::private_sources_are_never_created_or_adopted_more_visible ... ok
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.00s
+$ cargo test -p gbm-infrastructure gitlab
+test gitlab::destination::tests::create_sends_a_private_empty_project_request ... ok
+test gitlab::destination::tests::lookup_by_exact_path_parses_and_validates ... ok
+test gitlab::destination::tests::a_same_name_unrelated_project_blocks_without_any_write ... ok
+test gitlab::destination::tests::a_rejected_create_with_nothing_found_is_an_error ... ok
+test gitlab::tests::empty_token_never_reaches_the_network ... ok
+test gitlab::tests::insufficient_scope_and_missing_expiry ... ok
+test gitlab::destination::tests::untrusted_project_payloads_are_rejected ... ok
+test gitlab::tests::namespaces_are_listed_with_next_page_and_never_marked_creatable ... ok
+test gitlab::tests::namespaces_auth_failure_is_typed ... ok
+test gitlab::tests::production_client_targets_gitlab_com_over_https ... ok
+test gitlab::tests::valid_token_with_api_scope ... ok
+test gitlab::destination::tests::timed_out_create_is_reconciled_by_exact_lookup ... ok
+test gitlab::tests::revoked_inactive_invalid_and_inconsistent_tokens ... ok
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 122 filtered out; finished in 0.96s
+
+## round 2 (after review findings 1,2,4) 2026-10-02T16:32:25+07:00
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.24s
+exit=0
+$ cargo test --workspace
+test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 135 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.91s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.22s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
