@@ -1,15 +1,42 @@
 {
-  "status": "NOT_RESOLVED",
-  "rustToolchain": null,
-  "msrv": null,
-  "nodeVersion": null,
-  "packageManagerVersion": null,
-  "tauriVersion": null,
-  "templateRevision": null,
-  "gitVersion": null,
+  "status": "OBSERVED_P00_T02",
+  "observedAt": "2026-10-02T07:55:00+07:00",
+  "evidence": "state/evidence/P00-T02/run-20261002-01/",
+  "host": {
+    "os": "EndeavourOS (ID_LIKE=arch), rolling",
+    "kernel": "7.0.12-arch1-1 x86_64",
+    "session": "XFCE on X11 (owner-recorded dev environment, 2026-10-02)",
+    "hyprlandInstalled": "hyprland 0.55.4-1 (package present; not the running session)",
+    "hyprlandVerified": false
+  },
+  "rustToolchain": "1.96.0 (ac68faa20 2026-05-25), Arch package rust 1:1.96.0-1; no rustup installed",
+  "msrv": "1.96.0 selected = installed toolchain; tauri 2.12.1 declares rust-version 1.90, sqlx 0.9.0 declares 1.94.0",
+  "nodeVersion": "24.17.0",
+  "packageManagerVersion": "pnpm 11.5.1 (selected for app; bun 1.3.14 present and required only to run the scaffolder once)",
+  "tauriVersion": "Tauri 2 line; registry latest 2.x on 2026-10-02: tauri 2.12.1, tauri-build 2.7.1, @tauri-apps/cli 2.12.1, @tauri-apps/api 2.12.1. Exact resolved versions are locked in P01-T01. tauri 3.0.0-alpha.4 exists on crates.io and is NOT selected.",
+  "templateRevision": {
+    "repository": "https://github.com/agmmnn/tauri-ui",
+    "headCommit": "8eb86d894c19b6df04ff883ab28b412b1e5f23ea (2026-08-01)",
+    "npmPackage": "create-tauri-ui@1.2.0",
+    "npmGitHead": "2ee246582558e6b473837558e628ffa316a45165",
+    "tarballSha1": "5ddcc3fd82df22ab994b871c7605a07720493e82 (matches npm dist.shasum)",
+    "tarballSha256": "5d6d3f6df6b73c9bafff9b95c5b73ea5ec4193643fdd86dd99ea560c5c519c2d",
+    "license": "MIT",
+    "internalPins": "shadcn@4.16.1 pinned; create-tauri-app NOT pinned (bunx create-tauri-app, registry latest 4.7.4 on 2026-10-02)",
+    "requiredFlags": "--template vite --no-starter --no-invoke-example --no-workflow --yes; debug-panel battery is always installed and must be removed"
+  },
+  "gitVersion": "2.54.0",
   "gitLfsVersion": null,
-  "webkitgtkVersion": null,
+  "gitLfsNote": "git-lfs NOT installed (pacman: package not found). LFS tasks blocked until owner installs it.",
+  "webkitgtkVersion": "webkit2gtk-4.1 2.52.4 (javascriptcoregtk-4.1 2.52.4, libsoup-3.0 3.6.6, gtk+-3.0 3.24.52)",
   "hyprlandVersion": null,
+  "capabilities": {
+    "secretService": "org.freedesktop.secrets running (gnome-keyring-daemon); org.kde.secretservicecompat also running (ksecretd) - P03 must pin which provider it tests (bus-capabilities.log)",
+    "tray": "org.kde.StatusNotifierWatcher running; org.x.StatusNotifierWatcher activatable only; ayatana-appindicator3 0.5.94",
+    "portal": "org.freedesktop.portal.Desktop activatable (not running at probe time); gtk/kde/hyprland backends installed",
+    "gitCredentialHelperIsolation": "probe: -c credential.helper= removes inherited global 'store' helper for fill and approve (credential-helper-probe.txt)",
+    "inheritedEnvRisk": "agent/parent environment contains a secret-like variable name; Git children need cleared allowlisted env"
+  },
   "resolvedDependencyProof": [],
-  "note": "P00 must fill from actual tool outputs; blueprint does not invent exact versions."
+  "note": "Values are from executed probes in the evidence directory. Registry 'latest' values are observations, not locks; P01-T01 records resolved lockfile versions."
 }

@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": false,
   "visualBaselineApproved": false,
-  "currentTaskId": "P00-T02",
+  "currentTaskId": "P00-T03",
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -20,12 +20,24 @@
       }
     },
     "P00-T02": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P00-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P00-T02/run-20261002-01/versions.log",
+        "state/evidence/P00-T02/run-20261002-01/credential-helper-probe.txt",
+        "state/evidence/P00-T02/run-20261002-01/template-audit.log",
+        "state/evidence/P00-T02/run-20261002-01/bus-capabilities.log",
+        "state/evidence/P00-T02/run-20261002-01/scope-check.json"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED",
+        "record": "state/evidence/P00-T02/run-20261002-01/REVIEW.md",
+        "followUp": "F1-F3 addressed after review; F4 MSRV choice carried to P00-T03"
+      }
     },
     "P00-T03": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -246,6 +258,6 @@
     }
   ],
   "nextReadyTasks": [
-    "P00-T02"
+    "P00-T03"
   ]
 }

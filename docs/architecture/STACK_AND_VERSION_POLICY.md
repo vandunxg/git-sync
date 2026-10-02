@@ -30,3 +30,33 @@ and runtime dependencies on the supported machine [S16]. AUR publishing and sign
 are external actions requiring owner authorization.
 
 References: [S01, S02, S16, S17](../../sources/REFERENCES.md).
+
+## P00-T02 observations (2026-10-02)
+
+Recorded from executed probes in `state/evidence/P00-T02/run-20261002-01/`; details in
+`state/TOOLCHAIN.json`. These are observations and selections, not lockfile proof.
+
+| Item | Observed / selected | Note |
+|---|---|---|
+| Rust | 1.96.0 (Arch package, no rustup) | MSRV = 1.96.0; `rust-toolchain.toml` is informational without rustup |
+| Node / package manager | Node 24.17.0, pnpm 11.5.1 | pnpm owns the app lockfile (P01 allowlist names `pnpm-lock.yaml`) |
+| Scaffolder | create-tauri-ui 1.2.0, sha1 5ddcc3fd..., git 2ee24658 | Requires bun to run; generated `bun run` hooks must be rewritten to pnpm |
+| Tauri | 2.x line, registry latest 2.12.1 | Tauri 3 alpha exists; not selected |
+| Git | 2.54.0 | git-lfs absent: LFS work BLOCKED |
+| WebKitGTK | webkit2gtk-4.1 2.52.4 | Native checks run on XFCE/X11; Hyprland 0.55.4 installed but unverified |
+
+Template audit findings for P01-T01: the scaffolder always installs a dev-only debug panel
+(with `tauri-plugin-log`), an external-link guard and selection/scroll batteries; starter
+dashboard, invoke example and release workflow are opt-out flags. `create-tauri-app` is
+invoked unpinned inside the scaffolder, so the P01-T01 run must record its resolved version.
+
+### Capability probe plan
+
+| Capability | Probe done in P00-T02 | Acceptance test owner |
+|---|---|---|
+| Secret Service keyring | `org.freedesktop.secrets` running (gnome-keyring); ksecretd compat also running | P03 TEST-ENV / keyring tests |
+| Tray | `StatusNotifierWatcher` present | P07/P10 TEST-ENV |
+| Portal (open folder/browser) | `org.freedesktop.portal.Desktop` activatable (not running at probe) | P08/P10 native tests |
+| Git credential isolation | `-c credential.helper=` blocks inherited global `store` helper (fill + approve) | P03-T04 TEST-CREDENTIAL-BROKER |
+| Child environment | Parent env carries a secret-like variable; Git children need a cleared allowlisted env | P03-T04 / P05-T01 |
+| Hyprland session | Not running; BLOCKED | P10 TEST-ENV / TEST-NATIVE-UI |

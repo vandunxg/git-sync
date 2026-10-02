@@ -1,0 +1,7 @@
+# bus capability 2026-10-02T07:57:01+07:00
+org.freedesktop.portal.Desktop pid=- process=-
+org.freedesktop.secrets pid=1060 process=gnome-keyring-d
+org.kde.StatusNotifierWatcher pid=1308 process=wrapper-2.0
+org.kde.secretservicecompat pid=1085 process=ksecretd
+org.x.StatusNotifierWatcher pid=- process=-
+(pid '-' = activatable only, not running)

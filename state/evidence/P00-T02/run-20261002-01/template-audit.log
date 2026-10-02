@@ -1,0 +1,29 @@
+# template-audit greps 2026-10-02T07:57:01+07:00, upstream 8eb86d8
+=== grep -rnE 'create-tauri-app'
+scaffold.ts:249:        "create-tauri-app",
+scaffold.ts:272:        "create-tauri-app failed while creating the native scaffold.",
+=== grep -rnE 'SHADCN_VERSION ='
+scaffold.ts:17:const SHADCN_VERSION = "4.16.1";
+=== grep -rnE 'bun is required'
+index.ts:265:    throw new Error("bun is required. Install it from https://bun.sh.");
+=== grep -rnE 'applyDebugPanel'
+index.ts:7:import { applyDebugPanel } from "./batteries/debug-panel";
+index.ts:405:    await applyDebugPanel(projectDir, stagingOptions);
+commands/battery-registry.ts:4:import { applyDebugPanel } from "../batteries/debug-panel";
+commands/battery-registry.ts:121:      await applyDebugPanel(projectDir, options);
+batteries/debug-panel.ts:419:export async function applyDebugPanel(projectDir: string, options: ProjectOptions) {
+=== grep -rnE 'tauri-plugin-log'
+commands/battery-registry.ts:141:          "src-tauri/Cargo.toml — remove `tauri-plugin-log` and `log` dependencies if unused",
+batteries/debug-panel.ts:157:    nextContent = ensureCargoDependency(nextContent, 'tauri-plugin-log = "2"');
+=== grep -rnE 'import.meta.env.DEV'
+batteries/debug-panel.ts:268:      "<ExternalLinkGuard />\n$1{import.meta.env.DEV ? <DebugPanel /> : null}\n$1<main data-ui-scroll-container><App /></main>",
+batteries/debug-panel.ts:343:      "<main data-ui-scroll-container><ExternalLinkGuard />{import.meta.env.DEV ? <DebugPanel /> : null}{children}</main>",
+batteries/debug-panel.ts:377:      "<ExternalLinkGuard />\n        {import.meta.env.DEV ? <DebugPanel /> : null}\n        {children}",
+batteries/debug-panel.ts:408:      "<main data-ui-scroll-container><ExternalLinkGuard client:load />{import.meta.env.DEV ? <DebugPanel client:load /> : null}<slot /></main>",
+=== grep -rnE 'no-starter|no-invoke-example|no-workflow'
+index.ts:70:      --no-starter              skip the starter dashboard
+index.ts:72:      --no-invoke-example       skip the Rust invoke example
+index.ts:74:      --no-workflow             skip the GitHub release workflow
+index.ts:210:      case "--no-starter":
+index.ts:217:      case "--no-invoke-example":
+index.ts:224:      case "--no-workflow":

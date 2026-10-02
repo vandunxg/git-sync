@@ -1,0 +1,6 @@
+# Figma access attempt - 2026-10-02 (P00-T03)
+Tool: figma-ui-mcp figma_status (local plugin bridge, read-only status call)
+Result: pluginConnected=false, sessions=[] , hint "Plugin not connected. In Figma Desktop:
+Plugins -> Development -> Figma UI MCP Bridge -> Run".
+No node read, screenshot or export was performed. No baseline captured.
+Prior attempt (2026-10-01, packaging run): MCP_TOOL_CALL_LIMIT on Starter plan.

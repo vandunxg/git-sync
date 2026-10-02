@@ -1,0 +1,14 @@
+{
+  "status": "PASS_PATH_SCOPE_ONLY",
+  "task": "P00-T02",
+  "resolvedBase": "84c71a0dbd546d2ea555e5f46f5820de9562c449",
+  "changedPaths": [
+    "docs/architecture/STACK_AND_VERSION_POLICY.md",
+    "state/TOOLCHAIN.json",
+    "state/evidence/P00-T02/run-20261002-01/credential-helper-probe.txt",
+    "state/evidence/P00-T02/run-20261002-01/scope-check.json",
+    "state/evidence/P00-T02/run-20261002-01/versions.log"
+  ],
+  "outOfScope": [],
+  "semanticReviewStillRequired": true
+}
