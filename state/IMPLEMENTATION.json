@@ -530,8 +530,7 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-10 (REVIEW.md)"
     },
     "P06-T02": {
-      "status": "BLOCKED_ON_OWNER",
-      "blocker": "Owner acceptance of Medium residual risks R1-R2 (REVIEW.md); Low R3-R7 batched for end of P06",
+      "status": "DONE",
       "lifecycle": "Full",
       "evidence": [
         "state/evidence/P06-T02/run-20261002-01/TASK_REPORT.md",
@@ -547,7 +546,7 @@
       },
       "review": {
         "by": "independent review subagent (owner-designated 2026-10-02)",
-        "outcome": "APPROVED round 2",
+        "outcome": "APPROVED round 2; owner accepted Medium risks R1-R2; Low R3-R7 pending end-of-phase batch",
         "record": "state/evidence/P06-T02/run-20261002-01/REVIEW.md"
       },
       "followUps": [
@@ -560,7 +559,8 @@
         "R5",
         "R6",
         "R7"
-      ]
+      ],
+      "ownerRiskAcceptance": "2026-10-02 owner accepted Medium residual risks R1-R2 (REVIEW.md)"
     },
     "P06-T03": {
       "status": "NOT_STARTED",

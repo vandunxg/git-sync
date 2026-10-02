@@ -24,5 +24,6 @@ Residual risks:
 - R6 Low: unkeyed plan digest (integrity relies on native storage).
 - R7 Low: production ancestry oracle and lease enforcement are P06-T03.
 
-Owner decision on Medium risks: PENDING. Low risks: batched for the end-of-phase P06
+Owner decision on Medium risks: ACCEPTED R1–R2 (owner answer in session, 2026-10-02:
+"Chấp nhận, làm tiếp"). Low risks: batched for the end-of-phase P06
 owner decision (owner rule 2026-10-02).
