@@ -1,0 +1,23 @@
+N1 pause ignored: caught_by=['scheduler::tests::pause_starts_nothing_and_retries_wait_for_their_time', 'sqlite::tests::scheduler_queue::a_hundred_repositories_with_duplicates_run_at_most_three_at_a_time']
+N2 concurrency limit ignored: caught_by=['scheduler::tests::a_hundred_repositories_never_exceed_the_limit', 'scheduler::tests::concurrency_repo_and_mapping_locks_and_fifo', 'sqlite::tests::scheduler_queue::a_hundred_repositories_with_duplicates_run_at_most_three_at_a_time']
+N3 repository lock ignored: caught_by=['scheduler::tests::one_repository_never_runs_twice_even_without_a_mapping']
+N4 mapping lock ignored (scheduler): caught_by=['scheduler::tests::concurrency_repo_and_mapping_locks_and_fifo', 'sqlite::tests::scheduler_queue::a_shared_destination_mapping_is_locked_and_retries_are_new_attempts']
+N5 retry time ignored: caught_by=['scheduler::tests::pause_starts_nothing_and_retries_wait_for_their_time']
+N6 auth errors retried: caught_by=['scheduler::tests::only_transient_errors_retry_and_auth_never_storms']
+N7 unbounded attempts: caught_by=['scheduler::tests::backoff_is_bounded_jittered_and_honours_retry_after']
+N8 Retry-After ignored: caught_by=['scheduler::tests::backoff_is_bounded_jittered_and_honours_retry_after']
+N11 terminal job blocks re-request: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N12 non-canonical not_before accepted: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N13 retry after a write allowed: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N14 store capacity ignored: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N15 interrupted jobs release locks: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N16 stage-blind retry: caught_by=['scheduler::tests::a_timeout_after_a_write_may_have_started_is_never_retried_blindly']
+N17 fraction digits not checked: caught_by=['time::tests::non_utc_or_malformed_text_is_rejected']
+N9 duplicate requests create jobs: caught_by=['sqlite::tests::scheduler_queue::a_hundred_repositories_with_duplicates_run_at_most_three_at_a_time', 'sqlite::tests::scheduler_queue::a_shared_destination_mapping_is_locked_and_retries_are_new_attempts']
+N10 mapping lock ignored (store, explicit check only): caught_by=[] — redundant layer: the unique partial index one_active_mapping_job still refuses the second start (mapped to ActiveJobExists)
+
+## after round-2 finding (failed re-request gate, pre-write allow-list) — re-run on changed code
+N6 auth errors retried: caught_by=['scheduler::tests::only_transient_errors_retry_and_auth_never_storms']
+N13 retry after a write allowed: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N18 failed job re-run by a plain request: caught_by=['sqlite::tests::scheduler_queue::store_rules_for_dedupe_retry_start_and_interrupted_locks']
+N16 stage-blind retry: caught_by=['scheduler::tests::a_timeout_after_a_write_may_have_started_is_never_retried_blindly']

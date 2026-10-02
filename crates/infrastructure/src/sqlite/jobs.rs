@@ -4,6 +4,9 @@
 use sqlx::Row;
 use sqlx::sqlite::SqliteRow;
 
+use gbm_application::time::rfc3339_to_ms;
+use sqlx::{Sqlite, Transaction};
+
 use super::{Database, StoreError, bump_revision, finish, require_id, require_timestamp};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -104,12 +107,44 @@ pub struct NewJob<'a> {
     pub repository_id: Option<&'a str>,
     pub account_id: Option<&'a str>,
     pub plan_id: Option<&'a str>,
+    /// Destination mapping a mutating job writes to (shared destination lock).
+    pub mapping_id: Option<&'a str>,
+    /// Earliest start of a retry attempt (RFC 3339 UTC).
+    pub not_before: Option<&'a str>,
     pub kind: JobKind,
     pub stage: &'a str,
     pub attempt: i64,
     pub idempotency_key: &'a str,
     pub now: &'a str,
     pub coverage_json: &'a str,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Enqueued {
+    /// New job; the committed revision.
+    New(i64),
+    /// The same logical job is already pending or running.
+    Existing(String),
+    /// The latest attempt of this logical job failed: no automatic re-run.
+    NeedsOwner(String),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct QueuedRow {
+    pub id: String,
+    pub repository_id: Option<String>,
+    pub mapping_id: Option<String>,
+    /// Earliest start in Unix ms (`None` = now). An unreadable stored value is
+    /// reported as `Corrupt`, never as "now".
+    pub not_before_ms: Option<i64>,
+    pub sequence: i64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ActiveRow {
+    pub id: String,
+    pub repository_id: Option<String>,
+    pub mapping_id: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -181,60 +216,86 @@ fn record(row: &SqliteRow) -> Result<JobRecord, StoreError> {
     })
 }
 
+fn validate_new_job(job: &NewJob<'_>) -> Result<(), StoreError> {
+    require_id("id", job.id)?;
+    for (field, value) in [
+        ("repository_id", job.repository_id),
+        ("account_id", job.account_id),
+        ("plan_id", job.plan_id),
+        ("mapping_id", job.mapping_id),
+    ] {
+        if let Some(v) = value {
+            require_id(field, v)?;
+        }
+    }
+    require_id("idempotency_key", job.idempotency_key)?;
+    require_stage(job.stage)?;
+    require_timestamp("now", job.now)?;
+    if let Some(t) = job.not_before {
+        // Canonical UTC only, so the scheduler can always read it back (fail closed).
+        if rfc3339_to_ms(t).is_none() {
+            return Err(StoreError::InvalidInput("not_before"));
+        }
+    }
+    if job.attempt < 1 {
+        return Err(StoreError::InvalidInput("attempt"));
+    }
+    let coverage: serde_json::Value = serde_json::from_str(job.coverage_json)
+        .map_err(|_| StoreError::InvalidInput("coverage_json"))?;
+    if !matches!(
+        gbm_domain::contract::schema::validate_definition("Coverage", &coverage),
+        Ok(ref v) if v.is_empty()
+    ) {
+        return Err(StoreError::InvalidInput("coverage_json"));
+    }
+    Ok(())
+}
+
+async fn insert_job(
+    tx: &mut Transaction<'static, Sqlite>,
+    job: &NewJob<'_>,
+    attempt: i64,
+) -> Result<i64, StoreError> {
+    let revision = bump_revision(tx).await?;
+    sqlx::query(
+        "INSERT INTO jobs (id, repository_id, account_id, plan_id, mapping_id, not_before, \
+         kind, state, stage, attempt, idempotency_key, created_at, updated_at, error_code, \
+         coverage_json, revision) \
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'queued', ?, ?, ?, ?, ?, NULL, ?, ?)",
+    )
+    .bind(job.id)
+    .bind(job.repository_id)
+    .bind(job.account_id)
+    .bind(job.plan_id)
+    .bind(job.mapping_id)
+    .bind(job.not_before)
+    .bind(job.kind.as_str())
+    .bind(job.stage)
+    .bind(attempt)
+    .bind(job.idempotency_key)
+    .bind(job.now)
+    .bind(job.now)
+    .bind(job.coverage_json)
+    .bind(revision)
+    .execute(&mut **tx)
+    .await
+    .map_err(StoreError::from_sqlx)?;
+    Ok(revision)
+}
+
+/// Stages before any destination write; only failures here may be retried
+/// automatically (allow-list: an unknown stage is never retried).
+const PRE_WRITE_STAGES: [&str; 5] = ["preflight", "observe_source", "fetch", "plan", "snapshot"];
+/// Error codes a failed attempt may be retried for automatically.
+const RETRYABLE_CODES: [&str; 3] = ["TIMEOUT", "NETWORK_UNAVAILABLE", "RATE_LIMITED"];
+
 impl Database {
     /// Persists a queued job (intent before any external effect). The same
     /// (idempotency_key, attempt) cannot be enqueued twice.
     pub async fn enqueue_job(&self, job: &NewJob<'_>) -> Result<i64, StoreError> {
-        require_id("id", job.id)?;
-        for (field, value) in [
-            ("repository_id", job.repository_id),
-            ("account_id", job.account_id),
-            ("plan_id", job.plan_id),
-        ] {
-            if let Some(v) = value {
-                require_id(field, v)?;
-            }
-        }
-        require_id("idempotency_key", job.idempotency_key)?;
-        require_stage(job.stage)?;
-        require_timestamp("now", job.now)?;
-        if job.attempt < 1 {
-            return Err(StoreError::InvalidInput("attempt"));
-        }
-        let coverage: serde_json::Value = serde_json::from_str(job.coverage_json)
-            .map_err(|_| StoreError::InvalidInput("coverage_json"))?;
-        if !matches!(
-            gbm_domain::contract::schema::validate_definition("Coverage", &coverage),
-            Ok(ref v) if v.is_empty()
-        ) {
-            return Err(StoreError::InvalidInput("coverage_json"));
-        }
+        validate_new_job(job)?;
         let mut tx = self.begin().await?;
-        let result = async {
-        let revision = bump_revision(&mut tx).await?;
-        sqlx::query(
-            "INSERT INTO jobs (id, repository_id, account_id, plan_id, kind, state, stage, \
-             attempt, idempotency_key, created_at, updated_at, error_code, coverage_json, revision) \
-             VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, ?, ?, ?, NULL, ?, ?)",
-        )
-        .bind(job.id)
-        .bind(job.repository_id)
-        .bind(job.account_id)
-        .bind(job.plan_id)
-        .bind(job.kind.as_str())
-        .bind(job.stage)
-        .bind(job.attempt)
-        .bind(job.idempotency_key)
-        .bind(job.now)
-        .bind(job.now)
-        .bind(job.coverage_json)
-        .bind(revision)
-        .execute(&mut *tx)
-        .await
-        .map_err(StoreError::from_sqlx)?;
-        Ok(revision)
-        }
-        .await;
+        let result = insert_job(&mut tx, job, job.attempt).await;
         finish(tx, result).await
     }
 
@@ -249,13 +310,26 @@ impl Database {
         error_code: Option<&str>,
         now: &str,
     ) -> Result<i64, StoreError> {
+        self.transition_job_checked(id, to, stage, error_code, now, None)
+            .await
+    }
+
+    async fn transition_job_checked(
+        &self,
+        id: &str,
+        to: JobState,
+        stage: &str,
+        error_code: Option<&str>,
+        now: &str,
+        max_concurrent: Option<u8>,
+    ) -> Result<i64, StoreError> {
         require_id("id", id)?;
         require_stage(stage)?;
         require_error_code(error_code)?;
         require_timestamp("now", now)?;
         let mut tx = self.begin().await?;
         let result = async {
-            let row = sqlx::query("SELECT state, repository_id FROM jobs WHERE id = ?")
+            let row = sqlx::query("SELECT state, repository_id, mapping_id FROM jobs WHERE id = ?")
                 .bind(id)
                 .fetch_optional(&mut *tx)
                 .await
@@ -271,6 +345,22 @@ impl Database {
             let repository: Option<String> = row
                 .try_get("repository_id")
                 .map_err(StoreError::from_sqlx)?;
+            let mapping: Option<String> =
+                row.try_get("mapping_id").map_err(StoreError::from_sqlx)?;
+            if let (Some(mapping), JobState::Running | JobState::CancelRequested) = (mapping, to) {
+                let (active,): (i64,) = sqlx::query_as(
+                    "SELECT count(*) FROM jobs WHERE mapping_id = ? AND id != ? \
+                 AND state IN ('running', 'cancel_requested', 'interrupted')",
+                )
+                .bind(&mapping)
+                .bind(id)
+                .fetch_one(&mut *tx)
+                .await
+                .map_err(StoreError::from_sqlx)?;
+                if active > 0 {
+                    return Err(StoreError::ActiveJobExists);
+                }
+            }
             if let (Some(repository), JobState::Running | JobState::CancelRequested) =
                 (repository, to)
             {
@@ -278,7 +368,7 @@ impl Database {
                 // `one_active_repo_job` remains the backstop.
                 let (active,): (i64,) = sqlx::query_as(
                     "SELECT count(*) FROM jobs WHERE repository_id = ? AND id != ? \
-                 AND state IN ('running', 'cancel_requested')",
+                 AND state IN ('running', 'cancel_requested', 'interrupted')",
                 )
                 .bind(&repository)
                 .bind(id)
@@ -287,6 +377,19 @@ impl Database {
                 .map_err(StoreError::from_sqlx)?;
                 if active > 0 {
                     return Err(StoreError::ActiveJobExists);
+                }
+            }
+            if let (Some(max), JobState::Running) = (max_concurrent, to) {
+                let (active,): (i64,) = sqlx::query_as(
+                    "SELECT count(*) FROM jobs WHERE id != ? \
+                     AND state IN ('running', 'cancel_requested')",
+                )
+                .bind(id)
+                .fetch_one(&mut *tx)
+                .await
+                .map_err(StoreError::from_sqlx)?;
+                if active >= i64::from(max.clamp(1, 8)) {
+                    return Err(StoreError::CapacityReached);
                 }
             }
             let revision = bump_revision(&mut tx).await?;
@@ -347,6 +450,199 @@ impl Database {
         }
         .await;
         finish(tx, result).await
+    }
+
+    /// Deduplicated enqueue in one IMMEDIATE transaction: if a non-terminal job with the
+    /// same idempotency key exists, returns it; otherwise inserts a new attempt linked
+    /// by the key (`max(attempt) + 1` after earlier terminal attempts).
+    pub async fn enqueue_or_existing(&self, job: &NewJob<'_>) -> Result<Enqueued, StoreError> {
+        validate_new_job(job)?;
+        let mut tx = self.begin().await?;
+        let result = async {
+            let existing: Option<(String,)> = sqlx::query_as(
+                "SELECT id FROM jobs WHERE idempotency_key = ? AND state NOT IN \
+                 ('succeeded', 'partial', 'failed', 'canceled') ORDER BY attempt DESC LIMIT 1",
+            )
+            .bind(job.idempotency_key)
+            .fetch_optional(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            if let Some((id,)) = existing {
+                return Ok(Enqueued::Existing(id));
+            }
+            let latest: Option<(String, String, i64)> = sqlx::query_as(
+                "SELECT id, state, attempt FROM jobs WHERE idempotency_key = ? \
+                 ORDER BY attempt DESC LIMIT 1",
+            )
+            .bind(job.idempotency_key)
+            .fetch_optional(&mut *tx)
+            .await
+            .map_err(StoreError::from_sqlx)?;
+            // A failed logical job is never re-run by a plain request: retries go
+            // through `enqueue_retry` (transient, pre-write only) or an owner action.
+            if let Some((id, state, _)) = &latest
+                && state == JobState::Failed.as_str()
+            {
+                return Ok(Enqueued::NeedsOwner(id.clone()));
+            }
+            let attempt = latest.map_or(job.attempt, |(_, _, n)| n + 1);
+            insert_job(&mut tx, job, attempt).await.map(Enqueued::New)
+        }
+        .await;
+        finish(tx, result).await
+    }
+
+    /// Starts a queued job only if the queue is not paused and fewer than
+    /// `max_concurrent` jobs are active; the limit is checked in the same IMMEDIATE
+    /// transaction as the per-repository and per-mapping locks.
+    pub async fn start_job(
+        &self,
+        id: &str,
+        stage: &str,
+        max_concurrent: u8,
+        paused: bool,
+        now: &str,
+    ) -> Result<i64, StoreError> {
+        if paused {
+            return Err(StoreError::QueuePaused);
+        }
+        self.transition_job_checked(
+            id,
+            JobState::Running,
+            stage,
+            None,
+            now,
+            Some(max_concurrent),
+        )
+        .await
+    }
+
+    /// Queued jobs in enqueue order with their lock keys and not-before times.
+    pub async fn queued_jobs(&self) -> Result<Vec<QueuedRow>, StoreError> {
+        let rows = sqlx::query(
+            "SELECT id, repository_id, mapping_id, not_before, revision FROM jobs \
+             WHERE state = 'queued' ORDER BY revision, id",
+        )
+        .fetch_all(&self.pool)
+        .await
+        .map_err(StoreError::from_sqlx)?;
+        rows.iter()
+            .map(|row| {
+                let not_before: Option<String> =
+                    row.try_get("not_before").map_err(StoreError::from_sqlx)?;
+                let not_before_ms = match not_before {
+                    Some(text) => Some(rfc3339_to_ms(&text).ok_or(StoreError::Corrupt)?),
+                    None => None,
+                };
+                Ok(QueuedRow {
+                    id: row.try_get("id").map_err(StoreError::from_sqlx)?,
+                    repository_id: row
+                        .try_get("repository_id")
+                        .map_err(StoreError::from_sqlx)?,
+                    mapping_id: row.try_get("mapping_id").map_err(StoreError::from_sqlx)?,
+                    not_before_ms,
+                    sequence: row.try_get("revision").map_err(StoreError::from_sqlx)?,
+                })
+            })
+            .collect()
+    }
+
+    /// Jobs that currently hold a repository/mapping lock (incl. interrupted jobs that
+    /// were not reconciled yet).
+    pub async fn active_jobs(&self) -> Result<Vec<ActiveRow>, StoreError> {
+        let rows = sqlx::query(
+            "SELECT id, repository_id, mapping_id FROM jobs \
+             WHERE state IN ('running', 'cancel_requested', 'interrupted') ORDER BY id",
+        )
+        .fetch_all(&self.pool)
+        .await
+        .map_err(StoreError::from_sqlx)?;
+        rows.iter()
+            .map(|row| {
+                Ok(ActiveRow {
+                    id: row.try_get("id").map_err(StoreError::from_sqlx)?,
+                    repository_id: row
+                        .try_get("repository_id")
+                        .map_err(StoreError::from_sqlx)?,
+                    mapping_id: row.try_get("mapping_id").map_err(StoreError::from_sqlx)?,
+                })
+            })
+            .collect()
+    }
+
+    /// Enqueues the next attempt of a failed job (same key, attempt + 1, same scope),
+    /// not before `not_before`. The failed attempt and its evidence stay as they are.
+    pub async fn enqueue_retry(
+        &self,
+        failed_id: &str,
+        new_id: &str,
+        not_before: &str,
+        now: &str,
+    ) -> Result<i64, StoreError> {
+        require_id("id", failed_id)?;
+        let row = sqlx::query(
+            "SELECT repository_id, account_id, plan_id, mapping_id, kind, state, stage, \
+             error_code, attempt, idempotency_key, coverage_json FROM jobs WHERE id = ?",
+        )
+        .bind(failed_id)
+        .fetch_optional(&self.pool)
+        .await
+        .map_err(StoreError::from_sqlx)?
+        .ok_or(StoreError::NotFound)?;
+        let state: String = row.try_get("state").map_err(StoreError::from_sqlx)?;
+        if state != JobState::Failed.as_str() {
+            return Err(StoreError::InvalidTransition { current: state });
+        }
+        // Second line of defence: only transient failures before any write.
+        let stage: String = row.try_get("stage").map_err(StoreError::from_sqlx)?;
+        let code: Option<String> = row.try_get("error_code").map_err(StoreError::from_sqlx)?;
+        if !PRE_WRITE_STAGES.contains(&stage.as_str())
+            || !code
+                .as_deref()
+                .is_some_and(|c| RETRYABLE_CODES.contains(&c))
+        {
+            return Err(StoreError::InvalidInput("retry"));
+        }
+        let kind_text: String = row.try_get("kind").map_err(StoreError::from_sqlx)?;
+        let kind = [
+            JobKind::Scan,
+            JobKind::Plan,
+            JobKind::Sync,
+            JobKind::RestoreTest,
+        ]
+        .into_iter()
+        .find(|k| k.as_str() == kind_text)
+        .ok_or(StoreError::Corrupt)?;
+        let repository_id: Option<String> = row
+            .try_get("repository_id")
+            .map_err(StoreError::from_sqlx)?;
+        let account_id: Option<String> =
+            row.try_get("account_id").map_err(StoreError::from_sqlx)?;
+        let plan_id: Option<String> = row.try_get("plan_id").map_err(StoreError::from_sqlx)?;
+        let mapping_id: Option<String> =
+            row.try_get("mapping_id").map_err(StoreError::from_sqlx)?;
+        let attempt: i64 = row.try_get("attempt").map_err(StoreError::from_sqlx)?;
+        let key: String = row
+            .try_get("idempotency_key")
+            .map_err(StoreError::from_sqlx)?;
+        let coverage: String = row
+            .try_get("coverage_json")
+            .map_err(StoreError::from_sqlx)?;
+        self.enqueue_job(&NewJob {
+            id: new_id,
+            repository_id: repository_id.as_deref(),
+            account_id: account_id.as_deref(),
+            plan_id: plan_id.as_deref(),
+            mapping_id: mapping_id.as_deref(),
+            not_before: Some(not_before),
+            kind,
+            stage: "preflight",
+            attempt: attempt + 1,
+            idempotency_key: &key,
+            now,
+            coverage_json: &coverage,
+        })
+        .await
     }
 
     pub async fn get_job(&self, id: &str) -> Result<Option<JobRecord>, StoreError> {

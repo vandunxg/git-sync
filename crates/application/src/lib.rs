@@ -10,6 +10,8 @@ pub mod observation;
 pub mod plan;
 pub mod providers;
 pub mod recovery;
+pub mod scheduler;
 pub mod snapshot;
+pub mod time;
 pub mod verify;
 pub mod workspace;

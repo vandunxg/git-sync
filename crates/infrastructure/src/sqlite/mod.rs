@@ -34,7 +34,9 @@ use sqlx::{Sqlite, Transaction};
 pub use accounts::{AccountRecord, NewAccount};
 pub use activity::{ActivityRecord, NewActivity, Severity};
 pub use error::StoreError;
-pub use jobs::{JobKind, JobRecord, JobState, NewJob, allowed_transition};
+pub use jobs::{
+    ActiveRow, Enqueued, JobKind, JobRecord, JobState, NewJob, QueuedRow, allowed_transition,
+};
 pub use migrate::{MigrationReport, SCHEMA_VERSION};
 pub use roots::RootRecord;
 pub use settings::SettingsRecord;

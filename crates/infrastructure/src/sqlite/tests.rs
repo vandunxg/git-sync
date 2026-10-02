@@ -18,6 +18,7 @@ const NOW: &str = "2026-01-01T00:00:00Z";
 const LATER: &str = "2026-01-01T00:05:00Z";
 const COVERAGE: &str = r#"{"gitRefs":"not_checked","localObjects":"not_checked","lfs":"not_checked","submodules":"none"}"#;
 const MIGRATION_0001: &str = include_str!("../../migrations/0001_initial.sql");
+const MIGRATION_0002: &str = include_str!("../../migrations/0002_scheduler.sql");
 
 fn db_path(sandbox: &Sandbox) -> PathBuf {
     sandbox.path().join("state.sqlite")
@@ -83,6 +84,8 @@ fn job<'a>(id: &'a str, repo: Option<&'a str>, key: &'a str) -> NewJob<'a> {
         repository_id: repo,
         account_id: None,
         plan_id: None,
+        mapping_id: None,
+        not_before: None,
         kind: JobKind::Sync,
         stage: "preflight",
         attempt: 1,
@@ -100,12 +103,12 @@ async fn fresh_database_is_migrated_and_configured() -> TestResult {
         report,
         MigrationReport {
             from_version: None,
-            to_version: 1,
-            applied: vec![1],
+            to_version: 2,
+            applied: vec![1, 2],
             backup: None
         }
     );
-    assert_eq!(SCHEMA_VERSION, 1);
+    assert_eq!(SCHEMA_VERSION, 2);
     let (fk,): (i64,) = sqlx::query_as("PRAGMA foreign_keys")
         .fetch_one(db.pool())
         .await?;
@@ -144,7 +147,8 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
         &sandbox.path().join("m-v2"),
         &[
             ("0001_initial.sql", MIGRATION_0001),
-            ("0002_description.sql", v2),
+            ("0002_scheduler.sql", MIGRATION_0002),
+            ("0003_description.sql", v2),
         ],
     )
     .await?;
@@ -155,12 +159,12 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
             report.to_version,
             report.applied.clone()
         ),
-        (Some(1), 2, vec![2])
+        (Some(2), 3, vec![3])
     );
     let backup = report.backup.ok_or("backup missing")?;
     assert!(backup.exists());
 
-    // The backup is a complete, openable v1 database with the sample data.
+    // The backup is a complete, openable v2 database with the sample data.
     let pool = SqlitePoolOptions::new()
         .connect_with(connect_options(&backup)?)
         .await?;
@@ -170,7 +174,7 @@ async fn upgrade_with_sample_data_takes_a_backup_and_preserves_rows() -> TestRes
     let (max,): (i64,) = sqlx::query_as("SELECT max(version) FROM _sqlx_migrations")
         .fetch_one(&pool)
         .await?;
-    assert_eq!((repos, max), (1, 1));
+    assert_eq!((repos, max), (1, 2));
     pool.close().await;
 
     let pool = SqlitePoolOptions::new()
@@ -200,7 +204,11 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
     let broken = "CREATE TABLE partial_table (id TEXT); INSERT INTO no_such_table VALUES (1);";
     let m = migrator(
         &sandbox.path().join("m-broken"),
-        &[("0001_initial.sql", MIGRATION_0001), ("0002_x.sql", broken)],
+        &[
+            ("0001_initial.sql", MIGRATION_0001),
+            ("0002_scheduler.sql", MIGRATION_0002),
+            ("0003_x.sql", broken),
+        ],
     )
     .await?;
     let error = open_with(&path, &m)
@@ -210,7 +218,7 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
     assert!(matches!(error, StoreError::MigrationFailed(_)), "{error}");
 
     let (db, report) = Database::open(&path).await?;
-    assert_eq!(report.from_version, Some(1));
+    assert_eq!(report.from_version, Some(2));
     assert_eq!(
         count(
             &db,
@@ -222,17 +230,21 @@ async fn interrupted_migration_rolls_back_and_can_be_retried() -> TestResult {
     assert_eq!(count(&db, "SELECT count(*) FROM repositories").await?, 1);
     assert_eq!(
         count(&db, "SELECT max(version) FROM _sqlx_migrations").await?,
-        1
+        2
     );
     db.close().await;
 
     let fixed = "CREATE TABLE partial_table (id TEXT);";
     let m = migrator(
         &sandbox.path().join("m-fixed"),
-        &[("0001_initial.sql", MIGRATION_0001), ("0002_x.sql", fixed)],
+        &[
+            ("0001_initial.sql", MIGRATION_0001),
+            ("0002_scheduler.sql", MIGRATION_0002),
+            ("0003_x.sql", fixed),
+        ],
     )
     .await?;
-    assert_eq!(open_with(&path, &m).await?.applied, vec![2]);
+    assert_eq!(open_with(&path, &m).await?.applied, vec![3]);
     Ok(())
 }
 
@@ -244,7 +256,8 @@ async fn newer_modified_or_foreign_databases_are_refused() -> TestResult {
         &sandbox.path().join("m-newer"),
         &[
             ("0001_initial.sql", MIGRATION_0001),
-            ("0002_future.sql", "CREATE TABLE future (id TEXT);"),
+            ("0002_scheduler.sql", MIGRATION_0002),
+            ("0003_future.sql", "CREATE TABLE future (id TEXT);"),
         ],
     )
     .await?;
@@ -850,7 +863,8 @@ async fn database_and_backup_files_are_owner_only() -> TestResult {
         &sandbox.path().join("m-perm"),
         &[
             ("0001_initial.sql", MIGRATION_0001),
-            ("0002_x.sql", "CREATE TABLE x (id TEXT);"),
+            ("0002_scheduler.sql", MIGRATION_0002),
+            ("0003_x.sql", "CREATE TABLE x (id TEXT);"),
         ],
     )
     .await?;
@@ -860,4 +874,354 @@ async fn database_and_backup_files_are_owner_only() -> TestResult {
         assert_eq!(mode, 0o600, "{} has mode {mode:o}", file.display());
     }
     Ok(())
+}
+
+mod scheduler_queue {
+    //! TEST-SCHEDULER with real SQLite: 100 repositories, duplicate requests,
+    //! concurrency 3, pause, shared destination mapping lock and retry attempts.
+
+    use gbm_application::scheduler::{
+        ActiveJob, JobIdentity, QueuedJob, idempotency_key, select_starts,
+    };
+    use gbm_application::time::rfc3339_to_ms;
+
+    use super::*;
+
+    async fn seed_many(db: &Database, count: usize) -> TestResult {
+        db.upsert_account(&account("acc-1", "42")).await?;
+        for i in 0..count {
+            sqlx::query(
+                "INSERT INTO repositories (id, account_id, provider_repository_id, full_name, \
+                 is_private, is_fork, is_archived, selected) \
+                 VALUES (?, 'acc-1', ?, 'octo/x', 1, 0, 0, 1)",
+            )
+            .bind(format!("r{i:03}"))
+            .bind(format!("{}", 1000 + i))
+            .execute(db.pool())
+            .await?;
+        }
+        Ok(())
+    }
+
+    fn sync_job<'a>(id: &'a str, repo: &'a str, key: &'a str) -> NewJob<'a> {
+        NewJob {
+            plan_id: None,
+            ..job(id, Some(repo), key)
+        }
+    }
+
+    async fn plan_round(
+        db: &Database,
+        paused: bool,
+        now_ms: i64,
+    ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+        let queued: Vec<QueuedJob> = db
+            .queued_jobs()
+            .await?
+            .into_iter()
+            .map(|row| QueuedJob {
+                not_before_ms: row.not_before_ms,
+                id: row.id,
+                repository_id: row.repository_id,
+                mapping_id: row.mapping_id,
+                sequence: row.sequence,
+            })
+            .collect();
+        let active: Vec<ActiveJob> = db
+            .active_jobs()
+            .await?
+            .into_iter()
+            .map(|row| ActiveJob {
+                id: row.id,
+                repository_id: row.repository_id,
+                mapping_id: row.mapping_id,
+            })
+            .collect();
+        Ok(select_starts(&queued, &active, paused, 3, now_ms))
+    }
+
+    #[tokio::test]
+    async fn a_hundred_repositories_with_duplicates_run_at_most_three_at_a_time() -> TestResult {
+        let sandbox = Sandbox::new("db-scheduler")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed_many(&db, 100).await?;
+        let mut keys = Vec::new();
+        for i in 0..100 {
+            let repo = format!("r{i:03}");
+            keys.push(idempotency_key(&JobIdentity {
+                kind: "sync",
+                repository_id: Some(&repo),
+                basis: Some("snap-1"),
+                mapping_id: None,
+                policy_revision: 1,
+            }));
+        }
+        for (i, key) in keys.iter().enumerate() {
+            let (id, repo) = (format!("job-{i:03}"), format!("r{i:03}"));
+            assert!(matches!(
+                db.enqueue_or_existing(&sync_job(&id, &repo, key)).await?,
+                Enqueued::New(_)
+            ));
+        }
+        // Duplicate requests for the same logical jobs return the existing job.
+        for (i, key) in keys.iter().enumerate().take(10) {
+            let (id, repo) = (format!("dup-{i:03}"), format!("r{i:03}"));
+            assert_eq!(
+                db.enqueue_or_existing(&sync_job(&id, &repo, key)).await?,
+                Enqueued::Existing(format!("job-{i:03}"))
+            );
+        }
+        assert_eq!(count(&db, "SELECT count(*) FROM jobs").await?, 100);
+
+        let mut finished = 0;
+        let mut rounds = 0;
+        while finished < 100 && rounds < 500 {
+            rounds += 1;
+            if rounds == 5 {
+                // Pause: nothing new starts; running jobs are not touched.
+                let running_before = db.active_jobs().await?;
+                assert!(plan_round(&db, true, 0).await?.is_empty());
+                assert_eq!(db.active_jobs().await?, running_before);
+            }
+            for id in plan_round(&db, false, 0).await? {
+                db.transition_job(&id, JobState::Running, "fetch", None, LATER)
+                    .await?;
+            }
+            let active = db.active_jobs().await?;
+            assert!(active.len() <= 3, "{} running", active.len());
+            if let Some(first) = active.first() {
+                db.transition_job(&first.id, JobState::Succeeded, "finalize", None, LATER)
+                    .await?;
+                finished += 1;
+            }
+        }
+        assert_eq!(finished, 100);
+        assert_eq!(
+            count(&db, "SELECT count(*) FROM jobs WHERE state = 'succeeded'").await?,
+            100
+        );
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn a_shared_destination_mapping_is_locked_and_retries_are_new_attempts() -> TestResult {
+        let sandbox = Sandbox::new("db-mapping-lock")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed_many(&db, 2).await?;
+        db.upsert_account(&NewAccount {
+            id: "acc-gl",
+            provider: "gitlab",
+            ..account("acc-gl", "77")
+        })
+        .await?;
+        sqlx::query(
+            "INSERT INTO roots (id, canonical_path, ownership_marker, created_at) \
+             VALUES ('root-1', '/x', 'm', ?)",
+        )
+        .bind(NOW)
+        .execute(db.pool())
+        .await?;
+        sqlx::query(
+            "INSERT INTO mappings (id, repository_id, root_id, gitlab_account_id, namespace_id, \
+             intended_project_path, mirror_relative_path) \
+             VALUES ('map-1', 'r000', 'root-1', 'acc-gl', 'gl-ns-1', 'x-gh1', '.gbm/mirrors/gh-1.git')",
+        )
+        .execute(db.pool())
+        .await?;
+        let sync = NewJob {
+            mapping_id: Some("map-1"),
+            ..job("sync-1", Some("r000"), "k-sync")
+        };
+        // Another job (no repository) writing to the same destination mapping.
+        let other = NewJob {
+            mapping_id: Some("map-1"),
+            kind: JobKind::Plan,
+            ..job("plan-1", None, "k-plan")
+        };
+        db.enqueue_job(&sync).await?;
+        db.enqueue_job(&other).await?;
+        // The pure scheduler starts only one of them.
+        assert_eq!(plan_round(&db, false, 0).await?, vec!["sync-1".to_owned()]);
+        db.transition_job("sync-1", JobState::Running, "fetch", None, LATER)
+            .await?;
+        // The store refuses the second even if a caller ignores the scheduler.
+        assert!(matches!(
+            db.transition_job("plan-1", JobState::Running, "plan", None, LATER)
+                .await,
+            Err(StoreError::ActiveJobExists)
+        ));
+
+        db.transition_job("sync-1", JobState::Failed, "fetch", Some("TIMEOUT"), LATER)
+            .await?;
+        let not_before = "2026-01-01T00:10:00Z";
+        db.enqueue_retry("sync-1", "sync-1-a2", not_before, LATER)
+            .await?;
+        let failed = db.get_job("sync-1").await?.ok_or("job")?;
+        assert_eq!(
+            (failed.state, failed.error_code.as_deref()),
+            (JobState::Failed, Some("TIMEOUT")),
+            "evidence kept"
+        );
+        let retry = db.get_job("sync-1-a2").await?.ok_or("retry")?;
+        assert_eq!(
+            (retry.attempt, retry.idempotency_key.as_str()),
+            (2, "k-sync")
+        );
+        let due = rfc3339_to_ms(not_before).ok_or("time")?;
+        // Before its time only plan-1 can start; at its time the retry still waits for
+        // the shared mapping (FIFO: plan-1 is older).
+        assert_eq!(
+            plan_round(&db, false, due - 1).await?,
+            vec!["plan-1".to_owned()]
+        );
+        assert_eq!(
+            plan_round(&db, false, due).await?,
+            vec!["plan-1".to_owned()]
+        );
+        db.transition_job("plan-1", JobState::Running, "plan", None, LATER)
+            .await?;
+        assert!(
+            plan_round(&db, false, due).await?.is_empty(),
+            "mapping busy"
+        );
+        db.transition_job("plan-1", JobState::Succeeded, "finalize", None, LATER)
+            .await?;
+        assert_eq!(
+            plan_round(&db, false, due).await?,
+            vec!["sync-1-a2".to_owned()]
+        );
+        // A repeated request for the same logical job finds the pending retry attempt.
+        let again = NewJob {
+            mapping_id: Some("map-1"),
+            ..job("sync-1-dup", Some("r000"), "k-sync")
+        };
+        assert_eq!(
+            db.enqueue_or_existing(&again).await?,
+            Enqueued::Existing("sync-1-a2".to_owned())
+        );
+        // Only a failed attempt can be retried.
+        assert!(matches!(
+            db.enqueue_retry("sync-1-a2", "sync-1-a3", not_before, LATER)
+                .await,
+            Err(StoreError::InvalidTransition { .. })
+        ));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn store_rules_for_dedupe_retry_start_and_interrupted_locks() -> TestResult {
+        let sandbox = Sandbox::new("db-store-rules")?;
+        let (db, _) = Database::open(&db_path(&sandbox)).await?;
+        seed_many(&db, 6).await?;
+
+        // A logical job requested again after it finished gets a new linked attempt.
+        assert!(matches!(
+            db.enqueue_or_existing(&job("s-1", Some("r000"), "k-s"))
+                .await?,
+            Enqueued::New(_)
+        ));
+        db.transition_job("s-1", JobState::Running, "fetch", None, LATER)
+            .await?;
+        db.transition_job("s-1", JobState::Succeeded, "finalize", None, LATER)
+            .await?;
+        assert!(matches!(
+            db.enqueue_or_existing(&job("s-2", Some("r000"), "k-s"))
+                .await?,
+            Enqueued::New(_)
+        ));
+        assert_eq!(db.get_job("s-2").await?.ok_or("job")?.attempt, 2);
+
+        // A failed logical job is never re-run by a plain request (push-stage failure,
+        // auth failure): the owner or the retry gate decides.
+        for (id, stage, code, key) in [
+            ("p-1", "push", "PUSH_PARTIAL", "k-p"),
+            ("a-1", "observe_source", "AUTH_REQUIRED", "k-a"),
+        ] {
+            db.enqueue_job(&job(id, Some("r001"), key)).await?;
+            db.transition_job(id, JobState::Running, "fetch", None, LATER)
+                .await?;
+            db.transition_job(id, JobState::Failed, stage, Some(code), LATER)
+                .await?;
+            for again in 0..3 {
+                let request = job("again", Some("r001"), key);
+                assert_eq!(
+                    db.enqueue_or_existing(&request).await?,
+                    Enqueued::NeedsOwner(id.to_owned()),
+                    "{id} request {again}"
+                );
+            }
+        }
+        assert_eq!(
+            count(&db, "SELECT count(*) FROM jobs WHERE id = 'again'").await?,
+            0
+        );
+
+        // not_before must be canonical UTC.
+        for bad in ["2026-01-01T00:10:00+07:00", "2026-01-01t00:10:00z"] {
+            let invalid = NewJob {
+                not_before: Some(bad),
+                ..job("nb", Some("r001"), "k-nb")
+            };
+            assert!(matches!(
+                db.enqueue_job(&invalid).await,
+                Err(StoreError::InvalidInput("not_before"))
+            ));
+        }
+
+        // Retries only for transient failures before any write.
+        for (id, stage, code) in [
+            ("f-push", "push", "TIMEOUT"),
+            ("f-verify", "verify", "NETWORK_UNAVAILABLE"),
+            ("f-auth", "fetch", "AUTH_REQUIRED"),
+            ("f-partial", "fetch", "PUSH_PARTIAL"),
+        ] {
+            let repo = "r002";
+            db.enqueue_job(&job(id, Some(repo), id)).await?;
+            db.transition_job(id, JobState::Running, "fetch", None, LATER)
+                .await?;
+            db.transition_job(id, JobState::Failed, stage, Some(code), LATER)
+                .await?;
+            assert!(
+                matches!(
+                    db.enqueue_retry(id, &format!("{id}-2"), LATER, LATER).await,
+                    Err(StoreError::InvalidInput("retry"))
+                ),
+                "{id}"
+            );
+        }
+
+        // Global concurrency and pause are enforced by the store itself.
+        for i in 3..6 {
+            db.enqueue_job(&job(
+                &format!("c-{i}"),
+                Some(&format!("r00{i}")),
+                &format!("kc{i}"),
+            ))
+            .await?;
+        }
+        assert!(matches!(
+            db.start_job("c-3", "fetch", 2, true, LATER).await,
+            Err(StoreError::QueuePaused)
+        ));
+        db.start_job("c-3", "fetch", 2, false, LATER).await?;
+        db.start_job("c-4", "fetch", 2, false, LATER).await?;
+        assert!(matches!(
+            db.start_job("c-5", "fetch", 2, false, LATER).await,
+            Err(StoreError::CapacityReached)
+        ));
+
+        // An interrupted (unreconciled) job keeps its repository locked.
+        db.recover_interrupted_jobs(LATER).await?;
+        db.enqueue_job(&job("after-crash", Some("r003"), "k-after"))
+            .await?;
+        assert!(matches!(
+            db.start_job("after-crash", "fetch", 8, false, LATER).await,
+            Err(StoreError::ActiveJobExists)
+        ));
+        assert!(
+            db.active_jobs().await?.iter().any(|a| a.id == "c-3"),
+            "interrupted jobs are reported as lock holders"
+        );
+        Ok(())
+    }
 }

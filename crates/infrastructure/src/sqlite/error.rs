@@ -10,8 +10,12 @@ pub enum StoreError {
     Duplicate,
     /// A referenced row does not exist.
     ForeignKey,
-    /// Another job for the repository is already running or canceling.
+    /// Another job for the repository or destination mapping holds its lock.
     ActiveJobExists,
+    /// The queue is paused: nothing new starts.
+    QueuePaused,
+    /// The global concurrency limit is reached.
+    CapacityReached,
     /// The job is not in a state from which the requested transition is allowed.
     InvalidTransition {
         current: String,
@@ -41,6 +45,8 @@ impl fmt::Display for StoreError {
             Self::Duplicate => f.write_str("record already exists"),
             Self::ForeignKey => f.write_str("referenced record does not exist"),
             Self::ActiveJobExists => f.write_str("repository already has an active job"),
+            Self::QueuePaused => f.write_str("the queue is paused"),
+            Self::CapacityReached => f.write_str("the concurrency limit is reached"),
             Self::InvalidTransition { current } => {
                 write!(f, "job transition not allowed from {current}")
             }
@@ -68,7 +74,9 @@ impl StoreError {
             // SQLite extended result codes; message text is not exposed.
             match db.code().as_deref() {
                 Some("2067" | "1555") => {
-                    if db.message().contains("jobs.repository_id") {
+                    if db.message().contains("jobs.repository_id")
+                        || db.message().contains("jobs.mapping_id")
+                    {
                         return Self::ActiveJobExists;
                     }
                     return Self::Duplicate;
