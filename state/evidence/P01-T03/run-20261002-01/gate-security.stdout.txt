@@ -1,0 +1,12 @@
+{
+  "profile": "security",
+  "status": "BLOCKED",
+  "reasons": [
+    "missing application prerequisite: deny.toml"
+  ],
+  "results": [],
+  "generatedAt": "2026-10-02T02:08:49.090573+00:00",
+  "repoRoot": "/home/dungnv1/Documents/vandunxg/git-sync",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P01-T03/run-20261002-01/gates-security/20261002T020849Z-9ffd1b12/report.json

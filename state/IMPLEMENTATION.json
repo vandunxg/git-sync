@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": "P01-T03",
+  "currentTaskId": null,
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -116,9 +116,41 @@
       ]
     },
     "P01-T03": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P01-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P01-T03/run-20261002-01/controls.log",
+        "state/evidence/P01-T03/run-20261002-02/coordinator-approval.md",
+        "state/evidence/P01-T03/run-20261002-02/controls.log",
+        "state/evidence/P01-T03/run-20261002-02/gate-core.stdout.txt",
+        "state/evidence/P01-T03/run-20261002-02/gate-frontend.stdout.txt",
+        "state/evidence/P01-T03/run-20261002-02/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-NO-FAKES": "PASS (heuristic source + bundle guards, wired into frontend gate)",
+        "TEST-CONTRACT-FIXTURES": "PARTIAL (revision-consistent totals NOT_RUN)",
+        "LFS fixture": "BLOCKED (git-lfs missing; test ignored)"
+      },
+      "gates": {
+        "core": "PASS",
+        "frontend": "PASS",
+        "visual": "BLOCKED (no approved baselines)",
+        "security": "BLOCKED (deny.toml, cargo-audit, cargo-deny missing)",
+        "native": "BLOCKED (no native authorization/harness; Hyprland unavailable)"
+      },
+      "scopeExceptions": {
+        "paths": [
+          "apps/desktop/pnpm-lock.yaml",
+          "Cargo.lock",
+          "apps/desktop/src/lib/native/contract-cases.selftest.ts"
+        ],
+        "record": "state/evidence/P01-T03/run-20261002-02/coordinator-approval.md"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED",
+        "record": "state/evidence/P01-T03/run-20261002-01/REVIEW.md"
+      }
     },
     "P02-T01": {
       "status": "NOT_STARTED",
@@ -330,6 +362,7 @@
     }
   ],
   "nextReadyTasks": [
-    "P01-T03"
+    "P03-T01 (backend; P01 done)",
+    "P02-T01 BLOCKED by BLOCK-FIGMA (needs Figma bridge or exported Refined V2 images + owner approval)"
   ]
 }

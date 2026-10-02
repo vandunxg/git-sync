@@ -1,0 +1,16 @@
+# run-02 controls 2026-10-02T09:13:31+07:00
+inject [import "./test/x.ts"] -> ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 79 passed (80)
+inject [void import("../fixtures/y.ts")] -> ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 79 passed (80)
+inject [const t = setTimeout; void t] -> ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 79 passed (80)
+inject [void globalThis["setTimeout"]] -> ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  1 failed | 79 passed (80)
+App.tsx restored
+gate core exit=0
+gate frontend exit=0
+/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P01-T03/run-20261002-02/gates-frontend/20261002T021340Z-10d452f3/report.json:"name": "no-fakes-dist"
+[('lint', 'PASS'), ('typecheck', 'PASS'), ('test:unit', 'PASS'), ('build', 'PASS'), ('no-fakes-dist', 'PASS')]
+scope exit=1 (expected 1: exactly the 3 approved paths)
+['Cargo.lock', 'apps/desktop/pnpm-lock.yaml', 'apps/desktop/src/lib/native/contract-cases.selftest.ts']

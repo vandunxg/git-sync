@@ -1,0 +1,77 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/lib.rs (target/debug/deps/gbm_application-b0f6d6756e890129)
+
+running 6 tests
+test ipc::tests::forbidden_and_unknown_commands_are_rejected ... ok
+test ipc::tests::handler_is_not_called_for_invalid_args ... ok
+test ipc::tests::invalid_handler_error_is_replaced ... ok
+test ipc::tests::invalid_handler_output_never_reaches_the_renderer ... ok
+test ipc::tests::every_contract_command_answers_unsupported_honestly ... ok
+test ipc::tests::valid_handler_output_is_wrapped_as_success ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_domain-44b36bf5f01690d0)
+
+running 12 tests
+test contract::envelope::tests::result_envelopes_have_exactly_one_payload ... ok
+test contract::envelope::tests::sensitive_rejections_carry_no_details ... ok
+test contract::envelope::tests::malformed_envelopes_are_rejected ... ok
+test contract::envelope::tests::arbitrary_ids_and_paths_are_rejected ... ok
+test contract::envelope::tests::valid_empty_request_is_accepted ... ok
+test contract::schema::tests::ref_pattern_uses_ecma_dot_semantics ... ok
+test contract::schema::tests::rfc3339_rules ... ok
+test contract::schema::tests::id_rules ... ok
+test contract::schema::tests::unsupported_pattern_fails_closed ... ok
+test contract::schema::tests::unknown_definition_is_an_error ... ok
+test contract::secret:[REDACTED] ... ok
+test contract::schema::tests::every_schema_pattern_has_a_native_matcher ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/contract_cases.rs (target/debug/deps/contract_cases-c4ae0032dc57425b)
+
+running 3 tests
+test command_table_is_allowlisted_and_typed ... ok
+test valid_samples_round_trip_through_typed_dtos ... ok
+test native_validator_matches_oracle_verdicts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_test_fixtures-821e4613a04fac23)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fixtures.rs (target/debug/deps/fixtures-b520a94f21b8e071)
+
+running 8 tests
+test empty_destination_has_no_refs ... ok
+test lfs_fixture_reports_unavailability_consistently ... ok
+test lfs_fixture_tracks_payload_with_git_lfs ... ignored, BLOCKED: requires git-lfs (NEED-GIT-LFS)
+test git_environment_is_isolated_from_the_owner ... ok
+test git_rejects_the_hostile_names_it_can_detect ... ok
+test source_fixture_has_required_ref_shapes ... ok
+test fixtures_are_deterministic ... ok
+test workspace_states_are_dirty_ahead_and_detached ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running unittests src/lib.rs (target/debug/deps/git_backup_manager_lib-5f5c2ed4a3ad76f4)
+
+running 5 tests
+test commands::tests::registered_commands_equal_contract_allowlist ... ok
+test tests::bundled_origins_are_internal ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test commands::tests::tauri_router_enforces_the_allowlist ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/git_backup_manager-f5bed2bb3c27e20b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

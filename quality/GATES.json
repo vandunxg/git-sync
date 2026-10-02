@@ -84,7 +84,7 @@
     "frontend": {
       "requireFiles": [
         "apps/desktop/package.json",
-        "pnpm-lock.yaml"
+        "apps/desktop/pnpm-lock.yaml"
       ],
       "packageScripts": [
         "lint",
@@ -128,13 +128,21 @@
             "apps/desktop",
             "build"
           ]
+        },
+        {
+          "name": "no-fakes-dist",
+          "argv": [
+            "{python}",
+            "quality/checks/no_fakes_dist.py"
+          ]
         }
-      ]
+      ],
+      "noFakesNote": "no-fakes-dist runs after build in the same profile, so it always scans the bundle just built (P01-T03)."
     },
     "visual": {
       "requireFiles": [
         "apps/desktop/package.json",
-        "pnpm-lock.yaml"
+        "apps/desktop/pnpm-lock.yaml"
       ],
       "packageScripts": [
         "test:visual"
@@ -158,7 +166,7 @@
         "Cargo.lock",
         "deny.toml",
         "apps/desktop/package.json",
-        "pnpm-lock.yaml"
+        "apps/desktop/pnpm-lock.yaml"
       ],
       "packageScripts": [
         "security:check"
@@ -193,7 +201,7 @@
     "native": {
       "requireFiles": [
         "apps/desktop/package.json",
-        "pnpm-lock.yaml"
+        "apps/desktop/pnpm-lock.yaml"
       ],
       "packageScripts": [
         "test:native"
@@ -211,5 +219,6 @@
         }
       ]
     }
-  }
+  },
+  "lockfileNote": "pnpm lockfile lives at apps/desktop/pnpm-lock.yaml (P01-T01, RD-001); path updated in P01-T03, no gate removed or weakened."
 }

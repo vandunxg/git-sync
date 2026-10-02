@@ -909,6 +909,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "gbm-test-fixtures"
+version = "0.1.0"
+
+[[package]]
 name = "gdk"
 version = "0.18.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

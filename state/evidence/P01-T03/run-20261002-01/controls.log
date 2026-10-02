@@ -1,0 +1,51 @@
+# P01-T03 controls 2026-10-02T09:09:18+07:00 base=80441f5
+=== [1] source no-fakes negative control: inject setTimeout into App.tsx
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/test/policy/no-fakes.test.ts > production source policy > uses no timers or randomness that could fake progress or success
+      Tests  1 failed | 79 passed (80)
+App.tsx restored
+=== [2] dist no-fakes negative control: inject marker into built JS
+  "status": "FAIL",
+      "marker": "maxLength-astral"
+exit(expect 1)=1
+  "status": "PASS",
+exit after rebuild=0
+=== [3] honest BLOCKED scripts
+BLOCKED: no owner-approved visual baselines (docs/ui/BASELINES.json) and no Playwright visual suite yet (P02).
+test:visual exit=2
+BLOCKED: native Tauri/WebKitGTK acceptance harness not implemented yet; Hyprland session unavailable (OD-004).
+test:native exit=2
+=== [4] security:check (pnpm audit, network read-only)
+No known vulnerabilities found
+security:check exit=0
+=== [5] production crates do not depend on test fixtures
+0
+0
+(0 and 0 expected)
+=== [6] fixture tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test empty_destination_has_no_refs ... ok
+test lfs_fixture_is_explicitly_unavailable_without_git_lfs ... ok
+test git_environment_is_isolated_from_the_owner ... ok
+test git_rejects_the_hostile_names_it_can_detect ... ok
+test source_fixture_has_required_ref_shapes ... ok
+test fixtures_are_deterministic ... ok
+test workspace_states_are_dirty_ahead_and_detached ... ok
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+=== [7] blueprint lint + tool tests on blueprint-only view
+{
+  "status": "FAIL",
+  "counts": {
+lint exit=1
+Ran 33 tests in 0.345s
+
+FAILED (failures=1)
+tool-tests (in view) exit=0
+=== [7b] re-run after renaming runner stdout captures to .txt
+{
+  "status": "PASS_BLUEPRINT_STRUCTURE_ONLY",
+lint exit=0
+
+OK
+tool-tests (in view) exit=0
