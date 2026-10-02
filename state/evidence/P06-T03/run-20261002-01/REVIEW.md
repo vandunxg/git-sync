@@ -28,5 +28,6 @@ Residual risks:
 - R9 Low: runner does not require `--porcelain`/`--no-verify`/`--no-follow-tags`
   (fails safe to Unknown without porcelain).
 
-Owner decision on Medium risks: PENDING. Low risks: batched for the end-of-phase P06
+Owner decision on Medium risks: ACCEPTED R1–R2 (owner answer in session, 2026-10-02:
+"Chấp nhận"). Low risks: batched for the end-of-phase P06
 owner decision (owner rule 2026-10-02).
