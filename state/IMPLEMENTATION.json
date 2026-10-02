@@ -349,9 +349,24 @@
       "ownerApproval": "state/evidence/OWNER-APPROVAL-2026-10-02.md"
     },
     "P04-T01": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P04-T01/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P04-T01/run-20261002-01/checks.log",
+        "state/evidence/P04-T01/run-20261002-01/negative-controls.log",
+        "state/evidence/P04-T01/run-20261002-01/scope-check.json",
+        "state/evidence/P04-T01/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-PAGINATION": "PASS (loopback adapter)",
+        "TEST-SCOPE": "PASS (loopback adapter)",
+        "TEST-NO-DELETE-ON-404": "PASS (domain + adapter)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED",
+        "record": "state/evidence/P04-T01/run-20261002-01/REVIEW.md"
+      }
     },
     "P04-T02": {
       "status": "NOT_STARTED",

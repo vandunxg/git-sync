@@ -1,0 +1,20 @@
+# checks 2026-10-02T14:00:07+07:00 base 273fb0d
+fmt exit=0
+clippy exit=0
+test discovery::tests::complete_scan_only_flags_unseen_for_review_and_detects_renames ... ok
+test discovery::tests::incomplete_scan_never_marks_or_deletes_unseen_repositories ... ok
+test discovery::tests::pages_are_deduplicated_by_id_and_counted ... ok
+test discovery::tests::rejected_entries_make_the_discovery_incomplete ... ok
+test discovery::tests::scope_change_moves_items_out_without_counting_them_twice ... ok
+test discovery::tests::scope_defaults_are_owned_only_and_explicit_opt_in_for_others ... ok
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test github::tests::discovery::default_scope_requests_and_keeps_owned_only ... ok
+test github::tests::discovery::foreign_next_link_stops_without_following_it ... ok
+test github::tests::discovery::failing_middle_page_keeps_prior_items_and_is_incomplete ... ok
+test github::tests::discovery::malformed_entries_and_page_limit_make_it_incomplete ... ok
+test github::tests::discovery::walks_every_page_with_absolute_next_links ... ok
+test github::tests::discovery::raw_commas_in_next_link_are_followed_and_garbage_fails_closed ... ok
+test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.51s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+workspace test exit=0

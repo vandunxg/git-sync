@@ -1,0 +1,31 @@
+# negative controls (after review fixes) 2026-10-02T13:58:32+07:00
+== N1: stop after first page, claim complete
+test github::tests::discovery::failing_middle_page_keeps_prior_items_and_is_incomplete ... FAILED
+test github::tests::discovery::raw_commas_in_next_link_are_followed_and_garbage_fails_closed ... FAILED
+test github::tests::discovery::walks_every_page_with_absolute_next_links ... FAILED
+test github::tests::discovery::malformed_entries_and_page_limit_make_it_incomplete ... FAILED
+test result: FAILED. 9 passed; 4 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.78s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+0
+== N4: naive comma split in Link parsing
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.92s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+== N2: scope filter ignored
+test github::tests::discovery::default_scope_requests_and_keeps_owned_only ... FAILED
+test result: FAILED. 12 passed; 1 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.93s
+test discovery::tests::scope_defaults_are_owned_only_and_explicit_opt_in_for_others ... FAILED
+test discovery::tests::scope_change_moves_items_out_without_counting_them_twice ... FAILED
+test result: FAILED. 4 passed; 2 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+== N3: flag unseen even on partial scans
+test github::tests::discovery::failing_middle_page_keeps_prior_items_and_is_incomplete ... FAILED
+test result: FAILED. 12 passed; 1 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.90s
+test discovery::tests::incomplete_scan_never_marks_or_deletes_unseen_repositories ... FAILED
+test result: FAILED. 5 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+== restored
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 1.17s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+== N4 (redo): link target truncated at the first comma (naive split behaviour)
+test github::tests::discovery::raw_commas_in_next_link_are_followed_and_garbage_fails_closed ... FAILED
+test result: FAILED. 12 passed; 1 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.87s
+== restored after N4
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 0.85s
