@@ -4,6 +4,7 @@
 //! cleanup, cleared environment, hardening config, redaction). `ls_remote_args` is the
 //! read-only observation argv. Parsing and comparison are in `gbm_domain::refs`.
 
+pub mod mirror;
 pub mod runner;
 
 use crate::git_auth::RemoteTarget;

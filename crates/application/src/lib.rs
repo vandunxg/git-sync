@@ -6,3 +6,4 @@ pub mod ipc;
 pub mod mapping;
 pub mod observation;
 pub mod providers;
+pub mod snapshot;

@@ -429,9 +429,28 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-7 (REVIEW.md)"
     },
     "P05-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P05-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P05-T02/run-20261002-01/checks.log",
+        "state/evidence/P05-T02/run-20261002-01/negative-controls.log",
+        "state/evidence/P05-T02/run-20261002-01/scope-check.json",
+        "state/evidence/P05-T02/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P05-T02/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-REFS": "PASS (real git capture incl. 237 refs)",
+        "TEST-EMPTY-REPO": "PASS (explicit empty manifest; no fetch/init)",
+        "TEST-VERIFY": "PASS (local capture level; destination verification in P06-T04)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED",
+        "record": "state/evidence/P05-T02/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "GC of orphaned staging namespaces (P05-T03+)"
+      ]
     },
     "P05-T03": {
       "status": "NOT_STARTED",

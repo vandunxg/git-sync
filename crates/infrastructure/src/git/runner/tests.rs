@@ -710,3 +710,26 @@ fn truncated_stderr_never_leaks_a_split_secret_and_debug_hides_stdout() -> TestR
     assert!(!debug.contains("stdout-secret-data") && debug.contains("stdout_len"));
     Ok(())
 }
+
+#[test]
+fn a_cancelled_token_starts_nothing() -> TestResult {
+    let scratch = Scratch::new("precancel")?;
+    let marker = scratch.0.join("ran");
+    let binary = scratch.script("git", &format!("touch {}", marker.display()))?;
+    let runner = GitRunner::new(binary, &scratch.home()?)?;
+    let cancel = CancelToken::default();
+    cancel.cancel();
+    let invocation = GitInvocation::new(Subcommand::Version, Vec::new())?;
+    assert_eq!(
+        runner.run(
+            &invocation,
+            &WorkDir::Neutral,
+            limits(30_000, 1_000),
+            &cancel,
+            &[]
+        ),
+        Err(RunError::Cancelled)
+    );
+    assert!(!marker.exists());
+    Ok(())
+}

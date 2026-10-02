@@ -17,6 +17,10 @@ pub enum ReadError {
     Transport,
     /// The bounded output limit was hit; the advertisement is incomplete.
     Truncated,
+    /// The output could not be trusted (e.g. not valid UTF-8).
+    Unsupported,
+    /// The job was cancelled; not a statement about the source.
+    Cancelled,
 }
 
 /// Read-only access to a source repository's ref advertisement.
@@ -25,6 +29,29 @@ pub trait SourceRefReader: Send + Sync {
     /// `Ok` means Git exited 0, the output was not cut by the size limit and is valid
     /// UTF-8; `Ok("")` is only a successful empty listing. Anything else is an `Err`.
     fn read_advertisement(&self, repository_id: &str) -> Result<String, ReadError>;
+}
+
+/// Maps a reader result to an observation outcome. A cancelled read is reported as a
+/// transport-level unavailability here; capture handles `Cancelled` before calling this.
+pub fn outcome_from(result: Result<String, ReadError>) -> ObservationOutcome {
+    match result {
+        Ok(text) => match parse_ls_remote(&text) {
+            Ok(advertisement) => ObservationOutcome::Complete(advertisement),
+            Err(RefError::Truncated) => ObservationOutcome::Partial,
+            Err(_) => ObservationOutcome::Unavailable(UnavailableReason::Unsupported),
+        },
+        Err(ReadError::Truncated) => ObservationOutcome::Partial,
+        Err(ReadError::AccessDenied) => {
+            ObservationOutcome::Unavailable(UnavailableReason::AccessDenied)
+        }
+        Err(ReadError::NotFound) => ObservationOutcome::Unavailable(UnavailableReason::NotFound),
+        Err(ReadError::Transport | ReadError::Cancelled) => {
+            ObservationOutcome::Unavailable(UnavailableReason::Transport)
+        }
+        Err(ReadError::Unsupported) => {
+            ObservationOutcome::Unavailable(UnavailableReason::Unsupported)
+        }
+    }
 }
 
 /// Observes one source. `sequence` must be allocated (monotonically, per repository)
@@ -36,19 +63,7 @@ pub fn observe_source(
     sequence: u64,
     started_at_ms: i64,
 ) -> SourceObservation {
-    let outcome = match reader.read_advertisement(repository_id) {
-        Ok(text) => match parse_ls_remote(&text) {
-            Ok(advertisement) => ObservationOutcome::Complete(advertisement),
-            Err(RefError::Truncated) => ObservationOutcome::Partial,
-            Err(_) => ObservationOutcome::Unavailable(UnavailableReason::Unsupported),
-        },
-        Err(ReadError::Truncated) => ObservationOutcome::Partial,
-        Err(ReadError::AccessDenied) => {
-            ObservationOutcome::Unavailable(UnavailableReason::AccessDenied)
-        }
-        Err(ReadError::NotFound) => ObservationOutcome::Unavailable(UnavailableReason::NotFound),
-        Err(ReadError::Transport) => ObservationOutcome::Unavailable(UnavailableReason::Transport),
-    };
+    let outcome = outcome_from(reader.read_advertisement(repository_id));
     SourceObservation {
         sequence,
         observed_at_ms: started_at_ms,

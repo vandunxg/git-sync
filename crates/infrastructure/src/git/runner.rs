@@ -66,6 +66,8 @@ pub enum RunError {
     InvalidLocation,
     InvalidWorkDir,
     Spawn,
+    /// The token was already cancelled; nothing was started.
+    Cancelled,
     /// The command did not exit 0 (or was stopped).
     Failed(Termination),
     /// Output exceeded its bound, the pipes did not close or the child was not reaped.
@@ -82,6 +84,7 @@ impl fmt::Display for RunError {
             Self::InvalidLocation => f.write_str("the repository location was rejected"),
             Self::InvalidWorkDir => f.write_str("the git working directory was rejected"),
             Self::Spawn => f.write_str("git could not be started"),
+            Self::Cancelled => f.write_str("cancelled before git was started"),
             Self::Failed(termination) => write!(f, "git did not succeed: {termination:?}"),
             Self::OutputIncomplete => f.write_str("git output was incomplete"),
             Self::NotUtf8 => f.write_str("git output was not valid UTF-8"),
@@ -199,6 +202,20 @@ impl RefSpec {
     }
 }
 
+/// A full `refs/...` name (for `update-ref -d`).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct FullRef(String);
+
+impl FullRef {
+    pub fn new(name: &str) -> Result<Self, RunError> {
+        if is_full_ref(name) {
+            Ok(Self(name.to_owned()))
+        } else {
+            Err(RunError::InvalidArgument)
+        }
+    }
+}
+
 /// A `refs/...` prefix pattern ending in `/` (for `for-each-ref`).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RefPrefix(String);
@@ -222,6 +239,7 @@ pub enum Arg {
     Location(Location),
     RefSpec(RefSpec),
     RefPrefix(RefPrefix),
+    Ref(FullRef),
     Oid(ObjectId),
 }
 
@@ -235,6 +253,7 @@ pub enum Subcommand {
     CatFile,
     Init,
     Fsck,
+    UpdateRef,
     Version,
 }
 
@@ -248,6 +267,7 @@ impl Subcommand {
             Self::CatFile => "cat-file",
             Self::Init => "init",
             Self::Fsck => "fsck",
+            Self::UpdateRef => "update-ref",
             Self::Version => "version",
         }
     }
@@ -270,10 +290,16 @@ impl Subcommand {
                 "--no-show-forced-updates",
             ],
             Self::ForEachRef => &["--format=%(objectname)%09%(objecttype)%09%(refname)"],
-            Self::RevParse => &["--verify", "--quiet"],
+            Self::RevParse => &["--verify", "--quiet", "--show-object-format"],
             Self::CatFile => &["-e", "-t"],
-            Self::Init => &["--bare", "--quiet"],
+            Self::Init => &[
+                "--bare",
+                "--quiet",
+                "--object-format=sha1",
+                "--object-format=sha256",
+            ],
             Self::Fsck => &["--full", "--strict", "--no-dangling", "--no-progress"],
+            Self::UpdateRef => &["-d", "--no-deref"],
             Self::Version => &[],
         }
     }
@@ -401,6 +427,7 @@ impl GitInvocation {
             Arg::Location(location) => location.arg(),
             Arg::RefSpec(spec) => spec.0.clone(),
             Arg::RefPrefix(prefix) => prefix.0.clone(),
+            Arg::Ref(name) => name.0.clone(),
             Arg::Oid(oid) => oid.as_str().to_owned(),
         }));
         argv
@@ -546,6 +573,9 @@ impl GitRunner {
         cancel: &CancelToken,
         known_secrets: &[&SecretString],
     ) -> Result<GitOutput, RunError> {
+        if cancel.is_cancelled() {
+            return Err(RunError::Cancelled);
+        }
         let (cwd, env) = self.environment(work)?;
         let mut command = Command::new(self.binary.path());
         command
