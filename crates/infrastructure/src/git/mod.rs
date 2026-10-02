@@ -1,9 +1,10 @@
 //! Git source observation adapter pieces (REQ-06, REQ-07).
 //!
-//! Only the read-only `ls-remote` argument vector lives here. Executing it (bounded
-//! output, timeouts, cleared environment, credential broker) is the secure process
-//! runner's job (P05-T01); no ad-hoc transport is added before that review. Parsing and
-//! comparison are in `gbm_domain::refs`.
+//! `runner` is the only way the app executes Git (bounded output, timeouts, process-tree
+//! cleanup, cleared environment, hardening config, redaction). `ls_remote_args` is the
+//! read-only observation argv. Parsing and comparison are in `gbm_domain::refs`.
+
+pub mod runner;
 
 use crate::git_auth::RemoteTarget;
 

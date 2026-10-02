@@ -1389,6 +1389,7 @@ dependencies = [
  "gbm-test-fixtures",
  "keyring-core",
  "reqwest",
+ "rustix",
  "serde",
  "serde_json",
  "sqlx",

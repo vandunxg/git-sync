@@ -1,0 +1,21 @@
+fmt exit=0
+clippy exit=0
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.29s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.16s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+workspace test exit=0
+repeat 1: test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.34s
+repeat 2: test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.43s
+repeat 3: test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.31s
+repeat 4: test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.36s
+repeat 5: test result: ok. 99 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.36s

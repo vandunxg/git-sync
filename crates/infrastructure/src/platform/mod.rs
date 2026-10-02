@@ -1,7 +1,10 @@
-//! Linux platform primitives for the credential broker: a private runtime directory,
-//! the current user ID and process-ancestry checks read from `/proc`. Nothing here is
-//! claimed for other platforms; callers on non-Linux targets get `Unsupported`.
+//! Linux platform primitives for the credential broker and the Git runner: a private
+//! runtime directory, the current user ID, process-ancestry checks read from `/proc`
+//! and process-tree signalling (PID + start time, so reused PIDs are never signalled).
+//! Nothing here is claimed for other platforms; callers on non-Linux targets get
+//! `Unsupported`.
 
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::fs;
 use std::io;
@@ -129,6 +132,142 @@ pub fn is_same_or_descendant(pid: u32, ancestor: u32) -> bool {
         }
     }
     false
+}
+
+/// Start time of `pid` in clock ticks since boot (`/proc/<pid>/stat` field 22). With
+/// the PID it identifies one process instance, so a reused PID is never mistaken for it.
+pub fn start_time(pid: u32) -> Option<u64> {
+    let stat = fs::read_to_string(format!("/proc/{pid}/stat")).ok()?;
+    let rest = stat.get(stat.rfind(')')? + 1..)?;
+    // After comm, field 3 (state) is index 0, so field 22 is index 19.
+    rest.split_ascii_whitespace().nth(19)?.parse().ok()
+}
+
+/// A process instance: PID plus start time.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct ProcessId {
+    pub pid: u32,
+    pub start_time: u64,
+}
+
+impl ProcessId {
+    pub fn of(pid: u32) -> Option<Self> {
+        start_time(pid).map(|start_time| Self { pid, start_time })
+    }
+
+    /// True while the same instance (not a reused PID) is alive and not a zombie.
+    pub fn is_alive(self) -> bool {
+        start_time(self.pid) == Some(self.start_time) && is_running(self.pid)
+    }
+}
+
+/// Upper bound on processes scanned in `/proc`, so a hostile fork bomb cannot make
+/// the scan unbounded.
+const MAX_SCANNED_PROCESSES: usize = 65_536;
+
+/// Live descendants of `root` (excluding `root`), found by scanning `/proc` parent links
+/// once and walking a parent -> children map (linear in the number of processes).
+pub fn descendants(root: u32) -> Vec<ProcessId> {
+    let Ok(entries) = fs::read_dir("/proc") else {
+        return Vec::new();
+    };
+    let mut children: HashMap<u32, Vec<u32>> = HashMap::new();
+    for entry in entries.flatten().take(MAX_SCANNED_PROCESSES) {
+        let Some(pid) = entry
+            .file_name()
+            .to_str()
+            .and_then(|n| n.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        if let Some(parent) = parent_pid(pid) {
+            children.entry(parent).or_default().push(pid);
+        }
+    }
+    let mut seen = HashSet::from([root]);
+    let mut found = Vec::new();
+    let mut frontier = vec![root];
+    while let Some(current) = frontier.pop() {
+        for &pid in children
+            .get(&current)
+            .map(Vec::as_slice)
+            .unwrap_or_default()
+        {
+            if seen.insert(pid)
+                && let Some(id) = ProcessId::of(pid)
+            {
+                found.push(id);
+                frontier.push(pid);
+            }
+        }
+    }
+    found
+}
+
+/// Process group ID of `pid` (`/proc/<pid>/stat` field 5).
+pub fn process_group(pid: u32) -> Option<u32> {
+    let stat = fs::read_to_string(format!("/proc/{pid}/stat")).ok()?;
+    let rest = stat.get(stat.rfind(')')? + 1..)?;
+    rest.split_ascii_whitespace().nth(2)?.parse().ok()
+}
+
+/// Live members of process group `pgid`, found by scanning `/proc`.
+pub fn group_members(pgid: u32) -> Vec<ProcessId> {
+    let Ok(entries) = fs::read_dir("/proc") else {
+        return Vec::new();
+    };
+    entries
+        .flatten()
+        .take(MAX_SCANNED_PROCESSES)
+        .filter_map(|entry| {
+            entry
+                .file_name()
+                .to_str()
+                .and_then(|n| n.parse::<u32>().ok())
+        })
+        .filter(|&pid| process_group(pid) == Some(pgid))
+        .filter_map(ProcessId::of)
+        .collect()
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StopSignal {
+    Terminate,
+    Kill,
+}
+
+impl StopSignal {
+    fn raw(self) -> rustix::process::Signal {
+        match self {
+            Self::Terminate => rustix::process::Signal::TERM,
+            Self::Kill => rustix::process::Signal::KILL,
+        }
+    }
+}
+
+/// Signals the process group led by `leader` (spawned with its own group). Errors such
+/// as "no such group" are expected after exit and ignored.
+pub fn signal_group(leader: u32, signal: StopSignal) {
+    if let Some(pid) = i32::try_from(leader)
+        .ok()
+        .and_then(rustix::process::Pid::from_raw)
+        && leader > 1
+    {
+        let _ = rustix::process::kill_process_group(pid, signal.raw());
+    }
+}
+
+/// Signals one process instance, only if its start time still matches (no PID reuse).
+pub fn signal_process(id: ProcessId, signal: StopSignal) {
+    if id.pid <= 1 || start_time(id.pid) != Some(id.start_time) {
+        return;
+    }
+    if let Some(pid) = i32::try_from(id.pid)
+        .ok()
+        .and_then(rustix::process::Pid::from_raw)
+    {
+        let _ = rustix::process::kill_process(pid, signal.raw());
+    }
 }
 
 #[cfg(test)]
