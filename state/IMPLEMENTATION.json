@@ -661,7 +661,7 @@
         "outcome": "Round 3 APPROVED",
         "record": "state/evidence/P07-T02/run-20261002-01/REVIEW.md"
       },
-      "ownerRiskAcceptance": "PENDING (Medium A: shutdown/startup wiring deferred; Medium B: orphaned git push after crash)",
+      "ownerRiskAcceptance": "ACCEPTED 2026-10-02 via AskUserQuestion: Medium A (shell wiring deferred, kill test P10-T01) and Medium B (orphaned git push bounded by leases/verify)",
       "followUps": [
         "Shell wiring: recover -> reconcile -> start scheduler; quit = cancel + bounded wait",
         "P10-T01: real kill-the-app crash test"

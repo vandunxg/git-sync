@@ -42,4 +42,4 @@ project can result: the pending attempt runs its own create lookup).
   scan time; L4 `job_checkpoints` rows are not pruned (≤ 4 KiB per job); L5 the spec edge
   "interrupted -> queued" is realised as a new linked attempt.
 
-Owner decision on Medium A/B: PENDING (asked at commit). Lows L1–L7: end-of-phase P07 batch.
+Owner decision on Medium A/B: ACCEPTED 2026-10-02 ("Chấp nhận, làm tiếp"). Lows L1–L7: end-of-phase P07 batch.
