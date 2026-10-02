@@ -11,3 +11,4 @@ pub mod secrets;
 pub mod snapshots;
 pub mod sqlite;
 pub mod storage;
+pub mod workspace;

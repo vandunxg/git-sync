@@ -479,9 +479,28 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-8 (REVIEW.md)"
     },
     "P05-T04": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "BLOCKED_ON_OWNER",
+      "blocker": "Owner acceptance of residual risks 1-9 in REVIEW.md",
+      "evidence": [
+        "state/evidence/P05-T04/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P05-T04/run-20261002-01/checks.log",
+        "state/evidence/P05-T04/run-20261002-01/negative-controls.log",
+        "state/evidence/P05-T04/run-20261002-01/scope-check.json",
+        "state/evidence/P05-T04/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P05-T04/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-WORKSPACE": "PASS (real git: clean ff; dirty, staged, untracked collision, ignored collision, detached, diverged, other branch, in-progress, ahead, filters skipped byte-for-byte unchanged)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "APPROVED round 2, subject to owner residual-risk acceptance",
+        "record": "state/evidence/P05-T04/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "P09: filter/LFS-aware workspace updates",
+        "Workspace creation (initial clone from mirror) and UI wiring"
+      ]
     },
     "P06-T01": {
       "status": "NOT_STARTED",

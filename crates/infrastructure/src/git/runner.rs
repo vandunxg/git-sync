@@ -291,6 +291,11 @@ pub enum Subcommand {
     Fsck,
     UpdateRef,
     Bundle,
+    Status,
+    MergeBase,
+    Merge,
+    LsTree,
+    DiffTree,
     Version,
 }
 
@@ -306,6 +311,11 @@ impl Subcommand {
             Self::Fsck => "fsck",
             Self::UpdateRef => "update-ref",
             Self::Bundle => "bundle",
+            Self::Status => "status",
+            Self::MergeBase => "merge-base",
+            Self::Merge => "merge",
+            Self::LsTree => "ls-tree",
+            Self::DiffTree => "diff-tree",
             Self::Version => "version",
         }
     }
@@ -329,7 +339,7 @@ impl Subcommand {
             ],
             Self::ForEachRef => &["--format=%(objectname)%09%(objecttype)%09%(refname)"],
             Self::RevParse => &["--verify", "--quiet", "--show-object-format"],
-            Self::CatFile => &["-e", "-t"],
+            Self::CatFile => &["-e", "-t", "blob"],
             Self::Init => &[
                 "--bare",
                 "--quiet",
@@ -339,6 +349,25 @@ impl Subcommand {
             Self::Fsck => &["--full", "--strict", "--no-dangling", "--no-progress"],
             Self::UpdateRef => &["-d", "--no-deref"],
             Self::Bundle => &["create", "verify", "list-heads", "--quiet"],
+            Self::Status => &[
+                "--porcelain=v2",
+                "--branch",
+                "--untracked-files=all",
+                "--ignore-submodules=none",
+                "-z",
+            ],
+            Self::MergeBase => &["--is-ancestor"],
+            // Fast-forward only; never a merge commit, never a checkout of another branch.
+            Self::Merge => &["--ff-only", "--quiet", "--no-stat", "--no-autostash"],
+            Self::LsTree => &["-r", "-z", "--full-tree"],
+            // Paths added/deleted between two commits; plumbing, no external diff.
+            Self::DiffTree => &[
+                "-r",
+                "-z",
+                "--name-status",
+                "--no-renames",
+                "--diff-filter=AD",
+            ],
             Self::Version => &[],
         }
     }
@@ -361,7 +390,7 @@ impl AuthArgs {
 /// `remote.*` and `include*` cannot be overridden this way: URLs are therefore always
 /// explicit `Location`s (never remote names), and `GIT_DIR` repositories are only
 /// app-managed mirrors.
-const HARDENING: [&str; 27] = [
+const HARDENING: [&str; 29] = [
     "credential.helper=",
     "core.hooksPath=/dev/null",
     "core.fsmonitor=false",
@@ -383,6 +412,8 @@ const HARDENING: [&str; 27] = [
     "submodule.recurse=false",
     "uploadpack.packObjectsHook=",
     "init.templateDir=",
+    "merge.autoStash=false",
+    "rebase.autoStash=false",
     "gc.auto=0",
     "maintenance.auto=false",
     "transfer.fsckObjects=true",
@@ -484,6 +515,9 @@ impl GitInvocation {
 pub enum WorkDir {
     Neutral,
     GitDir(PathBuf),
+    /// A non-bare working tree whose `.git` is a real directory (not a file/symlink):
+    /// `GIT_DIR=<dir>/.git`, `GIT_WORK_TREE=<dir>`, no discovery.
+    WorkTree(PathBuf),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -598,6 +632,20 @@ impl GitRunner {
                     return Err(RunError::InvalidWorkDir);
                 }
                 env.push(("GIT_DIR".into(), canonical.clone().into_os_string()));
+                canonical
+            }
+            WorkDir::WorkTree(dir) => {
+                let canonical = fs::canonicalize(dir).map_err(|_| RunError::InvalidWorkDir)?;
+                let git_dir = canonical.join(".git");
+                let real_git_dir = fs::symlink_metadata(&git_dir)
+                    .is_ok_and(|meta| meta.is_dir() && !meta.file_type().is_symlink());
+                if !dir.is_absolute() || canonical != *dir || !canonical.is_dir() || !real_git_dir {
+                    return Err(RunError::InvalidWorkDir);
+                }
+                env.push(("GIT_DIR".into(), git_dir.into_os_string()));
+                env.push(("GIT_WORK_TREE".into(), canonical.clone().into_os_string()));
+                // Inspection must not refresh the user's index as a side effect.
+                env.push(("GIT_OPTIONAL_LOCKS".into(), "0".into()));
                 canonical
             }
         };

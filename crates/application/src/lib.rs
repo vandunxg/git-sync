@@ -8,3 +8,4 @@ pub mod observation;
 pub mod providers;
 pub mod recovery;
 pub mod snapshot;
+pub mod workspace;
