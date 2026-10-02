@@ -118,7 +118,8 @@
       "tasks": [
         "P07-T01",
         "P07-T02",
-        "P07-T03"
+        "P07-T03",
+        "P07-T04"
       ],
       "status": "NOT_STARTED",
       "doc": "docs/plan/phases/P07.md"

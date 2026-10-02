@@ -43,3 +43,5 @@ project can result: the pending attempt runs its own create lookup).
   "interrupted -> queued" is realised as a new linked attempt.
 
 Owner decision on Medium A/B: ACCEPTED 2026-10-02 ("Chấp nhận, làm tiếp"). Lows L1–L7: end-of-phase P07 batch.
+
+Owner decision on Low items: ACCEPTED 2026-10-02 (end-of-phase P07 batch).

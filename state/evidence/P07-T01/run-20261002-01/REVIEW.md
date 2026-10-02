@@ -32,4 +32,4 @@ Reviewer: independent review subagent (owner-designated 2026-10-02).
 - R6: 403 secondary rate limits map to AccessDenied in the provider layer (no retry).
 - R7: no real v1→v2 upgrade test with job rows (nullable ALTERs only).
 
-Owner decision: PENDING (end-of-phase P07 batch).
+Owner decision: ACCEPTED 2026-10-02 (end-of-phase P07 batch).

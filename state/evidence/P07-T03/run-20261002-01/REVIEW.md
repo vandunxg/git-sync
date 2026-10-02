@@ -17,3 +17,5 @@ Reviewer: independent review subagent (owner-designated 2026-10-02).
 - M5: if the database were replaced by one with a lower revision within one renderer
   session, the guard would keep old data until reload.
 - M6: background job progress/terminal events await the scheduler loop.
+
+Owner decision on Low items: ACCEPTED 2026-10-02 (end-of-phase P07 batch).

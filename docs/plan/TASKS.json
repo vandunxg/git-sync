@@ -1095,6 +1095,60 @@
       "validationKind": "implementation"
     },
     {
+      "id": "P07-T04",
+      "phase": "P07",
+      "title": "Wire native commands and the job runner",
+      "dependsOn": [
+        "P07-T03"
+      ],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src-tauri/src/",
+        "crates/application/",
+        "crates/infrastructure/",
+        "crates/domain/"
+      ],
+      "requirements": [
+        "REQ-03",
+        "REQ-07",
+        "REQ-09",
+        "REQ-13",
+        "REQ-19",
+        "REQ-20",
+        "REQ-36",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-IPC",
+        "TEST-CONTRACT-FIXTURES",
+        "TEST-SCHEDULER",
+        "TEST-EVENTS",
+        "TEST-READONLY-SOURCE",
+        "TEST-PLAN-LEASE",
+        "TEST-VERIFY",
+        "TEST-REDACTION",
+        "TEST-NO-FAKES"
+      ],
+      "outcome": "Every contract command is served by real native state and jobs run through the reviewed use cases; nothing answers UNSUPPORTED in production.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation",
+      "changeRecord": "docs/plan/changes/CR-001-native-command-wiring.md"
+    },
+    {
       "id": "P08-T01",
       "phase": "P08",
       "title": "Complete onboarding and connections flows",

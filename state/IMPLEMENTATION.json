@@ -630,15 +630,7 @@
       "followUps": [
         "P07-T02: reconcile interrupted jobs at startup; persist pause; production scheduling loop"
       ],
-      "pendingLowRisks": [
-        "R1",
-        "R2",
-        "R3",
-        "R4",
-        "R5",
-        "R6",
-        "R7"
-      ]
+      "lowRiskAcceptance": "2026-10-02 owner accepted Low residual risks R1,R2,R3,R4,R5,R6,R7 in the end-of-phase P07 batch"
     },
     "P07-T02": {
       "status": "DONE",
@@ -666,15 +658,7 @@
         "Shell wiring: recover -> reconcile -> start scheduler; quit = cancel + bounded wait",
         "P10-T01: real kill-the-app crash test"
       ],
-      "pendingLowRisks": [
-        "L1",
-        "L2",
-        "L3",
-        "L4",
-        "L5",
-        "L6",
-        "L7"
-      ]
+      "lowRiskAcceptance": "2026-10-02 owner accepted Low residual risks L1,L2,L3,L4,L5,L6,L7 in the end-of-phase P07 batch"
     },
     "P07-T03": {
       "status": "DONE",
@@ -701,14 +685,7 @@
         "Scheduler loop must publish job_changed events",
         "queuePaused needs a native read model"
       ],
-      "pendingLowRisks": [
-        "M1",
-        "M2",
-        "M3",
-        "M4",
-        "M5",
-        "M6"
-      ]
+      "lowRiskAcceptance": "2026-10-02 owner accepted Low residual risks M1,M2,M3,M4,M5,M6 in the end-of-phase P07 batch"
     },
     "P08-T01": {
       "status": "IN_PROGRESS",
