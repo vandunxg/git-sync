@@ -598,9 +598,36 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted Medium residual risks R1-R2 (REVIEW.md)"
     },
     "P06-T04": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "lifecycle": "Light",
+      "evidence": [
+        "state/evidence/P06-T04/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P06-T04/run-20261002-01/checks.log",
+        "state/evidence/P06-T04/run-20261002-01/negative-controls.log",
+        "state/evidence/P06-T04/run-20261002-01/scope-check.json",
+        "state/evidence/P06-T04/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-VERIFY": "PASS at unit level (synthetic ref maps); integration part owed at wiring",
+        "TEST-STATUS-AGGREGATION": "PASS (518,400 combinations)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "Round 1 Medium findings fixed per reviewer suggestions with tests (Light rule)",
+        "record": "state/evidence/P06-T04/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "Wiring: SQLite ResultStore with re-read/rebuild on revision conflict; newtype for complete observations; integration TEST-VERIFY"
+      ],
+      "pendingLowRisks": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7"
+      ]
     },
     "P07-T01": {
       "status": "NOT_STARTED",

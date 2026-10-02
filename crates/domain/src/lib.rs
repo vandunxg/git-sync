@@ -7,3 +7,4 @@ pub mod identity;
 pub mod observation;
 pub mod plan;
 pub mod refs;
+pub mod status;

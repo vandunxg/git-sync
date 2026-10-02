@@ -11,4 +11,5 @@ pub mod plan;
 pub mod providers;
 pub mod recovery;
 pub mod snapshot;
+pub mod verify;
 pub mod workspace;

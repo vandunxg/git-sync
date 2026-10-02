@@ -1,0 +1,16 @@
+N1 exit code trusted (applied = success): caught_by=['status::tests::verification_is_by_observed_refs_not_exit_codes', 'verify::tests::exit_success_with_a_differing_ref_is_a_failed_verification']
+N2 extra destination refs ignored: caught_by=['status::tests::verification_is_by_observed_refs_not_exit_codes']
+N3 blocker hidden by good snapshot: caught_by=['status::tests::aggregation_is_deterministic_and_respects_precedence', 'status::tests::precedence_order_examples']
+N4 pointer-only LFS counted complete: caught_by=['status::tests::aggregation_is_deterministic_and_respects_precedence']
+N5 workspace dirty affects primary: caught_by=['status::tests::aggregation_is_deterministic_and_respects_precedence', 'status::tests::precedence_order_examples']
+N6 third-party refs adopted as managed: caught_by=['verify::tests::partial_outcomes_reconcile_the_managed_state_without_adopting_drift']
+N7 newer source ignored: caught_by=['verify::tests::a_source_that_moved_again_is_an_update_not_synced_forever']
+N8 verified time set without verification: caught_by=['verify::tests::exit_success_with_a_differing_ref_is_a_failed_verification']
+
+## after review fixes (round 1 findings 1-2) — re-run on changed code
+N1 exit code trusted (applied = success): caught_by=['status::tests::verification_is_by_observed_refs_not_exit_codes', 'verify::tests::a_verified_git_backup_is_partial_until_lfs_and_submodules_are_proven', 'verify::tests::exit_success_with_a_differing_ref_is_a_failed_verification']
+N6 third-party refs adopted as managed: caught_by=['verify::tests::partial_outcomes_reconcile_the_managed_state_without_adopting_drift']
+N7 newer source ignored: caught_by=['verify::tests::a_source_that_moved_again_is_an_update_not_synced_forever']
+N9 job complete without LFS scope: caught_by=['verify::tests::a_verified_git_backup_is_partial_until_lfs_and_submodules_are_proven']
+N10 unobserved source reported as same: caught_by=['verify::tests::an_unobserved_source_is_not_reported_as_unchanged']
+N8 verified time set without verification: caught_by=['verify::tests::exit_success_with_a_differing_ref_is_a_failed_verification']

@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "task": "P06-T04",
+  "resolvedBase": "e0b8e11a6a459f84278a9edff0ccc5f8519c29c5",
+  "changedPaths": [
+    "crates/application/src/lib.rs",
+    "crates/application/src/verify.rs",
+    "crates/application/src/verify/tests.rs",
+    "crates/domain/src/lib.rs",
+    "crates/domain/src/status.rs",
+    "crates/domain/src/status/tests.rs",
+    "docs/design/00_All_Screens_Overview.png",
+    "docs/design/01_Onboarding_Welcome.png",
+    "docs/design/02_Onboarding_Connections.png",
+    "docs/design/03_Dashboard.png",
+    "docs/design/04_Repositories.png",
+    "docs/design/05_Repository_Detail.png",
+    "docs/design/06_Sync_Center.png",
+    "docs/design/07_Activity.png",
+    "docs/design/08_Connections.png",
+    "docs/design/09_Settings.png",
+    "docs/design/10_States_and_Dialogs.png",
+    "state/evidence/P06-T04/run-20261002-01/REVIEW.md",
+    "state/evidence/P06-T04/run-20261002-01/TASK_REPORT.md",
+    "state/evidence/P06-T04/run-20261002-01/checks.log",
+    "state/evidence/P06-T04/run-20261002-01/negative-controls.log",
+    "state/evidence/P06-T04/run-20261002-01/scope-check.json"
+  ],
+  "outOfScope": [
+    "docs/design/00_All_Screens_Overview.png",
+    "docs/design/01_Onboarding_Welcome.png",
+    "docs/design/02_Onboarding_Connections.png",
+    "docs/design/03_Dashboard.png",
+    "docs/design/04_Repositories.png",
+    "docs/design/05_Repository_Detail.png",
+    "docs/design/06_Sync_Center.png",
+    "docs/design/07_Activity.png",
+    "docs/design/08_Connections.png",
+    "docs/design/09_Settings.png",
+    "docs/design/10_States_and_Dialogs.png"
+  ],
+  "semanticReviewStillRequired": true
+}
