@@ -1,0 +1,11 @@
+# isolated-child negative controls 2026-10-02T09:54:56+07:00
+=== [1] child roundtrip expects wrong value
+test secrets::tests::keyring_store_reconnect_and_disconnect ... FAILED
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.14s
+=== [2] locked child expects Unavailable instead of Locked
+test secrets::tests::locked_keyring_is_reported_without_fallback ... FAILED
+Error: "isolated scenario locked failed:\n\nrunning 1 test\ntest secrets::tests::locked_keyring_is_reported_without_fallback ... FAILED\n\nfailures:\n\nfailures:\n    secrets::tests::locked_keyring_is_reported_without_fallback\n\ntest result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.09s\n\n\ndbus-daemon[1881982]: [session uid=1000 pid=1881982 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.1' (uid=1000 pid=1881991 comm=\"gdbus call --session --dest org.freedesktop.secret\")\ndbus-daemon[1881982]: [session uid=1000 pid=1881982 pidfd=5] Successfully activated service 'org.freedesktop.secrets'\ndiscover_other_daemon: 1dbus-daemon[1881982]: [session uid=1000 pid=1881982 pidfd=5] Activating service name='org.gnome.keyring.SystemPrompter' requested by ':1.0' (uid=1000 pid=1881986 comm=\"gnome-keyring-daemon --unlock --components=secrets\")\n\n(gcr-prompter:1882008): Gtk-WARNING **: 09:54:59.154: cannot open display: \ndbus-daemon[1881982]: [session uid=1000 pid=1881982 pidfd=5] Activated service 'org.gnome.keyring.SystemPrompter' failed: Process org.gnome.keyring.SystemPrompter exited with status 1\n\nthread 'secrets::tests::locked_keyring_is_reported_without_fallback' (1882001) panicked at crates/infrastructure/src/secrets/tests.rs:170:5:\nassertion `left == right` failed\n  left: Err(KeyringLocked)\n right: Err(KeyringUnavailable)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.11s
+restored
+=== [3] timing of isolated scenario run
+/bin/bash: line 14: /usr/bin/time: No such file or directory

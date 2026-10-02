@@ -1,0 +1,112 @@
+   Compiling gbm-application v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/application)
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+   Compiling gbm-infrastructure v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/infrastructure)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.75s
+     Running unittests src/lib.rs (target/debug/deps/gbm_application-9990d6276f96bb48)
+
+running 12 tests
+test credentials::tests::disconnect_deletes_secret_then_marks_account ... ok
+test credentials::tests::errors_and_references_never_render_secrets ... ok
+test credentials::tests::failed_secret_deletion_leaves_account_connected ... ok
+test credentials::tests::invalid_secrets_and_references_are_rejected ... ok
+test credentials::tests::keyring_failures_never_fall_back ... ok
+test credentials::tests::session_only_is_an_explicit_store ... ok
+test ipc::tests::forbidden_and_unknown_commands_are_rejected ... ok
+test ipc::tests::every_contract_command_answers_unsupported_honestly ... ok
+test ipc::tests::invalid_handler_output_never_reaches_the_renderer ... ok
+test ipc::tests::handler_is_not_called_for_invalid_args ... ok
+test ipc::tests::invalid_handler_error_is_replaced ... ok
+test ipc::tests::valid_handler_output_is_wrapped_as_success ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_domain-35b575f071635342)
+
+running 12 tests
+test contract::envelope::tests::result_envelopes_have_exactly_one_payload ... ok
+test contract::envelope::tests::malformed_envelopes_are_rejected ... ok
+test contract::envelope::tests::sensitive_rejections_carry_no_details ... ok
+test contract::envelope::tests::arbitrary_ids_and_paths_are_rejected ... ok
+test contract::envelope::tests::valid_empty_request_is_accepted ... ok
+test contract::schema::tests::id_rules ... ok
+test contract::schema::tests::ref_pattern_uses_ecma_dot_semantics ... ok
+test contract::schema::tests::unknown_definition_is_an_error ... ok
+test contract::schema::tests::unsupported_pattern_fails_closed ... ok
+test contract::schema::tests::rfc3339_rules ... ok
+test contract::schema::tests::every_schema_pattern_has_a_native_matcher ... ok
+test contract::secret:[REDACTED] ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/contract_cases.rs (target/debug/deps/contract_cases-e0027970330ae1af)
+
+running 3 tests
+test command_table_is_allowlisted_and_typed ... ok
+test valid_samples_round_trip_through_typed_dtos ... ok
+test native_validator_matches_oracle_verdicts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_infrastructure-b3a05af5578d81f7)
+
+running 20 tests
+test secrets::tests::keyring_errors_are_mapped_without_secret_bytes ... ok
+test secrets::tests::session_store_is_memory_only_and_explicit ... ok
+test secrets::tests::missing_secret_service_is_unavailable ... ok
+test sqlite::tests::database_and_backup_files_are_owner_only ... ok
+test sqlite::tests::concurrent_writers_serialize_without_busy_errors ... ok
+test sqlite::tests::dirty_history_and_refused_opens_leave_no_side_effects ... ok
+test sqlite::tests::foreign_keys_and_idempotency_are_enforced ... ok
+test sqlite::tests::fresh_database_is_migrated_and_configured ... ok
+test sqlite::tests::interrupted_migration_rolls_back_and_can_be_retried ... ok
+test sqlite::tests::newer_modified_or_foreign_databases_are_refused ... ok
+test sqlite::tests::no_secret_values_are_stored ... ok
+test secrets::tests::locked_keyring_is_reported_without_fallback ... ok
+test sqlite::tests::one_active_job_per_repository ... ok
+test secrets::tests::keyring_store_reconnect_and_disconnect ... ok
+test sqlite::tests::queries_are_parameterized ... ok
+test sqlite::tests::revisions_increase_with_every_committed_mutation ... ok
+test sqlite::tests::restart_recovery_interrupts_owned_jobs ... ok
+test sqlite::tests::settings_use_optimistic_concurrency_and_contract_validation ... ok
+test sqlite::tests::transitions_follow_the_state_machine ... ok
+test sqlite::tests::upgrade_with_sample_data_takes_a_backup_and_preserves_rows ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_test_fixtures-821e4613a04fac23)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fixtures.rs (target/debug/deps/fixtures-b520a94f21b8e071)
+
+running 8 tests
+test empty_destination_has_no_refs ... ok
+test lfs_fixture_reports_unavailability_consistently ... ok
+test lfs_fixture_tracks_payload_with_git_lfs ... ignored, BLOCKED: requires git-lfs (NEED-GIT-LFS)
+test git_environment_is_isolated_from_the_owner ... ok
+test git_rejects_the_hostile_names_it_can_detect ... ok
+test source_fixture_has_required_ref_shapes ... ok
+test fixtures_are_deterministic ... ok
+test workspace_states_are_dirty_ahead_and_detached ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+     Running unittests src/lib.rs (target/debug/deps/git_backup_manager_lib-b7a5c97d2606c6a5)
+
+running 5 tests
+test commands::tests::registered_commands_equal_contract_allowlist ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::bundled_origins_are_internal ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test commands::tests::tauri_router_enforces_the_allowlist ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/git_backup_manager-0341d672584e6fa8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

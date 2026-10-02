@@ -1,0 +1,268 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling bitflags v2.13.2
+   Compiling toml v1.1.6+spec-1.1.0
+   Compiling uuid v1.26.1
+   Compiling toml_edit v0.25.15+spec-1.1.0
+   Compiling quote v1.0.47
+   Compiling syn v3.0.6
+   Compiling syn v2.0.119
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling syn v1.0.109
+   Compiling proc-macro-error v1.0.4
+   Compiling string_cache_codegen v0.6.1
+   Compiling cfb v0.14.0
+   Compiling web_atoms v0.2.6
+   Compiling infer v0.22.0
+   Compiling embed-resource v3.0.11
+   Compiling proc-macro-crate v3.5.0
+   Compiling synstructure v0.14.0
+   Compiling darling_core v0.24.1
+   Compiling serde_derive_internals v0.29.1
+   Compiling tauri-winres v0.3.6
+   Compiling rustix v1.1.5
+   Compiling phf_macros v0.13.1
+   Compiling serde_derive v1.0.229
+   Compiling zerofrom-derive v0.1.8
+   Compiling yoke-derive v0.8.4
+   Compiling zerofrom v0.1.8
+   Compiling zerovec-derive v0.11.6
+   Compiling displaydoc v0.2.7
+   Compiling yoke v0.8.3
+   Compiling thiserror-impl v2.0.21
+   Compiling zerovec v0.11.8
+   Compiling serde v1.0.229
+   Compiling toml_datetime v0.6.3
+   Compiling serde_spanned v0.6.9
+   Compiling toml_edit v0.20.2
+   Compiling futures-macro v0.3.34
+   Compiling thiserror v2.0.21
+   Compiling tinystr v0.8.4
+   Compiling icu_locale_core v2.3.0
+   Compiling potential_utf v0.1.6
+   Compiling zerotrie v0.2.5
+   Compiling futures-util v0.3.34
+   Compiling icu_collections v2.3.0
+   Compiling icu_provider v2.3.1
+   Compiling toml v0.8.2
+   Compiling system-deps v6.2.2
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling futures-executor v0.3.34
+   Compiling glib-sys v0.18.1
+   Compiling gobject-sys v0.18.0
+   Compiling gio-sys v0.18.1
+   Compiling gdk-sys v0.18.2
+   Compiling idna_adapter v1.2.2
+   Compiling proc-macro-crate v2.0.2
+   Compiling thiserror-impl v1.0.69
+   Compiling idna v1.1.0
+   Compiling glib-macros v0.18.5
+   Compiling thiserror v1.0.69
+   Compiling cairo-sys-rs v0.18.2
+   Compiling pango-sys v0.18.0
+   Compiling gdk-pixbuf-sys v0.18.0
+   Compiling url v2.5.8
+   Compiling atk-sys v0.18.2
+   Compiling darling_macro v0.24.1
+   Compiling darling v0.24.1
+   Compiling phf v0.13.1
+   Compiling serde_with_macros v3.24.0
+   Compiling glib v0.18.5
+   Compiling gtk-sys v0.18.2
+   Compiling cssparser-macros v0.7.1
+   Compiling derive_more-impl v2.1.1
+   Compiling cssparser v0.37.0
+   Compiling derive_more v2.1.1
+   Compiling markup5ever v0.39.0
+   Compiling selectors v0.38.0
+   Compiling html5ever v0.39.0
+   Compiling toml_edit v0.19.15
+   Compiling cargo-platform v0.1.9
+   Compiling jsonptr v0.7.1
+   Compiling indexmap v1.9.3
+   Compiling schemars_derive v0.8.22
+   Compiling json-patch v4.2.0
+   Compiling proc-macro-crate v1.3.1
+   Compiling gio v0.18.4
+   Compiling cairo-rs v0.18.5
+   Compiling schemars v0.8.22
+   Compiling cargo_metadata v0.19.2
+   Compiling dom_query v0.28.0
+   Compiling serde_with v3.24.0
+   Compiling urlpattern v0.6.0
+   Compiling javascriptcore-rs-sys v1.1.1
+   Compiling soup3-sys v0.5.0
+   Compiling plist v1.10.1
+   Compiling tracing-attributes v0.1.31
+   Compiling tauri-utils v2.10.1
+   Compiling tracing v0.1.44
+   Compiling gtk3-macros v0.18.2
+   Compiling atk v0.18.2
+   Compiling gtk v0.18.2
+   Compiling webkit2gtk-sys v2.0.2
+   Compiling enumflags2_derive v0.7.12
+   Compiling gdkx11-sys v0.18.2
+   Compiling zvariant_utils v4.2.0
+   Compiling tokio-macros v2.7.2
+   Compiling tokio v1.53.1
+   Compiling pango v0.18.3
+   Compiling gdk-pixbuf v0.18.5
+   Compiling gdk v0.18.2
+   Compiling zvariant_derive v5.15.0
+   Compiling dpi v0.1.2
+   Compiling cargo_toml v1.0.1
+   Compiling soup3 v0.5.0
+   Compiling tauri-build v2.7.1
+   Compiling javascriptcore-rs v1.1.2
+   Compiling serde_repr v0.1.21
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling enumflags2 v0.7.12
+   Compiling gbm-domain v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/domain)
+   Compiling zcheapstr v1.1.0
+   Compiling polling v3.11.0
+   Compiling dlopen2_derive v0.4.3
+   Compiling wry v0.57.0
+   Compiling dlopen2 v0.8.2
+   Compiling async-io v2.6.0
+   Compiling zvariant v5.15.0
+   Compiling tauri v2.12.1
+   Compiling gdkx11 v0.18.2
+   Compiling gdkwayland-sys v0.18.2
+   Compiling either v1.18.0
+   Compiling tauri-codegen v2.7.1
+   Compiling sqlx-core v0.9.0
+   Compiling zbus_names v4.3.4
+   Compiling async-signal v0.2.14
+   Compiling keyboard-types v0.8.3
+   Compiling serialize-to-javascript-impl v0.1.2
+   Compiling sqlx-sqlite v0.9.0
+   Compiling webkit2gtk v2.0.2
+   Compiling tao v0.37.1
+   Compiling tauri-runtime v2.12.1
+   Compiling muda v0.20.0
+   Compiling tauri-runtime-wry v2.12.1
+   Compiling async-process v2.5.0
+   Compiling serialize-to-javascript v0.1.2
+   Compiling zbus_macros v5.19.0
+   Compiling tauri-macros v2.7.1
+   Compiling gbm-application v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/application)
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+   Compiling tokio-stream v0.1.19
+   Compiling async-trait v0.1.92
+   Compiling async-recursion v1.1.1
+   Compiling sqlx-macros-core v0.9.0
+   Compiling zbus v5.19.0
+   Compiling sqlx-macros v0.9.0
+   Compiling sqlx v0.9.0
+   Compiling secret-service v5.2.0
+   Compiling zbus-secret-service-keyring-store v1.0.1
+   Compiling gbm-infrastructure v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/infrastructure)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 17s
+     Running unittests src/lib.rs (target/debug/deps/gbm_application-9990d6276f96bb48)
+
+running 12 tests
+test credentials::tests::errors_and_references_never_render_secrets ... ok
+test credentials::tests::disconnect_deletes_secret_then_marks_account ... ok
+test credentials::tests::failed_secret_deletion_leaves_account_connected ... ok
+test credentials::tests::invalid_secrets_and_references_are_rejected ... ok
+test credentials::tests::keyring_failures_never_fall_back ... ok
+test credentials::tests::session_only_is_an_explicit_store ... ok
+test ipc::tests::forbidden_and_unknown_commands_are_rejected ... ok
+test ipc::tests::every_contract_command_answers_unsupported_honestly ... ok
+test ipc::tests::handler_is_not_called_for_invalid_args ... ok
+test ipc::tests::invalid_handler_error_is_replaced ... ok
+test ipc::tests::invalid_handler_output_never_reaches_the_renderer ... ok
+test ipc::tests::valid_handler_output_is_wrapped_as_success ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_domain-35b575f071635342)
+
+running 12 tests
+test contract::envelope::tests::malformed_envelopes_are_rejected ... ok
+test contract::envelope::tests::result_envelopes_have_exactly_one_payload ... ok
+test contract::envelope::tests::sensitive_rejections_carry_no_details ... ok
+test contract::envelope::tests::arbitrary_ids_and_paths_are_rejected ... ok
+test contract::envelope::tests::valid_empty_request_is_accepted ... ok
+test contract::schema::tests::id_rules ... ok
+test contract::schema::tests::ref_pattern_uses_ecma_dot_semantics ... ok
+test contract::schema::tests::unknown_definition_is_an_error ... ok
+test contract::schema::tests::unsupported_pattern_fails_closed ... ok
+test contract::schema::tests::rfc3339_rules ... ok
+test contract::secret:[REDACTED] ... ok
+test contract::schema::tests::every_schema_pattern_has_a_native_matcher ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/contract_cases.rs (target/debug/deps/contract_cases-e0027970330ae1af)
+
+running 3 tests
+test command_table_is_allowlisted_and_typed ... ok
+test valid_samples_round_trip_through_typed_dtos ... ok
+test native_validator_matches_oracle_verdicts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_infrastructure-b3a05af5578d81f7)
+
+running 20 tests
+test secrets::tests::keyring_errors_are_mapped_without_secret_bytes ... ok
+test secrets::tests::session_store_is_memory_only_and_explicit ... ok
+test secrets::tests::missing_secret_service_is_unavailable ... ok
+test sqlite::tests::database_and_backup_files_are_owner_only ... ok
+test sqlite::tests::concurrent_writers_serialize_without_busy_errors ... ok
+test sqlite::tests::foreign_keys_and_idempotency_are_enforced ... ok
+test sqlite::tests::dirty_history_and_refused_opens_leave_no_side_effects ... ok
+test sqlite::tests::fresh_database_is_migrated_and_configured ... ok
+test sqlite::tests::interrupted_migration_rolls_back_and_can_be_retried ... ok
+test sqlite::tests::newer_modified_or_foreign_databases_are_refused ... ok
+test sqlite::tests::no_secret_values_are_stored ... ok
+test sqlite::tests::one_active_job_per_repository ... ok
+test sqlite::tests::queries_are_parameterized ... ok
+test sqlite::tests::revisions_increase_with_every_committed_mutation ... ok
+test sqlite::tests::restart_recovery_interrupts_owned_jobs ... ok
+test sqlite::tests::settings_use_optimistic_concurrency_and_contract_validation ... ok
+test sqlite::tests::transitions_follow_the_state_machine ... ok
+test secrets::tests::keyring_store_reconnect_and_disconnect ... ok
+test sqlite::tests::upgrade_with_sample_data_takes_a_backup_and_preserves_rows ... ok
+test secrets::tests::locked_keyring_is_reported_without_fallback ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+
+     Running unittests src/lib.rs (target/debug/deps/gbm_test_fixtures-821e4613a04fac23)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fixtures.rs (target/debug/deps/fixtures-b520a94f21b8e071)
+
+running 8 tests
+test empty_destination_has_no_refs ... ok
+test lfs_fixture_reports_unavailability_consistently ... ok
+test lfs_fixture_tracks_payload_with_git_lfs ... ignored, BLOCKED: requires git-lfs (NEED-GIT-LFS)
+test git_environment_is_isolated_from_the_owner ... ok
+test git_rejects_the_hostile_names_it_can_detect ... ok
+test source_fixture_has_required_ref_shapes ... ok
+test fixtures_are_deterministic ... ok
+test workspace_states_are_dirty_ahead_and_detached ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+     Running unittests src/lib.rs (target/debug/deps/git_backup_manager_lib-b7a5c97d2606c6a5)
+
+running 5 tests
+test commands::tests::registered_commands_equal_contract_allowlist ... ok
+test tests::bundled_origins_are_internal ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test commands::tests::tauri_router_enforces_the_allowlist ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/git_backup_manager-0341d672584e6fa8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

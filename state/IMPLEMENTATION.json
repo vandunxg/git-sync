@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": "P03-T02",
+  "currentTaskId": "P03-T03",
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -206,12 +206,45 @@
       ]
     },
     "P03-T02": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P03-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P03-T02/run-20261002-01/isolation-controls.log",
+        "state/evidence/P03-T02/run-20261002-01/new-crates.txt",
+        "state/evidence/P03-T02/run-20261002-02/coordinator-approval.md",
+        "state/evidence/P03-T02/run-20261002-02/plaintext-scan-control.log",
+        "state/evidence/P03-T02/run-20261002-02/owner-keyring-untouched.txt",
+        "state/evidence/P03-T02/run-20261002-02/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-KEYRING": "PARTIAL (available/locked/unavailable at adapter+use-case level in isolated Secret Service; backup preservation by construction; UI NOT_RUN)",
+        "TEST-REDACTION": "PARTIAL (credential errors/Debug/child output only)"
+      },
+      "scopeExceptions": {
+        "paths": [
+          "crates/domain/src/contract/secret.rs",
+          "crates/infrastructure/Cargo.toml",
+          "crates/infrastructure/src/lib.rs",
+          "Cargo.lock"
+        ],
+        "record": "state/evidence/P03-T02/run-20261002-02/coordinator-approval.md"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED (minor)",
+        "record": "state/evidence/P03-T02/run-20261002-01/REVIEW.md"
+      },
+      "openItems": [
+        "Disconnect must cancel/pause affected jobs (scheduler/command task)",
+        "Owner decision: forced local disconnect when keyring locked",
+        "AccountDirectory impl for SQLite",
+        "Secret zeroization not implemented",
+        "Ambiguous keyring items untested",
+        "License/advisory scans NOT_RUN"
+      ]
     },
     "P03-T03": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -390,6 +423,6 @@
     }
   ],
   "nextReadyTasks": [
-    "P03-T02"
+    "P03-T03"
   ]
 }

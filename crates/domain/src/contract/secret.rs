@@ -10,6 +10,11 @@ use serde::{Deserialize, Deserializer};
 pub struct SecretString(String);
 
 impl SecretString {
+    /// Wraps a secret obtained natively (e.g. read back from the OS keyring).
+    pub fn new(secret: String) -> Self {
+        Self(secret)
+    }
+
     /// Exposes the secret for the single native call that needs it (keyring / provider).
     pub fn expose(&self) -> &str {
         &self.0

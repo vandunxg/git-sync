@@ -1,0 +1,5 @@
+# control: child writes a plaintext 'fallback' file -> parent scan must fail 2026-10-02T10:03:42+07:00
+test secrets::tests::locked_keyring_is_reported_without_fallback ... FAILED
+plaintext sentinel found in ["/tmp/gbm-fixture-keyring-1896152-0/fallback.txt"]
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.11s
+restored
