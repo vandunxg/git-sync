@@ -153,19 +153,58 @@
       }
     },
     "P02-T01": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "REVIEW_READY",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "blocker": "owner must review registered reference frames and design deltas"
     },
     "P02-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "REVIEW_READY",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "gates": {
+        "visual": "BLOCKED (owner approval pending)",
+        "native": "BLOCKED"
+      }
     },
     "P02-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "REVIEW_READY",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "gates": {
+        "visual": "BLOCKED (owner approval pending)",
+        "native": "BLOCKED"
+      }
     },
     "P02-T04": {
       "status": "NOT_STARTED",
@@ -358,24 +397,68 @@
       "review": null
     },
     "P08-T01": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "note": "candidate screens built under CR-UI-2026-10-02; native wiring acceptance waits for P07"
     },
     "P08-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "note": "candidate screens built under CR-UI-2026-10-02; native wiring acceptance waits for P07"
     },
     "P08-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "note": "candidate screens built under CR-UI-2026-10-02; native wiring acceptance waits for P07"
     },
     "P08-T04": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "state/evidence/P02-UI/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P02-UI/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/P02-UI/run-20261002-01/checks.log",
+        "state/evidence/P02-UI/run-20261002-01/REVIEW.md",
+        "state/evidence/P02-UI/run-20261002-01/candidate-screens/"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (conditional; M1/M2 fixed)",
+        "record": "state/evidence/P02-UI/run-20261002-01/REVIEW.md"
+      },
+      "note": "candidate screens built under CR-UI-2026-10-02; native wiring acceptance waits for P07"
     },
     "P08-T05": {
       "status": "NOT_STARTED",

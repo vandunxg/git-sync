@@ -2,7 +2,8 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 
 import "./index.css"
-import App from "./App.tsx"
+import { App } from "./app/index.ts"
+import { callNative } from "./lib/native/index.ts"
 
 const rootElement = document.getElementById("root")
 
@@ -12,8 +13,6 @@ if (rootElement === null) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <main data-ui-scroll-container>
-      <App />
-    </main>
+    <App port={{ kind: "native", call: callNative }} />
   </StrictMode>
 )

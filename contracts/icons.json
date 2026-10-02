@@ -196,6 +196,12 @@
       "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
     },
     {
+      "key": "action.copy",
+      "export": "Copy",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
       "key": "action.next",
       "export": "ChevronRight",
       "size": 16,

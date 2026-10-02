@@ -10,10 +10,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/01_Onboarding_Welcome.png",
+        "sha256": "228fe0931abb857f8e8d40f6d9d0f46c5223a3b7b838e8634bad8f72a7c82ae5",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -26,7 +27,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-02",
@@ -35,10 +36,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/02_Onboarding_Connections.png",
+        "sha256": "2499261f7c6b0a4841cd814a02e6a75a92665906d5426fca3f1289e3473ce4a5",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -51,7 +53,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-03",
@@ -60,10 +62,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/03_Dashboard.png",
+        "sha256": "bd6db4eef13ab029912cab1f262a185752a8769f4634e870cd7d164cf929b757",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -76,7 +79,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-04",
@@ -85,10 +88,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/04_Repositories.png",
+        "sha256": "2bd8e82726067f2a80dd455021f773d4508f6c02b3c17f7d42fea60218f60630",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -101,7 +105,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-05",
@@ -110,10 +114,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/05_Repository_Detail.png",
+        "sha256": "ecff53a6d31b0811c7a4e191c2018360a249c3b404f043479fa7526b8005cf2a",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -126,7 +131,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-06",
@@ -135,10 +140,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/06_Sync_Center.png",
+        "sha256": "7652e91ff7ae9bda6cf63c4f81cf74827d7916719a72991f840e2ffe55a77d6d",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -151,7 +157,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-07",
@@ -160,10 +166,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/07_Activity.png",
+        "sha256": "c5ecf6fd43fa35980fe7b8bd15c75a76b02f6ab9944dc8e5ea56305770de6c70",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -176,7 +183,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-08",
@@ -185,10 +192,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/08_Connections.png",
+        "sha256": "2fedcc570e5947c12ddb4f0aa0a88beda391ff85a4e7b6edc22395137786dd38",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -201,7 +209,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-09",
@@ -210,10 +218,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/09_Settings.png",
+        "sha256": "36beaaf6361650c3371ad5e210339bdf423f5a2a773917f72c008b43edaf6376",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -226,7 +235,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     },
     {
       "screenId": "UI-10",
@@ -235,10 +244,11 @@
         "width": 1440,
         "height": 900
       },
-      "status": "missing",
+      "status": "reference_provided",
       "designReference": {
-        "path": null,
-        "sha256": null
+        "path": "docs/ui/baselines/design/10_States_and_Dialogs.png",
+        "sha256": "6815a4c9c24df986a3798e9bde76b1fca8e2cc89881dcf4b94580f666034f438",
+        "provenance": "owner-provided Refined V2 frame export (docs/design/, 2026-10-02); contains known blank icon tiles and dot glyphs superseded by DD-01..DD-07"
       },
       "implementationGolden": {
         "path": null,
@@ -251,7 +261,7 @@
         "at": null,
         "recordPath": null
       },
-      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+      "reason": "Owner provided reference frame; implementation is a candidate. Owner visual approval of an implementation golden still pending (P02-T04)."
     }
   ]
 }

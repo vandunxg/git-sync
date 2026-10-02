@@ -1,0 +1,33 @@
+# checks 2026-10-02T13:00:15+07:00 commit-base 12c7d0c
+== pnpm typecheck
+exit=0
+$ tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit
+== pnpm lint
+exit=0
+$ eslint .
+== pnpm test:unit
+exit=0
+      Tests  115 passed (115)
+   Start at  13:00:33
+   Duration  1.62s (transform 49%, import 45%, tests 4%, worker 1%)
+
+== pnpm test:e2e
+exit=0
+  ✓  36 e2e/layout.spec.ts:65:1 › native failures are shown as a startup error, not a fake dashboard (1.2s)
+  ✓  37 e2e/layout.spec.ts:71:1 › repository row actions are labeled icon buttons (1.4s)
+
+  37 passed (30.1s)
+== pnpm build
+exit=0
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 809ms
+== no_fakes_dist
+{
+  "status": "PASS",
+  "filesScanned": 3,
+exit=0
+== check_visual_baselines (expected BLOCKED: no owner approval)
+{
+  "status": "BLOCKED",
