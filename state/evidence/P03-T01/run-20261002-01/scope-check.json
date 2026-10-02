@@ -1,0 +1,41 @@
+{
+  "status": "FAIL",
+  "task": "P03-T01",
+  "resolvedBase": "e121053c2474a0c985b41b37c410704206d85e87",
+  "changedPaths": [
+    "Cargo.lock",
+    "crates/infrastructure/Cargo.toml",
+    "crates/infrastructure/migrations/0001_initial.sql",
+    "crates/infrastructure/src/lib.rs",
+    "crates/infrastructure/src/sqlite/accounts.rs",
+    "crates/infrastructure/src/sqlite/activity.rs",
+    "crates/infrastructure/src/sqlite/error.rs",
+    "crates/infrastructure/src/sqlite/jobs.rs",
+    "crates/infrastructure/src/sqlite/migrate.rs",
+    "crates/infrastructure/src/sqlite/mod.rs",
+    "crates/infrastructure/src/sqlite/settings.rs",
+    "crates/infrastructure/src/sqlite/tests.rs",
+    "state/evidence/P03-T01/run-20261002-01/cargo-test-locked.txt",
+    "state/evidence/P03-T01/run-20261002-01/gate-core.stdout.txt",
+    "state/evidence/P03-T01/run-20261002-01/gate-frontend.stdout.txt",
+    "state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/00-rust-format.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/01-rust-clippy.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/02-rust-tests.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/03-rust-doctests.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/report.json",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/00-lint.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/01-typecheck.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/02-test:unit.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/03-build.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/04-no-fakes-dist.log",
+    "state/evidence/P03-T01/run-20261002-01/gates-frontend/20261002T023418Z-b6d3bd8c/report.json",
+    "state/evidence/P03-T01/run-20261002-01/negative-controls.log",
+    "state/evidence/P03-T01/run-20261002-01/scope-check.json"
+  ],
+  "outOfScope": [
+    "Cargo.lock",
+    "crates/infrastructure/Cargo.toml",
+    "crates/infrastructure/src/lib.rs"
+  ],
+  "semanticReviewStillRequired": true
+}

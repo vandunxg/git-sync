@@ -1,0 +1,10 @@
+$ vitest run
+
+ RUN  v5.0.2 /home/dungnv1/Documents/vandunxg/git-sync/apps/desktop
+
+
+ Test Files  2 passed (2)
+      Tests  80 passed (80)
+   Start at  09:34:27
+   Duration  965ms (transform 77%, import 14%, tests 8%, worker 1%)
+

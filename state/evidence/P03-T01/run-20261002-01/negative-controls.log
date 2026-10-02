@@ -1,0 +1,13 @@
+# negative controls 2026-10-02T09:31:58+07:00
+=== [1] foreign_keys(false)
+test sqlite::tests::fresh_database_is_migrated_and_configured ... FAILED
+test sqlite::tests::foreign_keys_and_idempotency_are_enforced ... FAILED
+test result: FAILED. 10 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+=== [2] no pre-migration backup
+test sqlite::tests::upgrade_with_sample_data_takes_a_backup_and_preserves_rows ... FAILED
+test result: FAILED. 11 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+=== [3] recovery disabled (no-op)
+test sqlite::tests::restart_recovery_interrupts_owned_jobs ... FAILED
+test result: FAILED. 11 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+(no diff expected for tracked files; infrastructure is untracked - verify by cmp)
+restored

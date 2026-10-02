@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": null,
+  "currentTaskId": "P03-T02",
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -173,12 +173,40 @@
       "review": null
     },
     "P03-T01": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P03-T01/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P03-T01/run-20261002-01/new-crates.txt",
+        "state/evidence/P03-T01/run-20261002-02/repeat-40.log",
+        "state/evidence/P03-T01/run-20261002-02/negative-controls.log",
+        "state/evidence/P03-T01/run-20261002-02/coordinator-approval.md",
+        "state/evidence/P03-T01/run-20261002-02/gate-core.stdout.txt",
+        "state/evidence/P03-T01/run-20261002-02/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-DB": "PASS for implemented stores (15 tests, 40/40 repeat runs); no-network-in-transaction by API shape only"
+      },
+      "scopeExceptions": {
+        "paths": [
+          "crates/infrastructure/Cargo.toml",
+          "crates/infrastructure/src/lib.rs",
+          "Cargo.lock"
+        ],
+        "record": "state/evidence/P03-T01/run-20261002-02/coordinator-approval.md"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED (flaky BUSY defect fixed)",
+        "record": "state/evidence/P03-T01/run-20261002-01/REVIEW.md"
+      },
+      "openItems": [
+        "Owner ratification of cancel_requested transition edges",
+        "waiting_* edges to be defined in P07",
+        "cargo-audit/cargo-deny/license scan not run (tools missing)"
+      ]
     },
     "P03-T02": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -362,7 +390,6 @@
     }
   ],
   "nextReadyTasks": [
-    "P03-T01 (backend; P01 done)",
-    "P02-T01 BLOCKED by BLOCK-FIGMA (needs Figma bridge or exported Refined V2 images + owner approval)"
+    "P03-T02"
   ]
 }

@@ -1,0 +1,90 @@
+{
+  "profile": "core",
+  "status": "PASS",
+  "reasons": [],
+  "results": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/00-rust-format.log",
+      "startedAt": "2026-10-02T02:32:10.063970+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 0.167,
+      "name": "rust-format"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/01-rust-clippy.log",
+      "startedAt": "2026-10-02T02:32:10.229152+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 1.474,
+      "name": "rust-clippy"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--all-targets"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/02-rust-tests.log",
+      "startedAt": "2026-10-02T02:32:11.702800+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 122.54,
+      "name": "rust-tests"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--doc"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T01/run-20261002-01/gates-core/20261002T023210Z-c34e74d4/03-rust-doctests.log",
+      "startedAt": "2026-10-02T02:34:14.246224+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 3.833,
+      "name": "rust-doctests"
+    }
+  ],
+  "generatedAt": "2026-10-02T02:34:18.078390+00:00",
+  "repoRoot": "/home/dungnv1/Documents/vandunxg/git-sync",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
