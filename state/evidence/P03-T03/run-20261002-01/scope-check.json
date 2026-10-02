@@ -1,0 +1,41 @@
+{
+  "status": "FAIL",
+  "task": "P03-T03",
+  "resolvedBase": "110bdb4fc694e040b08c30ef6a4544bc760a00fc",
+  "changedPaths": [
+    "Cargo.lock",
+    "crates/application/src/lib.rs",
+    "crates/application/src/providers.rs",
+    "crates/infrastructure/Cargo.toml",
+    "crates/infrastructure/src/github/mod.rs",
+    "crates/infrastructure/src/github/tests.rs",
+    "crates/infrastructure/src/gitlab/mod.rs",
+    "crates/infrastructure/src/gitlab/tests.rs",
+    "crates/infrastructure/src/http/mod.rs",
+    "crates/infrastructure/src/http/test_server.rs",
+    "crates/infrastructure/src/lib.rs",
+    "state/evidence/P03-T03/run-20261002-01/gate-core.stdout.txt",
+    "state/evidence/P03-T03/run-20261002-01/gate-frontend.stdout.txt",
+    "state/evidence/P03-T03/run-20261002-01/gates-core/20261002T031338Z-87299775/00-rust-format.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-core/20261002T031338Z-87299775/01-rust-clippy.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-core/20261002T031338Z-87299775/02-rust-tests.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-core/20261002T031338Z-87299775/03-rust-doctests.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-core/20261002T031338Z-87299775/report.json",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/00-lint.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/01-typecheck.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/02-test:unit.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/03-build.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/04-no-fakes-dist.log",
+    "state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/report.json",
+    "state/evidence/P03-T03/run-20261002-01/negative-controls.log",
+    "state/evidence/P03-T03/run-20261002-01/scope-check.json"
+  ],
+  "outOfScope": [
+    "Cargo.lock",
+    "crates/infrastructure/Cargo.toml",
+    "crates/infrastructure/src/http/mod.rs",
+    "crates/infrastructure/src/http/test_server.rs",
+    "crates/infrastructure/src/lib.rs"
+  ],
+  "semanticReviewStillRequired": true
+}

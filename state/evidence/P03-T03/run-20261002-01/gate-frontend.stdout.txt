@@ -1,0 +1,104 @@
+{
+  "profile": "frontend",
+  "status": "PASS",
+  "reasons": [],
+  "results": [
+    {
+      "argv": [
+        "pnpm",
+        "--dir",
+        "apps/desktop",
+        "lint"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/00-lint.log",
+      "startedAt": "2026-10-02T03:16:01.926554+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 3.331,
+      "name": "lint"
+    },
+    {
+      "argv": [
+        "pnpm",
+        "--dir",
+        "apps/desktop",
+        "typecheck"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/01-typecheck.log",
+      "startedAt": "2026-10-02T03:16:05.256179+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 3.583,
+      "name": "typecheck"
+    },
+    {
+      "argv": [
+        "pnpm",
+        "--dir",
+        "apps/desktop",
+        "test:unit"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/02-test:unit.log",
+      "startedAt": "2026-10-02T03:16:08.838941+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 1.723,
+      "name": "test:unit"
+    },
+    {
+      "argv": [
+        "pnpm",
+        "--dir",
+        "apps/desktop",
+        "build"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/03-build.log",
+      "startedAt": "2026-10-02T03:16:10.561685+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 4.139,
+      "name": "build"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "quality/checks/no_fakes_dist.py"
+      ],
+      "cwd": "/home/dungnv1/Documents/vandunxg/git-sync",
+      "log": "/home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/04-no-fakes-dist.log",
+      "startedAt": "2026-10-02T03:16:14.700844+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 0.116,
+      "name": "no-fakes-dist"
+    }
+  ],
+  "generatedAt": "2026-10-02T03:16:14.816547+00:00",
+  "repoRoot": "/home/dungnv1/Documents/vandunxg/git-sync",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /home/dungnv1/Documents/vandunxg/git-sync/state/evidence/P03-T03/run-20261002-01/gates-frontend/20261002T031601Z-2e82e152/report.json

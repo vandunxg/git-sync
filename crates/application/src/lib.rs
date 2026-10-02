@@ -2,3 +2,4 @@
 
 pub mod credentials;
 pub mod ipc;
+pub mod providers;

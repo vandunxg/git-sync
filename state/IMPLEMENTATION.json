@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": "P03-T03",
+  "currentTaskId": null,
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -244,9 +244,43 @@
       ]
     },
     "P03-T03": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P03-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P03-T03/run-20261002-01/provider-doc-sources.md",
+        "state/evidence/P03-T03/run-20261002-01/negative-controls.log",
+        "state/evidence/P03-T03/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P03-T03/run-20261002-01/new-crates.txt",
+        "state/evidence/P03-T03/run-20261002-01/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-PAT": "PASS with controlled adapters (loopback server)",
+        "TEST-PRIVACY": "NOT_RUN",
+        "real providers": "NOT_RUN (no authorized sandbox tokens)"
+      },
+      "scopeExceptions": {
+        "paths": [
+          "crates/infrastructure/Cargo.toml",
+          "crates/infrastructure/src/lib.rs",
+          "crates/infrastructure/src/http/mod.rs",
+          "crates/infrastructure/src/http/test_server.rs",
+          "Cargo.lock"
+        ],
+        "record": "state/evidence/P03-T03/run-20261002-01/coordinator-approval.md"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED",
+        "record": "state/evidence/P03-T03/run-20261002-01/REVIEW.md"
+      },
+      "openItems": [
+        "GitLab expires_at T00:00:00Z is a derived value; label in UI",
+        "GitLab granular_scopes may yield false InsufficientScope; verify in sandbox",
+        "GitHub secondary rate limit without retry-after maps to AccessDenied; clamp retry-after",
+        "Weak assertions: sensitive-header flag, CRLF for GitLab",
+        "no_proxy(): corporate proxy unsupported in V1 (document)",
+        "Real-provider validation needs NEED-SANDBOX-TARGETS"
+      ]
     },
     "P03-T04": {
       "status": "NOT_STARTED",
@@ -423,6 +457,6 @@
     }
   ],
   "nextReadyTasks": [
-    "P03-T03"
+    "P03-T04 (security-sensitive: credential broker design needs owner go-ahead)"
   ]
 }
