@@ -563,5 +563,30 @@
   ],
   "nextReadyTasks": [
     "P03-T04 (security-sensitive: credential broker design needs owner go-ahead)"
-  ]
+  ],
+  "changes": {
+    "CR-BE-EARLY-2026-10-02": {
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/BE-EARLY/run-20261002-01/CHANGE_REQUEST.md",
+        "state/evidence/BE-EARLY/run-20261002-01/checks.log",
+        "state/evidence/BE-EARLY/run-20261002-01/REVIEW.md",
+        "state/evidence/BE-EARLY/run-20261002-01/native-onboarding-x11.png"
+      ],
+      "commands": [
+        "gbm_app_bootstrap",
+        "gbm_accounts_list",
+        "gbm_credentials_validate_store",
+        "gbm_accounts_disconnect",
+        "gbm_settings_get",
+        "gbm_settings_update",
+        "gbm_environment_diagnostics",
+        "gbm_activity_list",
+        "gbm_storage_pick_root",
+        "gbm_storage_commit_root",
+        "gbm_namespaces_list"
+      ],
+      "note": "other commands remain UNSUPPORTED; onboardingComplete false until P06-T01 destination commit"
+    }
+  }
 }

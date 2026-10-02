@@ -211,3 +211,49 @@ fn production_client_targets_gitlab_com_over_https() -> TestResult {
     let _client = GitLabClient::new()?;
     Ok(())
 }
+
+#[tokio::test]
+async fn namespaces_are_listed_with_next_page_and_never_marked_creatable() -> TestResult {
+    let server = TestServer::start(vec![reply(
+        200,
+        &[("x-next-page", "2")],
+        r#"[{"id":1,"name":"backup-bot","path":"backup-bot","kind":"user","full_path":"backup-bot"},
+            {"id":9,"name":"Mirrors","path":"mirrors","kind":"group","full_path":"acme/mirrors"}]"#,
+    )])
+    .await?;
+    let client = GitLabClient::for_test(&server.origin, &Limits::default())?;
+    let (items, next) = client
+        .list_namespaces(&SecretString::new(SENTINEL.to_owned()), 1, 500)
+        .await?;
+    assert_eq!(
+        items
+            .iter()
+            .map(|n| n.full_path.as_str())
+            .collect::<Vec<_>>(),
+        ["backup-bot", "acme/mirrors"]
+    );
+    assert_eq!(items[0].id, "gl-ns-1");
+    assert_eq!(next, Some(2));
+    let requests = server.requests();
+    assert!(
+        requests[0].contains("per_page=100"),
+        "page size is clamped: {requests:?}"
+    );
+    assert!(
+        requests
+            .iter()
+            .all(|r| !r.contains(SENTINEL) || r.to_ascii_lowercase().contains("private-token"))
+    );
+    Ok(())
+}
+
+#[tokio::test]
+async fn namespaces_auth_failure_is_typed() -> TestResult {
+    let server = TestServer::start(vec![reply(401, &[], "{}")]).await?;
+    let client = GitLabClient::for_test(&server.origin, &Limits::default())?;
+    let outcome = client
+        .list_namespaces(&SecretString::new(SENTINEL.to_owned()), 1, 20)
+        .await;
+    assert_eq!(outcome.err(), Some(ProviderError::InvalidOrExpired));
+    Ok(())
+}

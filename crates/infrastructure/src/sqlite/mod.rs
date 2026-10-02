@@ -19,6 +19,7 @@ mod activity;
 mod error;
 mod jobs;
 mod migrate;
+mod roots;
 mod settings;
 
 use std::path::{Path, PathBuf};
@@ -35,6 +36,7 @@ pub use activity::{ActivityRecord, NewActivity, Severity};
 pub use error::StoreError;
 pub use jobs::{JobKind, JobRecord, JobState, NewJob, allowed_transition};
 pub use migrate::{MigrationReport, SCHEMA_VERSION};
+pub use roots::RootRecord;
 pub use settings::SettingsRecord;
 
 const BUSY_TIMEOUT: Duration = Duration::from_secs(5);

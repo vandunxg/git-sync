@@ -1,6 +1,12 @@
 //! Tauri bootstrap: navigation guard plus the typed app-owned command facade.
 
+mod backend;
 mod commands;
+
+use std::os::unix::fs::{DirBuilderExt, PermissionsExt};
+
+use tauri::Manager;
+use tauri_plugin_dialog::DialogExt;
 
 /// Vite dev server origin from `tauri.conf.json` `build.devUrl` (debug builds only).
 const DEV_SERVER_PORT: u16 = 3000;
@@ -28,13 +34,50 @@ fn navigation_guard<R: tauri::Runtime>() -> tauri::plugin::TauriPlugin<R> {
         .build()
 }
 
+/// Opens `<app-data>/state.sqlite` (directory 0700) and builds the live handler. Any
+/// failure yields a handler that reports the problem instead of a half-working app.
+fn build_facade(app: &tauri::App) -> commands::Facade {
+    let Ok(app_data) = app.path().app_data_dir() else {
+        return commands::Facade::new(backend::StartupFailed);
+    };
+    let created = std::fs::DirBuilder::new()
+        .recursive(true)
+        .mode(0o700)
+        .create(&app_data);
+    if created.is_err()
+        || std::fs::set_permissions(&app_data, std::fs::Permissions::from_mode(0o700)).is_err()
+    {
+        return commands::Facade::new(backend::StartupFailed);
+    }
+    let opened = tauri::async_runtime::block_on(gbm_infrastructure::sqlite::Database::open(
+        &app_data.join("state.sqlite"),
+    ));
+    let Ok((db, _report)) = opened else {
+        return commands::Facade::new(backend::StartupFailed);
+    };
+    let handle = app.handle().clone();
+    let picker: backend::FolderPicker = Box::new(move || {
+        handle
+            .dialog()
+            .file()
+            .set_title("Choose a backup folder")
+            .blocking_pick_folder()
+            .and_then(|path| path.into_path().ok())
+    });
+    commands::Facade::new(backend::LiveHandler::new(db, app_data, picker))
+}
+
 /// Starts the desktop shell and blocks until the application exits.
 pub fn run() -> tauri::Result<()> {
     tauri::Builder::default()
         .plugin(navigation_guard())
-        .manage(commands::Facade::new(
-            gbm_application::ipc::NotYetImplemented,
-        ))
+        // Rust-side folder picker only: no dialog permission is granted to the renderer.
+        .plugin(tauri_plugin_dialog::init())
+        .setup(|app| {
+            let facade = build_facade(app);
+            app.manage(facade);
+            Ok(())
+        })
         .invoke_handler(commands::invoke_handler())
         .run(tauri::generate_context!())
 }

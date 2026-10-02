@@ -4,15 +4,17 @@
 //! envelope; validation and routing live in `gbm_application::ipc::dispatch`.
 //! Nothing here executes shell, Git, filesystem or URL operations for the renderer.
 
+use std::sync::Arc;
+
 use gbm_application::ipc::{CommandHandler, dispatch};
 use serde_json::Value;
 
 /// Managed state holding the command implementation used by every IPC command.
-pub struct Facade(Box<dyn CommandHandler>);
+pub struct Facade(Arc<dyn CommandHandler>);
 
 impl Facade {
     pub fn new(handler: impl CommandHandler + 'static) -> Self {
-        Self(Box::new(handler))
+        Self(Arc::new(handler))
     }
 }
 
@@ -21,7 +23,12 @@ macro_rules! app_commands {
         $(
             #[tauri::command(rename_all = "camelCase")]
             async fn $name(facade: tauri::State<'_, Facade>, request: Value) -> Result<Value, ()> {
-                Ok(dispatch(facade.0.as_ref(), stringify!($name), &request))
+                // Handlers may block (keyring, native dialog, filesystem): run them on a
+                // blocking worker, never on the async runtime or the UI thread.
+                let handler = Arc::clone(&facade.0);
+                tauri::async_runtime::spawn_blocking(move || dispatch(handler.as_ref(), stringify!($name), &request))
+                    .await
+                    .map_err(|_| ())
             }
         )+
 

@@ -1,0 +1,35 @@
+# checks 2026-10-02T13:50:37+07:00 base efe2fc8
+== cargo fmt --check
+exit=0
+== cargo clippy -D warnings
+exit=0
+== cargo test --workspace
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test gitlab::tests::namespaces_are_listed_with_next_page_and_never_marked_creatable ... ok
+test gitlab::tests::namespaces_auth_failure_is_typed ... ok
+test storage::tests::establishes_owned_root_once ... ok
+test storage::tests::rejects_system_relative_missing_and_git_paths ... ok
+test storage::tests::symlinked_selection_is_stored_canonically ... ok
+test storage::tests::undo_restores_a_choosable_folder_and_lax_app_dir_is_refused ... ok
+test result: ok. 66 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.41s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.15s
+test backend::tests::session_only_account_disconnects_and_never_echoes_the_token ... ok
+test backend::tests::app_data_folder_cannot_be_the_backup_root ... ok
+test backend::tests::settings_round_trip_with_revision_conflict ... ok
+test backend::time::tests::formats_known_instants ... ok
+test backend::tests::unimplemented_commands_stay_unsupported_and_unknown_account_is_rejected ... ok
+test backend::tests::root_pick_cancel_reject_and_commit ... ok
+test backend::tests::bootstrap_is_real_and_stays_in_onboarding ... ok
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+== frontend
+typecheck exit=0
+      Tests  115 passed (115)

@@ -7,3 +7,4 @@ mod http;
 pub mod platform;
 pub mod secrets;
 pub mod sqlite;
+pub mod storage;
