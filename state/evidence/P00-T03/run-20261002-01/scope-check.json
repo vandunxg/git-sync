@@ -1,0 +1,12 @@
+{
+  "status": "PASS_PATH_SCOPE_ONLY",
+  "task": "P00-T03",
+  "resolvedBase": "a71fa2b7e7c478b77fbf17161cf615718535fda4",
+  "changedPaths": [
+    "docs/architecture/DECISIONS.json",
+    "docs/ui/FIGMA_MAP.json",
+    "state/evidence/P00-T03/run-20261002-01/scope-check.json"
+  ],
+  "outOfScope": [],
+  "semanticReviewStillRequired": true
+}

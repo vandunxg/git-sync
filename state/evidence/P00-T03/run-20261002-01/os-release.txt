@@ -1,0 +1,6 @@
+# os-release 2026-10-02T07:59:00+07:00
+NAME="EndeavourOS"
+ID="endeavouros"
+ID_LIKE="arch"
+BUILD_ID=rolling
+exit=0

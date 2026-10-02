@@ -4,8 +4,8 @@
   "pageId": "6:2",
   "pageName": "Git Backup Manager — Refined V2",
   "provenance": "prior successful conversation tool outputs; live read blocked in this packaging run",
-  "lastReadAttempt": "2026-10-01",
-  "lastReadResult": "MCP_TOOL_CALL_LIMIT",
+  "lastReadAttempt": "2026-10-02",
+  "lastReadResult": "PLUGIN_BRIDGE_NOT_CONNECTED (figma-ui-mcp figma_status: pluginConnected=false); no node read or export",
   "frames": [
     {
       "screenId": "UI-01",
@@ -96,6 +96,19 @@
       "feature": "shared",
       "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-1406",
       "baselineStatus": "not_captured_or_approved"
+    }
+  ],
+  "readAttempts": [
+    {
+      "at": "2026-10-01",
+      "tool": "Figma MCP get_metadata 6:2",
+      "result": "MCP_TOOL_CALL_LIMIT"
+    },
+    {
+      "at": "2026-10-02",
+      "tool": "figma-ui-mcp figma_status",
+      "result": "PLUGIN_BRIDGE_NOT_CONNECTED",
+      "evidence": "state/evidence/P00-T03/run-20261002-01/figma-access.txt"
     }
   ]
 }

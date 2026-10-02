@@ -139,7 +139,8 @@
       "id": "DG-VISUAL",
       "scope": "P02/P08/P10 UI sign-off",
       "question": "Obtain owner-approved references and apply pending semantic-icon correction.",
-      "status": "OPEN"
+      "status": "OPEN",
+      "note": "2026-10-02 Figma bridge not connected; still OPEN"
     },
     {
       "id": "DG-RUNTIME",
@@ -151,13 +152,126 @@
       "id": "DG-TOOLCHAIN",
       "scope": "P00/P01",
       "question": "Resolve exact dependency/template versions and native capability evidence.",
-      "status": "OPEN"
+      "status": "PARTIAL",
+      "note": "Versions/template observed in P00-T02; lockfile resolution pending P01-T01"
     },
     {
       "id": "DG-BROKER",
       "scope": "P03/P05 network credentials",
       "question": "Implement and verify the Linux credential broker transport and identity checks.",
       "status": "OPEN"
+    }
+  ],
+  "ownerDecisions": [
+    {
+      "id": "OD-001",
+      "title": "Local Git repository with per-task local commits",
+      "decidedBy": "owner",
+      "at": "2026-10-02",
+      "source": "state/evidence/P00-T03/run-20261002-01/owner-decisions-2026-10-02.md",
+      "scope": "No remote, no push, no publish."
+    },
+    {
+      "id": "OD-002",
+      "title": "Independent review subagent is designated reviewer for non-visual, non-destructive tasks",
+      "decidedBy": "owner",
+      "at": "2026-10-02",
+      "source": "state/evidence/P00-T03/run-20261002-01/owner-decisions-2026-10-02.md",
+      "scope": "Visual baselines and security/destructive exceptions still need owner approval.",
+      "scopeNote": "Coordinator interpretation of the chosen option text, not a verbatim owner quote."
+    },
+    {
+      "id": "OD-003",
+      "title": "Tauri CLI as pinned pnpm devDependency; git-lfs installed later by owner",
+      "decidedBy": "owner",
+      "at": "2026-10-02",
+      "source": "state/evidence/P00-T03/run-20261002-01/owner-decisions-2026-10-02.md",
+      "consequence": "LFS tasks BLOCKED until git-lfs exists.",
+      "supportingFacts": "state/evidence/P00-T02/run-20261002-01/versions.log"
+    },
+    {
+      "id": "OD-004",
+      "title": "EndeavourOS + XFCE/X11 is the recorded dev environment; Hyprland evidence BLOCKED",
+      "decidedBy": "owner",
+      "at": "2026-10-02",
+      "source": "state/evidence/P00-T03/run-20261002-01/owner-decisions-2026-10-02.md",
+      "supportingFacts": "state/evidence/P00-T02/run-20261002-01/versions.log; state/evidence/P00-T03/run-20261002-01/os-release.txt"
+    }
+  ],
+  "runtimeDecisions": [
+    {
+      "id": "RD-001",
+      "title": "Package manager: pnpm for the app; bun only to execute the pinned scaffolder once",
+      "status": "SELECTED_SPEC_DEFAULT",
+      "basis": "P01-T01 allowlist names pnpm-lock.yaml; OD-003; rule R-DEPS one lockfile",
+      "conflict": "create-tauri-ui 1.2.0 generates bun hooks and bun.lock; P01-T01 rewrites beforeDev/BuildCommand to pnpm and removes bun.lock",
+      "ownerApproved": false
+    },
+    {
+      "id": "RD-002",
+      "title": "MSRV = Rust 1.96.0 (installed toolchain)",
+      "status": "SELECTED_SPEC_DEFAULT",
+      "basis": "state/TOOLCHAIN.json; stricter than tauri 2.12.1 (1.90) and sqlx 0.9.0 (1.94.0) minimums",
+      "ownerApproved": false
+    },
+    {
+      "id": "RD-003",
+      "title": "Template invocation: create-tauri-ui@1.2.0 --template vite --no-starter --no-invoke-example --no-workflow --no-size-optimize; remove debug-panel and tauri-plugin-log",
+      "status": "SELECTED_SPEC_DEFAULT",
+      "basis": "REQ-02, REQ-39, template-audit.log",
+      "ownerApproved": false
+    },
+    {
+      "id": "RD-004",
+      "title": "Destination policy defaults",
+      "status": "SELECTED_SPEC_DEFAULT",
+      "value": "One GitLab project per source, slug <source-name>-gh<source-repository-id>, private visibility, no auto-adoption by name, no project deletion; namespace chosen by owner at onboarding (DG-RUNTIME), never hardcoded",
+      "basis": "docs/spec/DISCOVERY_AND_PROVIDERS.md, PRODUCT.md, REQ-04",
+      "ownerApproved": false
+    },
+    {
+      "id": "RD-005",
+      "title": "Git child processes: cleared allowlisted env and reset credential.helper list",
+      "status": "SAFETY_CONSTRAINT",
+      "basis": "P00-T02 credential-helper-probe.txt (global credential.helper=store present on owner machine)",
+      "ownerApproved": false
+    }
+  ],
+  "ownerInputsStillNeeded": [
+    {
+      "id": "NEED-GITLAB-HOST-NAMESPACE",
+      "neededBy": "DG-RUNTIME before any provider write",
+      "question": "GitLab account + destination namespace (entered in app onboarding, not in files)"
+    },
+    {
+      "id": "NEED-SANDBOX-TARGETS",
+      "neededBy": "P04-P06 integration tests",
+      "question": "Explicitly authorized throwaway GitHub source repos and GitLab sandbox namespace + tokens supplied at runtime"
+    },
+    {
+      "id": "NEED-BACKUP-ROOT",
+      "neededBy": "onboarding",
+      "question": "Local backup root folder chosen in app"
+    },
+    {
+      "id": "NEED-FIGMA-ACCESS",
+      "neededBy": "P02-T01",
+      "question": "Run Figma UI MCP Bridge plugin or provide exported Refined V2 images, plus approval record"
+    },
+    {
+      "id": "NEED-GIT-LFS",
+      "neededBy": "P09",
+      "question": "Install git-lfs (sudo pacman -S git-lfs)"
+    },
+    {
+      "id": "NEED-HYPRLAND",
+      "neededBy": "P10",
+      "question": "Hyprland session for TEST-ENV / TEST-NATIVE-UI"
+    },
+    {
+      "id": "NEED-PACKAGE-FILES",
+      "neededBy": "P01-T03",
+      "question": "Original packaged .gitignore and .github/pull_request_template.md, or accept replacements"
     }
   ]
 }
