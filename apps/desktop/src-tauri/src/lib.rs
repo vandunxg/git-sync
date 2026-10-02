@@ -2,6 +2,7 @@
 
 mod backend;
 mod commands;
+mod events;
 
 use std::os::unix::fs::{DirBuilderExt, PermissionsExt};
 
@@ -64,7 +65,12 @@ fn build_facade(app: &tauri::App) -> commands::Facade {
             .blocking_pick_folder()
             .and_then(|path| path.into_path().ok())
     });
-    commands::Facade::new(backend::LiveHandler::new(db, app_data, picker))
+    let live = backend::LiveHandler::new(db.clone(), app_data, picker);
+    // Committed changes are announced on `gbm://state` (events module).
+    match events::emitting(live, app.handle().clone(), db) {
+        Some(handler) => commands::Facade::new(handler),
+        None => commands::Facade::new(backend::StartupFailed),
+    }
 }
 
 /// Starts the desktop shell and blocks until the application exits.

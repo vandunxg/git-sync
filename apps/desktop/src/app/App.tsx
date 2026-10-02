@@ -4,7 +4,8 @@ import { RouterProvider } from "react-router/dom"
 
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { NativePortProvider, type NativePort } from "@/lib/api"
+import { NativePortProvider, useStateEvents, type NativePort } from "@/lib/api"
+import type { StateEventSource } from "@/lib/native/events.ts"
 
 import { createAppRouter } from "./router.tsx"
 
@@ -18,13 +19,27 @@ function createQueryClient() {
   })
 }
 
-/** Root providers. The port decides native vs. labeled fixture data; screens do not. */
-export function App({ port }: { port: NativePort }) {
+/** Re-queries committed native state on `gbm://state` invalidations. */
+function StateEventBridge({ source }: { source: StateEventSource | null }) {
+  useStateEvents(source)
+  return null
+}
+
+/** Root providers. The port decides native vs. labeled fixture data; screens do not.
+ * `events` is the native invalidation channel (null for fixture entries). */
+export function App({
+  port,
+  events = null,
+}: {
+  port: NativePort
+  events?: StateEventSource | null
+}) {
   const [client] = useState(createQueryClient)
   const [router] = useState(createAppRouter)
   return (
     <NativePortProvider port={port}>
       <QueryClientProvider client={client}>
+        <StateEventBridge source={events} />
         <TooltipProvider>
           <RouterProvider router={router} />
           <Toaster position="bottom-right" visibleToasts={3} />

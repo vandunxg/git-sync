@@ -1,0 +1,25 @@
+## P07-T03 checks 2026-10-02T20:41:45+07:00 (lifecycle: Light)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.84s
+exit=0
+$ cargo test --workspace
+test result: ok. 121 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 154 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.19s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.21s
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+exit=0
+$ pnpm typecheck
+exit=0
+$ pnpm lint
+exit=0
+$ pnpm test:unit
+ Test Files  9 passed (9)
+      Tests  124 passed (124)
+exit=0
+
+## After review fixes 2026-10-02T20:48:13+07:00
+fmt 0; clippy 0; cargo test --workspace 0 (application 121, infrastructure 154, shell 13); typecheck 0; lint 0; vitest 124 passed

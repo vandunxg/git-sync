@@ -677,9 +677,38 @@
       ]
     },
     "P07-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "lifecycle": "Light",
+      "evidence": [
+        "state/evidence/P07-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P07-T03/run-20261002-01/checks.log",
+        "state/evidence/P07-T03/run-20261002-01/negative-controls.log",
+        "state/evidence/P07-T03/run-20261002-01/scope-check.json",
+        "state/evidence/P07-T03/run-20261002-01/coordinator-approval.md",
+        "state/evidence/P07-T03/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-EVENTS": "PASS (Rust emit-after-commit/contract/sequence + Tauri mock listener; vitest ordering/gap/restart/teardown)",
+        "TEST-FRESHNESS": "PASS (older snapshot cannot regress Query cache; real QueryClient)",
+        "TEST-CONTRACT-FIXTURES": "PARTIAL (native Event validated in Rust and TS; dashboard totals same-revision in P10-T04)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "APPROVED; 2 Medium fixed per suggestion with tests (Light rule)",
+        "record": "state/evidence/P07-T03/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "Scheduler loop must publish job_changed events",
+        "queuePaused needs a native read model"
+      ],
+      "pendingLowRisks": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6"
+      ]
     },
     "P08-T01": {
       "status": "IN_PROGRESS",

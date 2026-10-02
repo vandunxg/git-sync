@@ -1,0 +1,12 @@
+## P07-T03 negative controls (script scratchpad/nc21.py; each mutation reverted after the run)
+E1 duplicates re-applied: caught_by=['FAIL  src/test/native/state-events.test.ts > event ordering > ignores duplicates and reordered events and re-queries on a gap', '× ignores duplicates and reordered events and re-queries on a gap 11ms']
+E2 gap not detected: caught_by=['FAIL  src/test/native/state-events.test.ts > event ordering > ignores duplicates and reordered events and re-queries on a gap', '× ignores duplicates and reordered events and re-queries on a gap 11ms']
+E3 restart not re-queried: caught_by=['FAIL  src/test/native/state-events.test.ts > event ordering > re-queries everything after a backend restart or an invalid payload', '× re-queries everything after a backend restart or an invalid payload 8ms']
+E4 events after teardown applied: caught_by=['FAIL  src/test/native/state-events.test.ts > subscription lifecycle > releases a subscription that resolves after teardown', 'FAIL  src/test/native/state-events.test.ts > subscription lifecycle > subscribes before requesting the snapshot and unsubscribes on teardown', '× releases a subscription that resolves after teardown 3ms', '× subscribes before requesting the snapshot and unsubscribes on teardown 10ms']
+E5 late subscription leaks: caught_by=['FAIL  src/test/native/state-events.test.ts > subscription lifecycle > releases a subscription that resolves after teardown', '× releases a subscription that resolves after teardown 9ms']
+E6 older snapshot regresses cache: caught_by=['FAIL  src/test/native/state-events.test.ts > freshness > an older snapshot never regresses newer data or fakes verification', '× an older snapshot never regresses newer data or fakes verification 12ms']
+E7 invalid event emitted: caught_by=['events::tests::sequences_increase_and_invalid_events_are_not_emitted']
+E8 store revision preferred over committed response: caught_by=['events::tests::a_committed_mutation_emits_one_valid_event_with_its_revision']
+
+## After review fixes
+E9 unreadable revision leaves no gap: caught_by=['events::tests::without_a_response_revision_the_committed_store_revision_is_used']

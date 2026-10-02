@@ -4,6 +4,7 @@ pub mod apply;
 pub mod credentials;
 pub mod destination;
 pub mod discovery;
+pub mod events;
 pub mod ipc;
 pub mod mapping;
 pub mod observation;

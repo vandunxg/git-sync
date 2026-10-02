@@ -1,4 +1,5 @@
 import {
+  replaceEqualDeep,
   useMutation,
   useQuery,
   useQueryClient,
@@ -7,6 +8,7 @@ import {
 } from "@tanstack/react-query"
 
 import type { CommandMap, CommandName } from "@/lib/native"
+import { isOlderRevision } from "@/lib/native/events.ts"
 
 import { NativeCommandError } from "./errors.ts"
 import { useNativePort, type NativePort } from "./port.tsx"
@@ -24,6 +26,12 @@ export async function runNative<C extends CommandName>(
   return result.data
 }
 
+/** Cache update rule: a read model from an older committed revision never replaces a
+ * newer one (a slow query that started before a change finished). */
+export function keepNewestRevision(current: unknown, incoming: unknown): unknown {
+  return isOlderRevision(current, incoming) ? current : replaceEqualDeep(current, incoming)
+}
+
 /** Query a read-model command; failures stay typed and keep the last cached data. */
 export function useNativeQuery<C extends CommandName>(
   key: QueryKey,
@@ -35,6 +43,7 @@ export function useNativeQuery<C extends CommandName>(
   return useQuery<Response<C>, NativeCommandError>({
     queryKey: key,
     queryFn: () => runNative(port, command, args),
+    structuralSharing: keepNewestRevision,
     ...options,
   })
 }
