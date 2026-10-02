@@ -4,3 +4,5 @@
 
 pub mod contract;
 pub mod identity;
+pub mod observation;
+pub mod refs;

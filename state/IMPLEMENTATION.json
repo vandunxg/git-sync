@@ -387,9 +387,24 @@
       }
     },
     "P04-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P04-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P04-T03/run-20261002-01/checks.log",
+        "state/evidence/P04-T03/run-20261002-01/negative-controls.log",
+        "state/evidence/P04-T03/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-REFS": "PASS (domain + real git v0/v2, local fixtures)",
+        "TEST-FRESHNESS": "PASS (domain + use case)",
+        "TEST-EMPTY-REPO": "PARTIAL (observation half PASS; empty manifest capture in P05-T02)",
+        "TEST-READONLY-SOURCE": "PARTIAL (observation half PASS; full lifecycle network trace in P05/P06)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED after CHANGES_REQUIRED",
+        "record": "state/evidence/P04-T03/run-20261002-01/REVIEW.md"
+      }
     },
     "P05-T01": {
       "status": "NOT_STARTED",
