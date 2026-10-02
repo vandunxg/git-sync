@@ -33,4 +33,5 @@ no weakening found.
 9. (R8) An interrupted run can leave `refs/gbm/incoming/<job>`; harmless, the next run
    overwrites then deletes it.
 
-Owner decision: PENDING.
+Owner decision: ACCEPTED residual risks 1–9 (owner answer in session, 2026-10-02:
+"Chấp nhận, làm tiếp"). Follow-ups tracked in IMPLEMENTATION.json.

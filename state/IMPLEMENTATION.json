@@ -479,8 +479,7 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-8 (REVIEW.md)"
     },
     "P05-T04": {
-      "status": "BLOCKED_ON_OWNER",
-      "blocker": "Owner acceptance of residual risks 1-9 in REVIEW.md",
+      "status": "DONE",
       "evidence": [
         "state/evidence/P05-T04/run-20261002-01/TASK_REPORT.md",
         "state/evidence/P05-T04/run-20261002-01/checks.log",
@@ -494,13 +493,14 @@
       },
       "review": {
         "by": "independent review subagent (owner-designated 2026-10-02)",
-        "outcome": "APPROVED round 2, subject to owner residual-risk acceptance",
+        "outcome": "APPROVED round 2; owner accepted residual risks",
         "record": "state/evidence/P05-T04/run-20261002-01/REVIEW.md"
       },
       "followUps": [
         "P09: filter/LFS-aware workspace updates",
         "Workspace creation (initial clone from mirror) and UI wiring"
-      ]
+      ],
+      "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-9 (REVIEW.md)"
     },
     "P06-T01": {
       "status": "NOT_STARTED",
