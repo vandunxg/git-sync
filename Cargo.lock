@@ -897,11 +897,16 @@ name = "gbm-application"
 version = "0.1.0"
 dependencies = [
  "gbm-domain",
+ "serde_json",
 ]
 
 [[package]]
 name = "gbm-domain"
 version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "gdk"
@@ -1071,6 +1076,9 @@ dependencies = [
 name = "git-backup-manager"
 version = "0.1.0"
 dependencies = [
+ "gbm-application",
+ "gbm-domain",
+ "serde_json",
  "tauri",
  "tauri-build",
 ]

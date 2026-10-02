@@ -1,0 +1,8 @@
+# negative control: pre-fix refs matcher (U+2028/2029 accepted) against new cases 2026-10-02T08:59:48+07:00
+4 mismatches:
+RefEntry [pattern-insert:name:"\u2028"] expected valid=false: []
+RefEntry [pattern-insert:name:"\u2029"] expected valid=false: []
+RefOperation [pattern-insert:refName:"\u2028"] expected valid=false: []
+RefOperation [pattern-insert:refName:"\u2029"] expected valid=false: []
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.09s
+exit(expect nonzero)=101

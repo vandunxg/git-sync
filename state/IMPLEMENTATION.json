@@ -4,7 +4,7 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": "P01-T02",
+  "currentTaskId": "P01-T03",
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -77,12 +77,46 @@
       ]
     },
     "P01-T02": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P01-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P01-T02/run-20261002-01/csp-ipc-probe.png",
+        "state/evidence/P01-T02/run-20261002-01/csp-ipc-probe.txt",
+        "state/evidence/P01-T02/run-20261002-01/codegen-drift-control.txt",
+        "state/evidence/P01-T02/run-20261002-01/blueprint-lint.txt",
+        "state/evidence/P01-T02/run-20261002-02/checks.log",
+        "state/evidence/P01-T02/run-20261002-02/refs-matcher-negative-control.txt",
+        "state/evidence/P01-T02/run-20261002-02/ts-length-negative-control.txt",
+        "state/evidence/P01-T02/run-20261002-02/tauri-acl-app-commands.txt",
+        "state/evidence/P01-T02/run-20261002-02/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-IPC": "PASS for implemented scope (all commands UNSUPPORTED until their tasks)",
+        "TEST-CONTRACT-FIXTURES": "PARTIAL (revision-consistent totals NOT_RUN)"
+      },
+      "scopeExceptions": {
+        "paths": [
+          "apps/desktop/src-tauri/src/lib.rs",
+          "apps/desktop/src-tauri/Cargo.toml",
+          "Cargo.lock"
+        ],
+        "approvedBy": "coordinator (this session)",
+        "reason": "Tauri handler registration and crate links live outside commands/; reviewer confirmed minimal",
+        "record": "state/evidence/P01-T02/run-20261002-01/TASK_REPORT.md"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (re-review after F1-F4 fixes)",
+        "record": "state/evidence/P01-T02/run-20261002-01/REVIEW.md"
+      },
+      "carryForward": [
+        "P03-T02: deserialize credential args immediately, never format args",
+        "Tooling: lint_pack.py rglob scans app tree (JSONC tsconfig, node_modules) - needs change request for scripts/",
+        "P01-T03: move contract self-test into Vitest"
+      ]
     },
     "P01-T03": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -285,9 +319,17 @@
       ],
       "reason": ".github/pull_request_template.md and the packaged .gitignore were not extracted; .gitignore replaced by minimal owner-authorized version in 97eeef1, so MANIFEST check flags it.",
       "resolution": "Owner supplies original files or accepts replacement."
+    },
+    {
+      "id": "GAP-LINT-PACK-APP-TREE",
+      "affects": [
+        "docs profile on repo root"
+      ],
+      "reason": "scripts/lint_pack.py rglob()s the whole repo incl. apps/desktop tsconfig (JSONC) and node_modules; FAILs since P01-T01 scaffold.",
+      "resolution": "Change request to exclude app/build trees, or run with --root on a blueprint-only view (current workaround)."
     }
   ],
   "nextReadyTasks": [
-    "P01-T02"
+    "P01-T03"
   ]
 }

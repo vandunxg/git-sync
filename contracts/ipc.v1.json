@@ -13,7 +13,7 @@
     "data": "success DTO when ok=true",
     "error": "AppError when ok=false"
   },
-  "envelopeRule": "Exactly one of data or error; unknown fields rejected. Long jobs return queued, not success.",
+  "envelopeRule": "Exactly one of data or error; unknown fields rejected. Long jobs return queued, not success. A failure envelope carries requestId null only when the request had no valid Id requestId (P01-T02).",
   "dtoSchema": "dtos.schema.json",
   "commands": [
     {

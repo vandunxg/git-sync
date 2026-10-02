@@ -1,0 +1,15 @@
+# CSP + IPC probe in real WebKitGTK (release build with throwaway probe entry) 2026-10-02T08:44:10+07:00
+probe source: appended to apps/desktop/src/main.tsx, reverted before commit (git diff of main.tsx empty)
+f159eae10f1ce879125f567fb294c145add03621324185b4adb796b5a7874bd0  /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+window 81788929 title=git-backup-manager
+window 81788931 title=Git Backup Manager
+exit after SIGTERM=143
+# CSP + IPC probe v2 (result rendered into DOM) 2026-10-02T08:47:18+07:00
+probe: appended to apps/desktop/src/main.tsx, reverted before commit
+011d4cd2bcc2c93bdc7783ed68dad333ac31904d8bce7f903b1e72228a2abd6f  /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+screenshot exit=0
+exit after SIGTERM=143
+# CSP + IPC probe v3 (fixed-position DOM output) 2026-10-02T08:50:31+07:00
+a49ee5b198dd7b76c5dc90081adc79a0f049cb3f9ab0bbdeaaba7fd8f7440bdb  /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+screenshot exit=0
+exit after SIGTERM=143

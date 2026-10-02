@@ -1,0 +1,49 @@
+# P01-T02 run-02 checks 2026-10-02T09:00:39+07:00 base=88ee9dd tree=worktree
+=== [09:00:39] [cwd=.] $ python3 contracts/codegen.py --check
+{"status": "PASS_PARITY_GENERATED", "stale": []}
+--- exit=0
+=== [09:00:39] [cwd=.] $ node apps/desktop/src/lib/native/contract-cases.selftest.ts
+PASS 1619 shared cases + 11 envelope checks
+--- exit=0
+=== [09:00:39] [cwd=apps/desktop] $ pnpm install --frozen-lockfile
+Already up to date
+Done in 414ms using pnpm v11.5.1
+--- exit=0
+=== [09:00:40] [cwd=apps/desktop] $ pnpm run typecheck
+$ tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit
+--- exit=0
+=== [09:00:43] [cwd=apps/desktop] $ pnpm run lint
+$ eslint .
+--- exit=0
+=== [09:00:45] [cwd=apps/desktop] $ pnpm run build
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-Du8azvkf.css                              40.61 kB │ gzip:  7.48 kB
+dist/assets/index-dRqg3GqW.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 275ms
+--- exit=0
+=== [09:00:49] [cwd=.] $ cargo fmt --all -- --check
+--- exit=0
+=== [09:00:49] [cwd=.] $ cargo clippy --workspace --all-targets --locked -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.37s
+--- exit=0
+=== [09:00:49] [cwd=.] $ cargo test --workspace --all-targets --locked 2>&1 | grep -E '^test |test result'
+test tests::bundled_origins_are_internal ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test commands::tests::tauri_router_enforces_the_allowlist ... ok
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+--- exit=0
+=== [09:00:50] [cwd=apps/desktop] $ pnpm tauri build --no-bundle
+✓ built in 298ms
+   Compiling gbm-domain v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/domain)
+   Compiling gbm-application v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/crates/application)
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `release` profile [optimized] target(s) in 2m 56s
+       Built application at: /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+--- exit=0
+=== [09:03:51] [cwd=.] $ python3 scripts/lint_pack.py >/dev/null; echo repo-root-lint-exit=$? '(known tooling gap: JSONC tsconfig + node_modules)'; true
+repo-root-lint-exit=1 (known tooling gap: JSONC tsconfig + node_modules)
+--- exit=0

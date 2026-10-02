@@ -1,0 +1,6 @@
+# negative control: TS UTF-16 length bug against new cases 2026-10-02T08:59:56+07:00
+  throw new Error(`FAIL ${failures.length} of ${cases.length + bad.length + 4} checks\n${failures.slice(0, 40).join("\n")}`)
+Error: FAIL 19 of 1630 checks
+AppError [maxLength-astral:message] expected valid=true: [{"path":"$.message","reason":"too long"}]
+AccountSummary [maxLength-astral:username] expected valid=true: [{"path":"$.username","reason":"too long"}]
+exit(expect nonzero)=1

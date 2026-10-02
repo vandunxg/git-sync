@@ -9,6 +9,7 @@ publish.workspace = true
 
 [dependencies]
 gbm-domain = { path = "../domain" }
+serde_json = "1.0.151"
 
 [lints]
 workspace = true

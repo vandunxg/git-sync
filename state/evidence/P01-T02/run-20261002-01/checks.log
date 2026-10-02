@@ -1,0 +1,66 @@
+# P01-T02 checks after final source edit 2026-10-02T08:51:02+07:00 base=88ee9dd
+=== [cwd=.] $ git diff --quiet -- apps/desktop/src/main.tsx && echo probe-reverted
+probe-reverted
+--- exit=0
+=== [cwd=.] $ python3 contracts/codegen.py --check
+{"status": "PASS_PARITY_GENERATED", "stale": []}
+--- exit=0
+=== [cwd=.] $ python3 scripts/lint_pack.py | head -3
+{
+  "status": "FAIL",
+  "counts": {
+Exception ignored while flushing sys.stdout:
+BrokenPipeError: [Errno 32] Broken pipe
+--- exit=0
+=== [cwd=.] $ node apps/desktop/src/lib/native/contract-cases.selftest.ts
+PASS 1273 shared cases + 11 envelope checks
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm install --frozen-lockfile
+Already up to date
+Done in 508ms using pnpm v11.5.1
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run typecheck
+$ tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run lint
+$ eslint .
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run build
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2          18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2   25.96 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-Du8azvkf.css                              40.61 kB │ gzip:  7.48 kB
+dist/assets/index-dRqg3GqW.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 351ms
+--- exit=0
+=== [cwd=.] $ cargo fmt --all -- --check
+--- exit=0
+=== [cwd=.] $ cargo clippy --workspace --all-targets --locked -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.08s
+--- exit=0
+=== [cwd=.] $ cargo test --workspace --all-targets --locked 2>&1 | grep -E '^test |test result'
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test commands::tests::registered_commands_equal_contract_allowlist ... ok
+test tests::bundled_origins_are_internal ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test commands::tests::tauri_router_enforces_the_allowlist ... ok
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm tauri build --no-bundle
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-Du8azvkf.css                              40.61 kB │ gzip:  7.48 kB
+dist/assets/index-dRqg3GqW.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 344ms
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `release` profile [optimized] target(s) in 2m 42s
+       Built application at: /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+--- exit=0
+=== [cwd=.] $ grep -rn 'PROBE' apps/desktop/dist apps/desktop/src || echo no-probe-in-sources-or-dist
+no-probe-in-sources-or-dist
+--- exit=0

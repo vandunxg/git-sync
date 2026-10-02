@@ -1,0 +1,26 @@
+# blueprint lint on blueprint-only view (excludes apps/, crates/, Cargo files) 2026-10-02T08:54:44+07:00
+reason: lint_pack.py rglob()s the whole tree; app tsconfig (JSONC) and node_modules READMEs are not blueprint files
+{
+  "status": "PASS_BLUEPRINT_STRUCTURE_ONLY",
+  "counts": {
+    "requirements": 45,
+    "phases": 11,
+    "tasks": 40,
+    "plannedProductScenarios": 54,
+    "screens": 10,
+    "commands": 31,
+    "ADRs": 11,
+    "jsonFiles": 27
+  },
+  "errors": [],
+  "warnings": [
+    "10 visual baselines are not approved; visual acceptance remains BLOCKED"
+  ],
+  "appImplemented": false,
+  "productTestsRun": false
+}
+exit=0
+# re-run after ipc.v1.json envelopeRule edit 2026-10-02T08:54:59+07:00
+{
+  "status": "PASS_BLUEPRINT_STRUCTURE_ONLY",
+exit=0

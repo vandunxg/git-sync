@@ -1,6 +1,6 @@
-//! Tauri bootstrap for the empty application shell (P01-T01).
-//!
-//! No application commands are registered yet; the typed command facade is P01-T02.
+//! Tauri bootstrap: navigation guard plus the typed app-owned command facade.
+
+mod commands;
 
 /// Vite dev server origin from `tauri.conf.json` `build.devUrl` (debug builds only).
 const DEV_SERVER_PORT: u16 = 3000;
@@ -32,6 +32,10 @@ fn navigation_guard<R: tauri::Runtime>() -> tauri::plugin::TauriPlugin<R> {
 pub fn run() -> tauri::Result<()> {
     tauri::Builder::default()
         .plugin(navigation_guard())
+        .manage(commands::Facade::new(
+            gbm_application::ipc::NotYetImplemented,
+        ))
+        .invoke_handler(commands::invoke_handler())
         .run(tauri::generate_context!())
 }
 

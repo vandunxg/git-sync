@@ -1,0 +1,6 @@
+# codegen --check negative control 2026-10-02T08:54:18+07:00
+{"status": "STALE", "stale": ["apps/desktop/src/lib/native/generated/contract.ts"]}
+exit(expect 1)=1
+{"written": ["apps/desktop/src/lib/native/generated/contract.ts"]}
+{"status": "PASS_PARITY_GENERATED", "stale": []}
+exit after regenerate=0
