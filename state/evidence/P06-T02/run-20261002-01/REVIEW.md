@@ -27,3 +27,5 @@ Residual risks:
 Owner decision on Medium risks: ACCEPTED R1–R2 (owner answer in session, 2026-10-02:
 "Chấp nhận, làm tiếp"). Low risks: batched for the end-of-phase P06
 owner decision (owner rule 2026-10-02).
+
+End-of-phase P06 (2026-10-02): owner ACCEPTED all Low residual risks of this task ("Duyệt tất cả, làm tiếp").
