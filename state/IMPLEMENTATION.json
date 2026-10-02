@@ -563,9 +563,39 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted Medium residual risks R1-R2 (REVIEW.md)"
     },
     "P06-T03": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "BLOCKED_ON_OWNER",
+      "blocker": "Owner acceptance of Medium residual risks R1-R2 (REVIEW.md); Low R3-R9 batched for end of P06",
+      "lifecycle": "Full",
+      "evidence": [
+        "state/evidence/P06-T03/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P06-T03/run-20261002-01/checks.log",
+        "state/evidence/P06-T03/run-20261002-01/negative-controls.log",
+        "state/evidence/P06-T03/run-20261002-01/scope-check.json",
+        "state/evidence/P06-T03/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-ATOMIC-PUSH": "PASS (real git, local bare destination: refused ref aborts atomic push; no atomic support blocks destructive multi-ref, non-destructive reports Partial; real GitLab not exercised)",
+        "TEST-PLAN-LEASE": "PASS (stale lease rejects whole atomic push; gate also refuses)",
+        "TEST-READONLY-SOURCE": "PASS (read-only source through capture/plan/authorize/apply; bytes unchanged; writer refuses non-GitLab hosts)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "APPROVED round 2",
+        "record": "state/evidence/P06-T03/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "P06-T04: verify every push outcome by re-observing the destination",
+        "Wiring: pass the plan's DestinationIdentity GitLab target to GitPusher; consider checking mirror local config keys"
+      ],
+      "pendingLowRisks": [
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8",
+        "R9"
+      ]
     },
     "P06-T04": {
       "status": "NOT_STARTED",

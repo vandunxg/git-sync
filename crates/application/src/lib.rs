@@ -1,5 +1,6 @@
 //! Application layer: use cases and narrow ports over the domain.
 
+pub mod apply;
 pub mod credentials;
 pub mod destination;
 pub mod discovery;

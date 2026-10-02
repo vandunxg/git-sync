@@ -41,7 +41,7 @@ use std::time::{Duration, Instant};
 
 use gbm_domain::contract::secret::SecretString;
 
-use gbm_domain::refs::ObjectId;
+use gbm_domain::refs::{ObjectId, RefName};
 
 use crate::git_auth::{HelperCommand, RemoteTarget, git_auth_args, git_child_env, redact};
 use crate::platform::{self, ProcessId, StopSignal};
@@ -202,6 +202,31 @@ impl RefSpec {
     }
 }
 
+/// A `push` refspec to a selected destination ref: `<oid>:<refs/heads|tags/x>` or,
+/// for a delete, `:<ref>`. Never `+` and never a wildcard: forcing is per ref, only
+/// through a matching `--force-with-lease` (see `Arg::Lease`).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PushSpec {
+    text: String,
+    destination: RefName,
+}
+
+impl PushSpec {
+    pub fn update(source: &ObjectId, destination: &RefName) -> Self {
+        Self {
+            text: format!("{}:{}", source.as_str(), destination.as_str()),
+            destination: destination.clone(),
+        }
+    }
+
+    pub fn delete(destination: &RefName) -> Self {
+        Self {
+            text: format!(":{}", destination.as_str()),
+            destination: destination.clone(),
+        }
+    }
+}
+
 /// A full `refs/...` name (for `update-ref -d`).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct FullRef(String);
@@ -277,6 +302,11 @@ pub enum Arg {
     Bundle(BundleFile),
     /// `bundle create` only: `--glob=<prefix>*`, every ref under one namespace.
     RefGlob(RefPrefix),
+    /// `push` only, before `--`: `--force-with-lease=<ref>:<expected oid>`, or
+    /// `--force-with-lease=<ref>:` when the ref must not exist yet.
+    Lease(RefName, Option<ObjectId>),
+    /// `push` only, after `--`.
+    PushSpec(PushSpec),
 }
 
 /// Subcommands the app may run. Anything else cannot be expressed.
@@ -296,6 +326,7 @@ pub enum Subcommand {
     Merge,
     LsTree,
     DiffTree,
+    Push,
     Version,
 }
 
@@ -316,6 +347,7 @@ impl Subcommand {
             Self::Merge => "merge",
             Self::LsTree => "ls-tree",
             Self::DiffTree => "diff-tree",
+            Self::Push => "push",
             Self::Version => "version",
         }
     }
@@ -368,6 +400,14 @@ impl Subcommand {
                 "--no-renames",
                 "--diff-filter=AD",
             ],
+            // Exact refs with per-ref leases only; no tags/submodules follow along.
+            Self::Push => &[
+                "--porcelain",
+                "--atomic",
+                "--no-follow-tags",
+                "--recurse-submodules=no",
+                "--no-verify",
+            ],
             Self::Version => &[],
         }
     }
@@ -390,7 +430,7 @@ impl AuthArgs {
 /// `remote.*` and `include*` cannot be overridden this way: URLs are therefore always
 /// explicit `Location`s (never remote names), and `GIT_DIR` repositories are only
 /// app-managed mirrors.
-const HARDENING: [&str; 29] = [
+const HARDENING: [&str; 30] = [
     "credential.helper=",
     "core.hooksPath=/dev/null",
     "core.fsmonitor=false",
@@ -420,7 +460,43 @@ const HARDENING: [&str; 29] = [
     "fetch.fsckObjects=true",
     "receive.fsckObjects=true",
     "safe.bareRepository=explicit",
+    // `refs/replace/*` must never change ancestry answers or pushed history.
+    "core.useReplaceRefs=false",
 ];
+
+/// `push`: flags and leases, `--`, exactly one location, then push specs; each push
+/// spec's destination has exactly one lease and vice versa (no unleased update, no
+/// forced or wildcard refspec, no extra values).
+fn valid_push(args: &[Arg]) -> bool {
+    let Some(end) = args.iter().position(|a| matches!(a, Arg::EndOfOptions)) else {
+        return false;
+    };
+    let (options, rest) = args.split_at(end);
+    let mut leases = Vec::new();
+    for arg in options {
+        match arg {
+            Arg::Flag(_) => {}
+            Arg::Lease(name, _) => leases.push(name),
+            _ => return false,
+        }
+    }
+    let mut targets = Vec::new();
+    match rest {
+        [Arg::EndOfOptions, Arg::Location(_), specs @ ..] if !specs.is_empty() => {
+            for arg in specs {
+                match arg {
+                    Arg::PushSpec(spec) => targets.push(&spec.destination),
+                    _ => return false,
+                }
+            }
+        }
+        _ => return false,
+    }
+    leases.sort();
+    targets.sort();
+    let unique = leases.windows(2).all(|w| w[0] != w[1]);
+    unique && leases == targets
+}
 
 /// A validated command line (without the binary).
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -442,12 +518,21 @@ impl GitInvocation {
                 Arg::Bundle(_) | Arg::RefGlob(_) if subcommand != Subcommand::Bundle => {
                     return Err(RunError::InvalidArgument);
                 }
+                Arg::Lease(..) if subcommand != Subcommand::Push || options_ended => {
+                    return Err(RunError::InvalidArgument);
+                }
+                Arg::PushSpec(_) if subcommand != Subcommand::Push || !options_ended => {
+                    return Err(RunError::InvalidArgument);
+                }
                 Arg::EndOfOptions if options_ended => return Err(RunError::InvalidArgument),
                 Arg::EndOfOptions => options_ended = true,
                 _ => {}
             }
         }
         if args.len() > MAX_ARGS {
+            return Err(RunError::InvalidArgument);
+        }
+        if subcommand == Subcommand::Push && !valid_push(&args) {
             return Err(RunError::InvalidArgument);
         }
         Ok(Self {
@@ -504,6 +589,12 @@ impl GitInvocation {
             Arg::Bundle(file) => file.0.to_string_lossy().into_owned(),
             Arg::RefGlob(prefix) => format!("--glob={}*", prefix.0),
             Arg::Oid(oid) => oid.as_str().to_owned(),
+            Arg::Lease(name, expected) => format!(
+                "--force-with-lease={}:{}",
+                name.as_str(),
+                expected.as_ref().map_or("", |oid| oid.as_str())
+            ),
+            Arg::PushSpec(spec) => spec.text.clone(),
         }));
         argv
     }
@@ -584,6 +675,36 @@ impl GitOutput {
     /// Stdout of a fully successful run: exit 0, complete, within bounds, valid UTF-8.
     pub fn success_stdout(&self) -> Result<&str, RunError> {
         if self.termination != Termination::Exited(0) {
+            return Err(RunError::Failed(self.termination));
+        }
+        if self.stdout_truncated || !self.output_complete || !self.reaped {
+            return Err(RunError::OutputIncomplete);
+        }
+        std::str::from_utf8(&self.stdout).map_err(|_| RunError::NotUtf8)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn for_tests(
+        termination: Termination,
+        stdout: &str,
+        stderr: &str,
+        output_complete: bool,
+    ) -> Self {
+        Self {
+            termination,
+            stdout: stdout.as_bytes().to_vec(),
+            stdout_truncated: false,
+            stderr: stderr.to_owned(),
+            stderr_truncated: false,
+            output_complete,
+            reaped: true,
+        }
+    }
+
+    /// Stdout of a run that exited normally with any code (e.g. `push --porcelain`
+    /// reports rejected refs with exit 1): complete, within bounds, valid UTF-8.
+    pub fn complete_stdout(&self) -> Result<&str, RunError> {
+        if !matches!(self.termination, Termination::Exited(_)) {
             return Err(RunError::Failed(self.termination));
         }
         if self.stdout_truncated || !self.output_complete || !self.reaped {

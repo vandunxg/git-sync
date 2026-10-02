@@ -8,7 +8,7 @@ use std::path::{Path, PathBuf};
 use std::thread;
 use std::time::{Duration, Instant};
 
-use gbm_domain::refs::parse_ls_remote;
+use gbm_domain::refs::{RefName, parse_ls_remote};
 use gbm_test_fixtures::{Sandbox, empty_bare, source_repo};
 
 use super::*;
@@ -768,5 +768,166 @@ fn bundle_arguments_are_typed_and_scoped_to_bundle() -> TestResult {
     ] {
         assert!(BundleFile::new(&bad).is_err(), "{}", bad.display());
     }
+    Ok(())
+}
+
+#[test]
+fn push_takes_only_per_ref_leases_and_exact_push_specs() -> TestResult {
+    let name = RefName::parse("refs/heads/main").ok_or("name")?;
+    let gone = RefName::parse("refs/heads/gone").ok_or("name")?;
+    let oid = ObjectId::parse(&"a".repeat(40)).ok_or("oid")?;
+    let dest = Location::Remote(RemoteTarget::from_url(
+        "https://gitlab.com/group/project.git",
+    )?);
+    let ok = GitInvocation::new(
+        Subcommand::Push,
+        vec![
+            Arg::Flag("--porcelain"),
+            Arg::Flag("--atomic"),
+            Arg::Lease(name.clone(), Some(oid.clone())),
+            Arg::Lease(gone.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            Arg::PushSpec(PushSpec::update(&oid, &name)),
+            Arg::PushSpec(PushSpec::delete(&gone)),
+        ],
+    )?;
+    let argv = ok.argv();
+    let tail: Vec<&str> = argv
+        .iter()
+        .skip_while(|a| *a != "push")
+        .map(String::as_str)
+        .collect();
+    assert_eq!(
+        tail,
+        vec![
+            "push",
+            "--porcelain",
+            "--atomic",
+            &format!("--force-with-lease=refs/heads/main:{}", "a".repeat(40)),
+            "--force-with-lease=refs/heads/gone:",
+            "--",
+            &dest.arg(),
+            &format!("{}:refs/heads/main", "a".repeat(40)),
+            ":refs/heads/gone",
+        ]
+    );
+    // Each case is otherwise well-formed, so only the checked rule can reject it.
+    let well_formed = |extra_option: Option<Arg>| {
+        let mut args: Vec<Arg> = extra_option.into_iter().collect();
+        args.extend([
+            Arg::Lease(name.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            Arg::PushSpec(PushSpec::update(&oid, &name)),
+        ]);
+        args
+    };
+    assert!(GitInvocation::new(Subcommand::Push, well_formed(None)).is_ok());
+    let mut rejected = vec![
+        // A lease after `--` would be read as a refspec.
+        vec![
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            Arg::PushSpec(PushSpec::update(&oid, &name)),
+            Arg::Lease(name.clone(), None),
+        ],
+        // A push spec before `--`.
+        vec![
+            Arg::Lease(name.clone(), None),
+            Arg::PushSpec(PushSpec::update(&oid, &name)),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+        ],
+    ];
+    // Blanket force, mirror, all refs or tags, abbreviations, other receive-pack.
+    for flag in [
+        "--force",
+        "--mirror",
+        "--all",
+        "--tags",
+        "--force-with-lease",
+        "--atom",
+        "--receive-pack=x",
+    ] {
+        rejected.push(well_formed(Some(Arg::Flag(flag))));
+    }
+    let spec = || Arg::PushSpec(PushSpec::update(&oid, &name));
+    let forced = RefSpec::new("refs/heads/main", "refs/heads/main", true)?;
+    let unleased = [
+        // Forced or untyped refspecs and stray values after the location.
+        vec![
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            Arg::RefSpec(forced),
+        ],
+        vec![
+            Arg::Lease(name.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            spec(),
+            Arg::Ref(FullRef::new("refs/heads/main")?),
+        ],
+        vec![
+            Arg::Lease(name.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            spec(),
+            Arg::Oid(oid.clone()),
+        ],
+        // A push spec without its lease, a lease without its push spec, duplicates.
+        vec![Arg::EndOfOptions, Arg::Location(dest.clone()), spec()],
+        vec![
+            Arg::Lease(name.clone(), None),
+            Arg::Lease(name.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            spec(),
+            spec(),
+        ],
+        vec![
+            Arg::Lease(RefName::parse("refs/heads/other").ok_or("name")?, None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            spec(),
+        ],
+        // No location, two locations, nothing to push.
+        vec![Arg::Lease(name.clone(), None), Arg::EndOfOptions, spec()],
+        vec![
+            Arg::Lease(name.clone(), None),
+            Arg::EndOfOptions,
+            Arg::Location(dest.clone()),
+            Arg::Location(dest.clone()),
+            spec(),
+        ],
+        vec![Arg::EndOfOptions, Arg::Location(dest.clone())],
+    ];
+    for args in unleased {
+        assert!(
+            GitInvocation::new(Subcommand::Push, args.clone()).is_err(),
+            "{args:?}"
+        );
+    }
+    for args in rejected {
+        assert!(
+            GitInvocation::new(Subcommand::Push, args.clone()).is_err(),
+            "{args:?}"
+        );
+    }
+    // Leases and push specs exist only for `push`.
+    assert!(
+        GitInvocation::new(
+            Subcommand::Fetch,
+            vec![Arg::Lease(name.clone(), None), Arg::EndOfOptions]
+        )
+        .is_err()
+    );
+    assert!(
+        GitInvocation::new(
+            Subcommand::Fetch,
+            vec![Arg::EndOfOptions, Arg::PushSpec(PushSpec::delete(&name))]
+        )
+        .is_err()
+    );
     Ok(())
 }

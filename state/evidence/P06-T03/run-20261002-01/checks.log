@@ -1,0 +1,72 @@
+## P06-T03 checks 2026-10-02T17:01:56+07:00 (git 2.54.0, rustc 1.96.0)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.98s
+exit=0
+$ cargo test --workspace
+test result: ok. 90 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 142 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.67s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.29s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-infrastructure (repeat 1)
+test result: ok. 142 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.66s
+$ cargo test -p gbm-infrastructure (repeat 2)
+test result: ok. 142 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.47s
+$ cargo test -p gbm-infrastructure (repeat 3)
+test result: ok. 142 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.78s
+$ cargo test -p gbm-infrastructure git::push; cargo test -p gbm-application apply::
+test git::push::tests::ancestry_comes_from_the_mirror_and_unknown_is_none ... ok
+test git::push::tests::porcelain_reports_must_be_complete_and_about_the_sent_refs ... ok
+test git::push::tests::full_lifecycle_never_writes_the_source ... ok
+test git::push::tests::a_refused_ref_aborts_the_atomic_push ... ok
+test git::push::tests::a_stale_lease_rejects_the_whole_atomic_push ... ok
+test git::push::tests::without_atomic_support_destructive_plans_block_and_others_report_partial ... ok
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 136 filtered out; finished in 0.93s
+test apply::tests::a_rejected_atomic_push_is_rejected_not_success ... ok
+test apply::tests::atomic_success_is_applied_and_always_requested_first ... ok
+test apply::tests::large_plans_batch_only_when_non_destructive ... ok
+test apply::tests::non_atomic_fallback_reports_partial_per_ref ... ok
+test apply::tests::uncertain_or_mismatched_reports_are_unknown_and_not_retried ... ok
+test apply::tests::without_atomic_support_destructive_multi_ref_plans_are_blocked ... ok
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 84 filtered out; finished in 0.00s
+
+## round 2 (after review findings 1-6) 2026-10-02T17:13:27+07:00
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.40s
+exit=0
+$ cargo test --workspace
+test result: ok. 90 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 146 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.21s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.20s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-infrastructure (repeat 1)
+test result: ok. 146 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.53s
+$ cargo test -p gbm-infrastructure (repeat 2)
+test result: ok. 146 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.06s
+$ cargo test -p gbm-infrastructure (repeat 3)
+test result: ok. 146 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.69s

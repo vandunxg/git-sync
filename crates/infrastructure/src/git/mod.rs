@@ -5,6 +5,7 @@
 //! read-only observation argv. Parsing and comparison are in `gbm_domain::refs`.
 
 pub mod mirror;
+pub mod push;
 pub mod runner;
 
 use crate::git_auth::RemoteTarget;
