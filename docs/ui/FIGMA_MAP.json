@@ -1,0 +1,101 @@
+{
+  "fileKey": "NCVVCfO9j9aMyh0E6YRXwU",
+  "fileUrl": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU",
+  "pageId": "6:2",
+  "pageName": "Git Backup Manager — Refined V2",
+  "provenance": "prior successful conversation tool outputs; live read blocked in this packaging run",
+  "lastReadAttempt": "2026-10-01",
+  "lastReadResult": "MCP_TOOL_CALL_LIMIT",
+  "frames": [
+    {
+      "screenId": "UI-01",
+      "name": "Onboarding / Welcome",
+      "nodeId": "6:3",
+      "routeKey": "onboarding-welcome",
+      "feature": "onboarding",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-3",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-02",
+      "name": "Onboarding / Connections",
+      "nodeId": "6:73",
+      "routeKey": "onboarding-connections",
+      "feature": "onboarding",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-73",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-03",
+      "name": "Dashboard",
+      "nodeId": "6:140",
+      "routeKey": "dashboard",
+      "feature": "dashboard",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-140",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-04",
+      "name": "Repositories",
+      "nodeId": "6:359",
+      "routeKey": "repositories",
+      "feature": "repositories",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-359",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-05",
+      "name": "Repository Detail",
+      "nodeId": "6:571",
+      "routeKey": "repository-detail",
+      "feature": "repositories",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-571",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-06",
+      "name": "Sync Center",
+      "nodeId": "6:755",
+      "routeKey": "sync-center",
+      "feature": "sync",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-755",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-07",
+      "name": "Activity",
+      "nodeId": "6:968",
+      "routeKey": "activity",
+      "feature": "activity",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-968",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-08",
+      "name": "Connections",
+      "nodeId": "6:1110",
+      "routeKey": "connections",
+      "feature": "connections",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-1110",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-09",
+      "name": "Settings",
+      "nodeId": "6:1231",
+      "routeKey": "settings",
+      "feature": "settings",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-1231",
+      "baselineStatus": "not_captured_or_approved"
+    },
+    {
+      "screenId": "UI-10",
+      "name": "States & Dialogs",
+      "nodeId": "6:1406",
+      "routeKey": "states-dialogs",
+      "feature": "shared",
+      "url": "https://www.figma.com/design/NCVVCfO9j9aMyh0E6YRXwU?node-id=6-1406",
+      "baselineStatus": "not_captured_or_approved"
+    }
+  ]
+}

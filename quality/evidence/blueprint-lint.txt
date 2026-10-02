@@ -1,0 +1,19 @@
+{
+  "status": "PASS_BLUEPRINT_STRUCTURE_ONLY",
+  "counts": {
+    "requirements": 45,
+    "phases": 11,
+    "tasks": 40,
+    "plannedProductScenarios": 54,
+    "screens": 10,
+    "commands": 31,
+    "ADRs": 11,
+    "jsonFiles": 18
+  },
+  "errors": [],
+  "warnings": [
+    "10 visual baselines are not approved; visual acceptance remains BLOCKED"
+  ],
+  "appImplemented": false,
+  "productTestsRun": false
+}

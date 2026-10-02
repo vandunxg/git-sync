@@ -1,0 +1,332 @@
+{
+  "mode": "test_fixture_only",
+  "description": "Synthetic deterministic data, not live observations or actual account totals. Never production fallback.",
+  "fixedNow": "2026-10-01T13:22:00Z",
+  "dtoFixtures": [
+    {
+      "type": "RepoListResult",
+      "value": {
+        "items": [
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "current",
+            "workspaceState": "disabled",
+            "primaryStatus": "synced",
+            "pendingRefChanges": 0,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-10-01T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "verified",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_01",
+            "providerRepositoryId": "900001",
+            "fullName": "demo-owner/JavaGuide"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "current",
+            "workspaceState": "disabled",
+            "primaryStatus": "synced",
+            "pendingRefChanges": 0,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-10-01T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "verified",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_02",
+            "providerRepositoryId": "900002",
+            "fullName": "demo-owner/learn-postgresql"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "changed",
+            "mirrorState": "current",
+            "destinationState": "behind",
+            "workspaceState": "disabled",
+            "primaryStatus": "update",
+            "pendingRefChanges": 2,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_03",
+            "providerRepositoryId": "900003",
+            "fullName": "demo-owner/effective-java"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": true,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "inaccessible",
+            "workspaceState": "disabled",
+            "primaryStatus": "failed",
+            "pendingRefChanges": null,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": "AUTH_REQUIRED",
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_04",
+            "providerRepositoryId": "900004",
+            "fullName": "demo-owner/file_processing"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "missing",
+            "destinationState": "missing",
+            "workspaceState": "disabled",
+            "primaryStatus": "missing",
+            "pendingRefChanges": null,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": null,
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "not_checked",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_05",
+            "providerRepositoryId": "900005",
+            "fullName": "demo-owner/advanced-java"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "current",
+            "workspaceState": "disabled",
+            "primaryStatus": "synced",
+            "pendingRefChanges": 0,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-10-01T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "verified",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_06",
+            "providerRepositoryId": "900006",
+            "fullName": "demo-owner/spring-boot"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "changed",
+            "mirrorState": "current",
+            "destinationState": "behind",
+            "workspaceState": "disabled",
+            "primaryStatus": "update",
+            "pendingRefChanges": 2,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_07",
+            "providerRepositoryId": "900007",
+            "fullName": "demo-owner/spring-security"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": true,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "current",
+            "workspaceState": "disabled",
+            "primaryStatus": "synced",
+            "pendingRefChanges": 0,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-10-01T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "verified",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_08",
+            "providerRepositoryId": "900008",
+            "fullName": "demo-owner/be-v2"
+          }
+        ],
+        "nextCursor": null,
+        "totalCount": 8,
+        "discoveryComplete": true,
+        "revision": 7
+      }
+    },
+    {
+      "type": "Dashboard",
+      "value": {
+        "tracked": 8,
+        "upToDate": 4,
+        "needsAttention": 4,
+        "other": 0,
+        "discoveryComplete": true,
+        "attentionItems": [
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "changed",
+            "mirrorState": "current",
+            "destinationState": "behind",
+            "workspaceState": "disabled",
+            "primaryStatus": "update",
+            "pendingRefChanges": 2,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_03",
+            "providerRepositoryId": "900003",
+            "fullName": "demo-owner/effective-java"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": true,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "current",
+            "destinationState": "inaccessible",
+            "workspaceState": "disabled",
+            "primaryStatus": "failed",
+            "pendingRefChanges": null,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": "AUTH_REQUIRED",
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_04",
+            "providerRepositoryId": "900004",
+            "fullName": "demo-owner/file_processing"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "current",
+            "mirrorState": "missing",
+            "destinationState": "missing",
+            "workspaceState": "disabled",
+            "primaryStatus": "missing",
+            "pendingRefChanges": null,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": null,
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "not_checked",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_05",
+            "providerRepositoryId": "900005",
+            "fullName": "demo-owner/advanced-java"
+          },
+          {
+            "defaultBranch": "main",
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "selected": true,
+            "sourceState": "changed",
+            "mirrorState": "current",
+            "destinationState": "behind",
+            "workspaceState": "disabled",
+            "primaryStatus": "update",
+            "pendingRefChanges": 2,
+            "observedAt": "2026-10-01T13:20:00Z",
+            "verifiedAt": "2026-09-30T13:20:00Z",
+            "lastErrorCode": null,
+            "coverage": {
+              "gitRefs": "not_checked",
+              "localObjects": "verified",
+              "lfs": "not_applicable",
+              "submodules": "none"
+            },
+            "id": "repo_07",
+            "providerRepositoryId": "900007",
+            "fullName": "demo-owner/spring-security"
+          }
+        ],
+        "observedAt": "2026-10-01T13:20:00Z",
+        "revision": 7
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "NOT_RESOLVED",
+  "rustToolchain": null,
+  "msrv": null,
+  "nodeVersion": null,
+  "packageManagerVersion": null,
+  "tauriVersion": null,
+  "templateRevision": null,
+  "gitVersion": null,
+  "gitLfsVersion": null,
+  "webkitgtkVersion": null,
+  "hyprlandVersion": null,
+  "resolvedDependencyProof": [],
+  "note": "P00 must fill from actual tool outputs; blueprint does not invent exact versions."
+}

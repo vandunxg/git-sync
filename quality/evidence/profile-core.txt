@@ -1,0 +1,14 @@
+{
+  "profile": "core",
+  "status": "BLOCKED",
+  "reasons": [
+    "missing application prerequisite: Cargo.toml",
+    "missing application prerequisite: rust-toolchain.toml",
+    "missing executable: cargo"
+  ],
+  "results": [],
+  "generatedAt": "2026-10-01T14:01:05.710115+00:00",
+  "repoRoot": "/mnt/data/git-backup-manager-blueprint",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /mnt/data/gbm-validation-runs/20261001T140105Z-51ae33ec/report.json

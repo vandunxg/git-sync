@@ -1,0 +1,11 @@
+# Restored minimal ignore list (original packaged .gitignore missing; see P00-T01 report)
+.codegraph/
+state/locks/
+local/
+__pycache__/
+node_modules/
+target/
+dist/
+*.log.tmp
+.env
+.env.*

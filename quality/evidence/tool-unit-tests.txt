@@ -1,0 +1,38 @@
+test_dimensions_mismatch_blocks (test_blueprint_tools.BaselineTests.test_dimensions_mismatch_blocks) ... ok
+test_hash_mismatch_blocks (test_blueprint_tools.BaselineTests.test_hash_mismatch_blocks) ... ok
+test_integrity_pass_is_not_visual_approval (test_blueprint_tools.BaselineTests.test_integrity_pass_is_not_visual_approval) ... ok
+test_invalid_png_rejected (test_blueprint_tools.BaselineTests.test_invalid_png_rejected) ... ok
+test_missing_approval_blocks (test_blueprint_tools.BaselineTests.test_missing_approval_blocks) ... ok
+test_path_traversal_blocks (test_blueprint_tools.BaselineTests.test_path_traversal_blocks) ... ok
+test_same_design_and_implementation_not_allowed (test_blueprint_tools.BaselineTests.test_same_design_and_implementation_not_allowed) ... ok
+test_anyof (test_blueprint_tools.ContractTests.test_anyof) ... ok
+test_array_and_range (test_blueprint_tools.ContractTests.test_array_and_range) ... ok
+test_bool_is_not_integer (test_blueprint_tools.ContractTests.test_bool_is_not_integer) ... ok
+test_fixture_roundtrip (test_blueprint_tools.ContractTests.test_fixture_roundtrip) ... ok
+test_invalid_local_reference (test_blueprint_tools.ContractTests.test_invalid_local_reference) ... ok
+test_nullable_type (test_blueprint_tools.ContractTests.test_nullable_type) ... ok
+test_schema_subset_rejects_unknown_keyword (test_blueprint_tools.ContractTests.test_schema_subset_rejects_unknown_keyword) ... ok
+test_strict_object (test_blueprint_tools.ContractTests.test_strict_object) ... ok
+test_timezone_required (test_blueprint_tools.ContractTests.test_timezone_required) ... ok
+test_valid_local_reference (test_blueprint_tools.ContractTests.test_valid_local_reference) ... ok
+test_broken_registry_detected (test_blueprint_tools.GateAndRegistryTests.test_broken_registry_detected) ... ok
+test_command_failure (test_blueprint_tools.GateAndRegistryTests.test_command_failure) ... ok
+test_command_missing_is_blocked (test_blueprint_tools.GateAndRegistryTests.test_command_missing_is_blocked) ... ok
+test_command_success (test_blueprint_tools.GateAndRegistryTests.test_command_success) ... ok
+test_dependency_cycle (test_blueprint_tools.GateAndRegistryTests.test_dependency_cycle) ... ok
+test_missing_app_blocks_before_execution (test_blueprint_tools.GateAndRegistryTests.test_missing_app_blocks_before_execution) ... ok
+test_missing_package_script_blocks (test_blueprint_tools.GateAndRegistryTests.test_missing_package_script_blocks) ... ok
+test_native_requires_authorization (test_blueprint_tools.GateAndRegistryTests.test_native_requires_authorization) ... ok
+test_output_cap_and_redaction (test_blueprint_tools.GateAndRegistryTests.test_output_cap_and_redaction) ... ok
+test_pack_lints (test_blueprint_tools.GateAndRegistryTests.test_pack_lints) ... ok
+test_redaction (test_blueprint_tools.GateAndRegistryTests.test_redaction) ... ok
+test_timeout_is_failure (test_blueprint_tools.GateAndRegistryTests.test_timeout_is_failure) ... ok
+test_directory_boundary (test_blueprint_tools.ScopeTests.test_directory_boundary) ... ok
+test_exact_file (test_blueprint_tools.ScopeTests.test_exact_file) ... ok
+test_nested_blueprint_and_common_evidence (test_blueprint_tools.ScopeTests.test_nested_blueprint_and_common_evidence) ... ok
+test_traversal_denied (test_blueprint_tools.ScopeTests.test_traversal_denied) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 2.416s
+
+OK

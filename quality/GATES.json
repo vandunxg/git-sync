@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "notice": "Application commands are contracts for future project scripts, not already implemented code. Test-specific selectors and independent review are also required.",
+  "exitCodes": {
+    "0": "PASS",
+    "1": "FAIL",
+    "2": "BLOCKED"
+  },
+  "profiles": {
+    "docs": {
+      "requireFiles": [],
+      "commands": [
+        {
+          "name": "blueprint-lint",
+          "cwd": "blueprint",
+          "argv": [
+            "{python}",
+            "scripts/lint_pack.py"
+          ]
+        },
+        {
+          "name": "blueprint-tool-tests",
+          "cwd": "blueprint",
+          "argv": [
+            "{python}",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "scripts/tests",
+            "-v"
+          ]
+        }
+      ]
+    },
+    "core": {
+      "requireFiles": [
+        "Cargo.toml",
+        "rust-toolchain.toml"
+      ],
+      "commands": [
+        {
+          "name": "rust-format",
+          "argv": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--",
+            "--check"
+          ]
+        },
+        {
+          "name": "rust-clippy",
+          "argv": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ]
+        },
+        {
+          "name": "rust-tests",
+          "argv": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets"
+          ]
+        },
+        {
+          "name": "rust-doctests",
+          "argv": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--doc"
+          ]
+        }
+      ]
+    },
+    "frontend": {
+      "requireFiles": [
+        "apps/desktop/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "packageScripts": [
+        "lint",
+        "typecheck",
+        "test:unit",
+        "build"
+      ],
+      "commands": [
+        {
+          "name": "lint",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "lint"
+          ]
+        },
+        {
+          "name": "typecheck",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "typecheck"
+          ]
+        },
+        {
+          "name": "test:unit",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "test:unit"
+          ]
+        },
+        {
+          "name": "build",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "build"
+          ]
+        }
+      ]
+    },
+    "visual": {
+      "requireFiles": [
+        "apps/desktop/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "packageScripts": [
+        "test:visual"
+      ],
+      "requiresBaselines": true,
+      "commands": [
+        {
+          "name": "ui-visual",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "test:visual"
+          ]
+        }
+      ]
+    },
+    "security": {
+      "requireFiles": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "deny.toml",
+        "apps/desktop/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "packageScripts": [
+        "security:check"
+      ],
+      "commands": [
+        {
+          "name": "cargo-audit",
+          "argv": [
+            "cargo",
+            "audit"
+          ]
+        },
+        {
+          "name": "cargo-deny",
+          "argv": [
+            "cargo",
+            "deny",
+            "check"
+          ]
+        },
+        {
+          "name": "frontend-security",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "security:check"
+          ]
+        }
+      ]
+    },
+    "native": {
+      "requireFiles": [
+        "apps/desktop/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "packageScripts": [
+        "test:native"
+      ],
+      "requiresNativeAuthorization": true,
+      "commands": [
+        {
+          "name": "native-linux",
+          "argv": [
+            "pnpm",
+            "--dir",
+            "apps/desktop",
+            "test:native"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,743 @@
+{
+  "version": 1,
+  "notice": "Planned acceptance scenarios. This catalog is not evidence that application tests exist or passed.",
+  "tests": [
+    {
+      "id": "TEST-ENV",
+      "level": "native",
+      "requirements": [
+        "REQ-01",
+        "REQ-44"
+      ],
+      "givenWhen": "Launch on recorded Arch/Hyprland with and without a tray/keyring/portal.",
+      "then": "A usable window remains reachable; each missing capability is explicit; quitting stops scheduling.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-TEMPLATE",
+      "level": "build",
+      "requirements": [
+        "REQ-02",
+        "REQ-39"
+      ],
+      "givenWhen": "Scaffold from a pinned inspected tauri-ui version and inspect release assets/capabilities.",
+      "then": "No demo dashboard, sample success invoke, remote script, debug panel or telemetry enters release.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-SCOPE",
+      "level": "unit",
+      "requirements": [
+        "REQ-03",
+        "REQ-41"
+      ],
+      "givenWhen": "Use owned/private/fork/archived/collaboration fixtures under partial token grants.",
+      "then": "Only the selected authorized scope is included; invisible resources are not counted as discovered.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PAGINATION",
+      "level": "integration",
+      "requirements": [
+        "REQ-03",
+        "REQ-21",
+        "REQ-41"
+      ],
+      "givenWhen": "A GitHub catalog spans three pages; page two rate-limits or returns 403.",
+      "then": "Previous items remain; completeness is false; no local or remote deletion is scheduled.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-IDENTITY",
+      "level": "unit",
+      "requirements": [
+        "REQ-04",
+        "REQ-40"
+      ],
+      "givenWhen": "Rename/transfer a repository and introduce case-insensitive name collisions.",
+      "then": "Stable source ID/mapping/history is preserved; unrelated local/destination repos are not overwritten.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-ROOT",
+      "level": "integration",
+      "requirements": [
+        "REQ-05",
+        "REQ-22"
+      ],
+      "givenWhen": "Choose valid, unwritable, traversal, symlink-escape and pre-existing foreign root paths.",
+      "then": "Only validated app-owned paths can be mutated; picker cancellation performs no write.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-READONLY-SOURCE",
+      "level": "integration",
+      "requirements": [
+        "REQ-06"
+      ],
+      "givenWhen": "Run complete scan/plan/sync lifecycle using a source remote that rejects all pushes.",
+      "then": "No source write is attempted; network trace contains only permitted reads to GitHub.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-REFS",
+      "level": "unit",
+      "requirements": [
+        "REQ-07",
+        "REQ-42"
+      ],
+      "givenWhen": "Change a non-default branch and move an annotated tag while metadata hints remain unchanged.",
+      "then": "All selected logical ref/OID changes are detected; peeled tags and symbolic HEAD are not extra refs.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-FRESHNESS",
+      "level": "unit",
+      "requirements": [
+        "REQ-08",
+        "REQ-43"
+      ],
+      "givenWhen": "Deliver partial observations and a newer event followed by an older snapshot.",
+      "then": "Unknown/stale remains distinct; older revisions cannot regress current state or fake verification.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-SCHEDULER",
+      "level": "integration",
+      "requirements": [
+        "REQ-09"
+      ],
+      "givenWhen": "Queue 100 repositories with concurrency 3, duplicate requests and queue pause.",
+      "then": "At most 3 run; no duplicate repo mutation; pause prevents new starts but does not fake paused processes.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-CRASH",
+      "level": "integration",
+      "requirements": [
+        "REQ-10"
+      ],
+      "givenWhen": "Kill the app before/after project creation, push and persistence checkpoints.",
+      "then": "Restart reconciles observed destination before retry; no duplicate project or false success.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PAT",
+      "level": "integration",
+      "requirements": [
+        "REQ-11",
+        "REQ-41"
+      ],
+      "givenWhen": "Validate empty, invalid, expired and insufficient-scope PATs using controlled adapters.",
+      "then": "Typed actionable errors; identity alone does not claim create/push permission.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-KEYRING",
+      "level": "native",
+      "requirements": [
+        "REQ-12"
+      ],
+      "givenWhen": "Store, reconnect and disconnect with keyring available, locked and unavailable.",
+      "then": "No plaintext fallback; explicit session-only mode; disconnect preserves backups.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-IPC",
+      "level": "contract",
+      "requirements": [
+        "REQ-13",
+        "REQ-36"
+      ],
+      "givenWhen": "Submit malformed envelopes, extra fields, wrong schema version, arbitrary IDs/paths and forbidden command names.",
+      "then": "Native facade rejects them; renderer cannot execute arbitrary Git/shell/filesystem operations.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-REDACTION",
+      "level": "integration",
+      "requirements": [
+        "REQ-14",
+        "REQ-12",
+        "REQ-45"
+      ],
+      "givenWhen": "Inject test-only secret sentinels into provider errors, command diagnostics and exports.",
+      "then": "Sentinels do not occur in UI/DB/logs/events/export/argv/remote URLs; evidence is sanitized.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-LFS",
+      "level": "integration",
+      "requirements": [
+        "REQ-15",
+        "REQ-42"
+      ],
+      "givenWhen": "Sync a fixture with binary LFS payloads, a missing object and a changed server endpoint.",
+      "then": "Real payload hashes checked; endpoint abuse rejected; partial coverage never labeled fully backed up.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-LFS-RESTORE",
+      "level": "native",
+      "requirements": [
+        "REQ-15",
+        "REQ-18",
+        "REQ-42"
+      ],
+      "givenWhen": "Restore LFS fixture using local/GitLab backup with GitHub access disabled.",
+      "then": "Materialized payloads match hashes; upload-only state is distinct from restore_verified.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-SUBMODULE",
+      "level": "integration",
+      "requirements": [
+        "REQ-16",
+        "REQ-22",
+        "REQ-42"
+      ],
+      "givenWhen": "Use private/missing/cross-host submodule gitlinks and untrusted .gitmodules.",
+      "then": "No blind recursion or credential forwarding; coverage states child contents accurately.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-WORKSPACE",
+      "level": "integration",
+      "requirements": [
+        "REQ-17"
+      ],
+      "givenWhen": "Test clean fast-forward, dirty index, untracked collisions, local commits, detached HEAD and divergence.",
+      "then": "Only safe clean fast-forward is applied; other workspaces remain byte-for-byte unchanged.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-SNAPSHOT",
+      "level": "integration",
+      "requirements": [
+        "REQ-18",
+        "REQ-20"
+      ],
+      "givenWhen": "Plan branch rewrite/tag move/delete with good, corrupt and disk-full snapshot storage.",
+      "then": "Destructive apply is blocked unless complete old-state recovery material is verified.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-BUNDLE-RESTORE",
+      "level": "integration",
+      "requirements": [
+        "REQ-18"
+      ],
+      "givenWhen": "Restore full Git bundle in a fresh directory with source network unavailable.",
+      "then": "All selected branches and annotated tags/OIDs match; no missing-object fetch from source.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-RETRY",
+      "level": "integration",
+      "requirements": [
+        "REQ-19",
+        "REQ-41"
+      ],
+      "givenWhen": "Inject 401/403/429/5xx, retry metadata, timeouts and a never-ending Git child.",
+      "then": "Bounded classified retry; auth prompts not retry storms; timeouts terminate/reap children.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PROCESS-CANCEL",
+      "level": "integration",
+      "requirements": [
+        "REQ-19",
+        "REQ-10"
+      ],
+      "givenWhen": "Cancel a child tree that fills stdout/stderr and spawns a helper.",
+      "then": "Pipes are drained boundedly, process tree stops and is reaped, terminal state is honest.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PLAN-LEASE",
+      "level": "integration",
+      "requirements": [
+        "REQ-20"
+      ],
+      "givenWhen": "Approve a plan then change a source ref, destination ref or policy revision.",
+      "then": "Approval invalidated or exact-OID lease rejects; no stale overwrite occurs.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-NO-DELETE-ON-404",
+      "level": "integration",
+      "requirements": [
+        "REQ-21"
+      ],
+      "givenWhen": "A previously backed-up repo disappears from API or returns 404 under a changed token.",
+      "then": "Existing local/GitLab copies and recovery snapshots are retained.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-GIT-INPUT",
+      "level": "integration",
+      "requirements": [
+        "REQ-22"
+      ],
+      "givenWhen": "Use shell-like refs, ext:: URLs, newline payloads, malicious global Git config, hooks and LFS endpoint redirection.",
+      "then": "No command injection, hook execution, root escape or cross-origin credential disclosure.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-VISUAL",
+      "level": "visual",
+      "requirements": [
+        "REQ-23",
+        "REQ-25"
+      ],
+      "givenWhen": "Compare every required screen/state to an owner-approved design reference and accepted implementation golden.",
+      "then": "No self-approved golden; differences are reviewed at specified viewport and fixed fixture clock.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-ICONS",
+      "level": "ui",
+      "requirements": [
+        "REQ-24"
+      ],
+      "givenWhen": "Render every semantic registry entry and scan status/action DOM for Unicode substitutes.",
+      "then": "All exports compile to real SVGs; icon-only actions have accessible names; no status dots.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-LAYOUT",
+      "level": "visual",
+      "requirements": [
+        "REQ-25",
+        "REQ-26"
+      ],
+      "givenWhen": "Render long names, multiline errors, open dialogs and 200% text across supported sizes.",
+      "then": "No unintended sibling intersections, clipping, unreadable shrunk labels or offscreen actions.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-KEYBOARD",
+      "level": "ui",
+      "requirements": [
+        "REQ-26"
+      ],
+      "givenWhen": "Complete onboarding, table selection, menus, tabs, dialog confirm/cancel and settings with keyboard.",
+      "then": "Logical focus, visible ring, focus trap/restore and accessible labels; no mouse-only action.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-CONTRACT-FIXTURES",
+      "level": "contract",
+      "requirements": [
+        "REQ-36",
+        "REQ-43"
+      ],
+      "givenWhen": "Serialize native responses and validate against schema/FE validators and deterministic fixtures.",
+      "then": "Casing/nullability/status dimensions agree; summary totals match the same revision.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-NO-FAKES",
+      "level": "build",
+      "requirements": [
+        "REQ-37",
+        "REQ-39"
+      ],
+      "givenWhen": "Build production and inspect adapter wiring, fixture imports and feature controls.",
+      "then": "No test/demo fallback, fake timers-as-progress, placeholder success or unsupported working button.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PACKAGE",
+      "level": "native",
+      "requirements": [
+        "REQ-38",
+        "REQ-01"
+      ],
+      "givenWhen": "Build, install, start, reconnect, scan/sync sandbox and uninstall on clean supported Linux.",
+      "then": "Real runtime dependencies verified; user backups retained after uninstall; no browser-only claim.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-LIFECYCLE",
+      "level": "native",
+      "requirements": [
+        "REQ-44",
+        "REQ-10"
+      ],
+      "givenWhen": "Close/minimize/quit, suspend/resume, lose tray host and restart during jobs.",
+      "then": "Reopen path safe; one coalesced scan on resume; no daemon or post-exit sync promise.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-CREDENTIAL-BROKER",
+      "level": "integration",
+      "requirements": [
+        "REQ-45",
+        "REQ-12",
+        "REQ-22"
+      ],
+      "givenWhen": "Send helper requests with wrong peer/job/host/path and inspect child environment/argv.",
+      "then": "Only job-bound allowed requests receive credentials; no token env/argv/temp file; broker expires.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-DB",
+      "level": "integration",
+      "requirements": [
+        "REQ-10",
+        "REQ-36"
+      ],
+      "givenWhen": "Upgrade schema with sample data and interrupted migration; enforce active-job uniqueness.",
+      "then": "Foreign keys, revisions and recovery hold; no secret column values; no network inside transaction.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PROJECT-CREATE",
+      "level": "integration",
+      "requirements": [
+        "REQ-04",
+        "REQ-41"
+      ],
+      "givenWhen": "Create times out after remote success; existing same-name unrelated destination also exists.",
+      "then": "Reconciliation finds only exact mapping; no duplicate or unintended adoption; visibility stays safe.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-ATOMIC-PUSH",
+      "level": "integration",
+      "requirements": [
+        "REQ-20",
+        "REQ-42"
+      ],
+      "givenWhen": "Server rejects one ref/protected branch or lacks atomic support.",
+      "then": "No false atomic success; destructive multi-ref apply is blocked without atomic support; partial state reconciled.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-VERIFY",
+      "level": "integration",
+      "requirements": [
+        "REQ-07",
+        "REQ-08",
+        "REQ-42"
+      ],
+      "givenWhen": "Git exits 0 but a ref differs afterward or source changes again during verification.",
+      "then": "Mismatch is failed/partial; newer source is update, not a perpetually synced claim.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-EVENTS",
+      "level": "integration",
+      "requirements": [
+        "REQ-10",
+        "REQ-36",
+        "REQ-43"
+      ],
+      "givenWhen": "Drop/reorder duplicate progress and terminal invalidation events around subscribe/snapshot race.",
+      "then": "Committed native state wins; requery on gaps, unsubscribe on teardown, no stale overwrite.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-EMPTY-REPO",
+      "level": "integration",
+      "requirements": [
+        "REQ-07",
+        "REQ-18",
+        "REQ-42"
+      ],
+      "givenWhen": "Observe and back up a repository with no commits/refs.",
+      "then": "Explicit empty manifest; no invalid bundle/push or fabricated HEAD; later first commit detected.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-PRIVACY",
+      "level": "integration",
+      "requirements": [
+        "REQ-04",
+        "REQ-06",
+        "REQ-39"
+      ],
+      "givenWhen": "A private source is mapped to a public destination and release debug/telemetry options are inspected.",
+      "then": "Visibility downgrade requires explicit consent or blocked; no hidden telemetry/debug access.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-STATUS-AGGREGATION",
+      "level": "unit",
+      "requirements": [
+        "REQ-08",
+        "REQ-42",
+        "REQ-43"
+      ],
+      "givenWhen": "Generate combinations of source, local, destination, workspace and LFS/job states.",
+      "then": "Precedence is deterministic; workspace dirty cannot overwrite correct mirror status or hide a blocker.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-NATIVE-UI",
+      "level": "native",
+      "requirements": [
+        "REQ-01",
+        "REQ-23",
+        "REQ-26",
+        "REQ-38"
+      ],
+      "givenWhen": "Run supported screenshots/flows in actual Tauri WebKitGTK under Hyprland, not only Playwright Chromium.",
+      "then": "Native font, scale, titlebar, dialog, focus and scrolling verified on release candidate.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-01",
+      "level": "ui",
+      "requirements": [
+        "REQ-05",
+        "REQ-23",
+        "REQ-26",
+        "REQ-27"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/01_ONBOARDING_WELCOME.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-02",
+      "level": "ui",
+      "requirements": [
+        "REQ-11",
+        "REQ-12",
+        "REQ-24",
+        "REQ-26",
+        "REQ-27",
+        "REQ-41",
+        "REQ-45"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/02_ONBOARDING_CONNECTIONS.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-03",
+      "level": "ui",
+      "requirements": [
+        "REQ-08",
+        "REQ-23",
+        "REQ-24",
+        "REQ-25",
+        "REQ-28",
+        "REQ-42",
+        "REQ-43"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/03_DASHBOARD.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-04",
+      "level": "ui",
+      "requirements": [
+        "REQ-03",
+        "REQ-07",
+        "REQ-24",
+        "REQ-26",
+        "REQ-29",
+        "REQ-40",
+        "REQ-43"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/04_REPOSITORIES.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-05",
+      "level": "ui",
+      "requirements": [
+        "REQ-17",
+        "REQ-20",
+        "REQ-23",
+        "REQ-24",
+        "REQ-30",
+        "REQ-42"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/05_REPOSITORY_DETAIL.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-06",
+      "level": "ui",
+      "requirements": [
+        "REQ-09",
+        "REQ-10",
+        "REQ-19",
+        "REQ-24",
+        "REQ-31"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/06_SYNC_CENTER.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-07",
+      "level": "ui",
+      "requirements": [
+        "REQ-14",
+        "REQ-24",
+        "REQ-26",
+        "REQ-32"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/07_ACTIVITY.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-08",
+      "level": "ui",
+      "requirements": [
+        "REQ-11",
+        "REQ-12",
+        "REQ-24",
+        "REQ-33",
+        "REQ-41"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/08_CONNECTIONS.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-09",
+      "level": "ui",
+      "requirements": [
+        "REQ-24",
+        "REQ-26",
+        "REQ-34",
+        "REQ-39",
+        "REQ-44"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/09_SETTINGS.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    },
+    {
+      "id": "TEST-UI-10",
+      "level": "ui",
+      "requirements": [
+        "REQ-20",
+        "REQ-24",
+        "REQ-26",
+        "REQ-35"
+      ],
+      "givenWhen": "Exercise all stated interactions/loading/empty/error states in docs/ui/screens/10_STATES_AND_DIALOGS.md.",
+      "then": "Native command wiring, safe actions, keyboard and visual acceptance satisfy that screen spec.",
+      "implementationStatus": "NOT_IMPLEMENTED",
+      "executionStatus": "NOT_RUN",
+      "requiredForV1": true
+    }
+  ]
+}

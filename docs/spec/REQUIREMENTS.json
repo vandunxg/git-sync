@@ -1,0 +1,759 @@
+{
+  "version": 1,
+  "status": "implementation_contract",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "title": "Linux-first desktop",
+      "requirement": "Launch and operate on the recorded Arch/Hyprland environment, with capability fallbacks.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-ENV",
+        "TEST-PACKAGE",
+        "TEST-NATIVE-UI"
+      ],
+      "task_ids": [
+        "P00-T02",
+        "P01-T01",
+        "P10-T02"
+      ]
+    },
+    {
+      "id": "REQ-02",
+      "title": "Audited requested template",
+      "requirement": "Use agmmnn/tauri-ui Vite/React scaffold; remove unrequested sample functionality.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-TEMPLATE"
+      ],
+      "task_ids": [
+        "P00-T01",
+        "P00-T02",
+        "P01-T01",
+        "P10-T03"
+      ]
+    },
+    {
+      "id": "REQ-03",
+      "title": "Complete selected discovery",
+      "requirement": "Enumerate every API page for owned/selected repositories; include forks/private/archived when granted.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-SCOPE",
+        "TEST-PAGINATION",
+        "TEST-UI-04"
+      ],
+      "task_ids": [
+        "P04-T01"
+      ]
+    },
+    {
+      "id": "REQ-04",
+      "title": "GitLab backup mapping",
+      "requirement": "Preview one source-to-one destination project mapping in an owner-chosen namespace.",
+      "origin": "SPEC_DEFAULT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-IDENTITY",
+        "TEST-PROJECT-CREATE",
+        "TEST-PRIVACY"
+      ],
+      "task_ids": [
+        "P00-T03",
+        "P04-T02",
+        "P06-T01"
+      ]
+    },
+    {
+      "id": "REQ-05",
+      "title": "Managed local storage",
+      "requirement": "Choose and validate a local root; maintain app-owned bare mirrors separately from workspaces.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-ROOT",
+        "TEST-UI-01"
+      ],
+      "task_ids": [
+        "P04-T02",
+        "P05-T02"
+      ]
+    },
+    {
+      "id": "REQ-06",
+      "title": "One-way authority",
+      "requirement": "No GitHub writes or merging of GitLab/local changes into GitHub.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-READONLY-SOURCE",
+        "TEST-PRIVACY"
+      ],
+      "task_ids": [
+        "P04-T03",
+        "P06-T03"
+      ]
+    },
+    {
+      "id": "REQ-07",
+      "title": "All-ref change detection",
+      "requirement": "Compare complete selected heads/tags, not only timestamps or default HEAD.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-REFS",
+        "TEST-VERIFY",
+        "TEST-EMPTY-REPO",
+        "TEST-UI-04"
+      ],
+      "task_ids": [
+        "P04-T03",
+        "P05-T02",
+        "P06-T04"
+      ]
+    },
+    {
+      "id": "REQ-08",
+      "title": "Fresh and honest status",
+      "requirement": "Expose observation times and unknown/stale/partial coverage without false healthy labels.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-FRESHNESS",
+        "TEST-VERIFY",
+        "TEST-STATUS-AGGREGATION",
+        "TEST-UI-03"
+      ],
+      "task_ids": [
+        "P04-T03",
+        "P06-T04",
+        "P07-T03"
+      ]
+    },
+    {
+      "id": "REQ-09",
+      "title": "Scheduled and manual jobs",
+      "requirement": "Provide scan/sync queue, retry, cancellation and bounded concurrency.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-SCHEDULER",
+        "TEST-UI-06"
+      ],
+      "task_ids": [
+        "P07-T01"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "title": "Crash recovery",
+      "requirement": "Persist jobs and reconcile uncertain outcomes after restart.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-CRASH",
+        "TEST-PROCESS-CANCEL",
+        "TEST-LIFECYCLE",
+        "TEST-DB",
+        "TEST-EVENTS",
+        "TEST-UI-06"
+      ],
+      "task_ids": [
+        "P03-T01",
+        "P07-T02"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "title": "PAT authentication",
+      "requirement": "Connect GitHub and GitLab through validated PATs; no fake OAuth.",
+      "origin": "SPEC_DEFAULT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-PAT",
+        "TEST-UI-02",
+        "TEST-UI-08"
+      ],
+      "task_ids": [
+        "P03-T03"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "title": "Secret storage",
+      "requirement": "Use OS keyring or explicit session-only storage; never plaintext fallback.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-KEYRING",
+        "TEST-REDACTION",
+        "TEST-CREDENTIAL-BROKER",
+        "TEST-UI-02",
+        "TEST-UI-08"
+      ],
+      "task_ids": [
+        "P03-T02",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "title": "Narrow native boundary",
+      "requirement": "Allowlisted typed commands, native validation, least-privilege capabilities.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-IPC"
+      ],
+      "task_ids": [
+        "P01-T02",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "title": "Redacted activity",
+      "requirement": "Useful bounded activity/logs and explicit redacted export.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-REDACTION",
+        "TEST-UI-07"
+      ],
+      "task_ids": [
+        "P08-T03"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "title": "LFS coverage",
+      "requirement": "Transfer selected reachable LFS payloads and report upload vs restore verification separately.",
+      "origin": "SPEC_DEFAULT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-LFS",
+        "TEST-LFS-RESTORE"
+      ],
+      "task_ids": [
+        "P09-T01",
+        "P09-T03"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "title": "Submodule transparency",
+      "requirement": "Preserve gitlinks and state child backup coverage; no blind recursive clone.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-SUBMODULE"
+      ],
+      "task_ids": [
+        "P09-T02"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "title": "Workspace safety",
+      "requirement": "Optional workspace updates never overwrite dirty, ahead, detached or diverged work.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-WORKSPACE",
+        "TEST-UI-05"
+      ],
+      "task_ids": [
+        "P05-T04"
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "title": "Historical recovery",
+      "requirement": "Verified snapshots before destructive changes and a tested restore runbook.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-LFS-RESTORE",
+        "TEST-SNAPSHOT",
+        "TEST-BUNDLE-RESTORE",
+        "TEST-EMPTY-REPO"
+      ],
+      "task_ids": [
+        "P05-T03",
+        "P09-T03"
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "title": "Failure management",
+      "requirement": "Classified retries, rate-limit waits, timeout and process-tree cleanup.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-RETRY",
+        "TEST-PROCESS-CANCEL",
+        "TEST-UI-06"
+      ],
+      "task_ids": [
+        "P05-T01",
+        "P07-T01",
+        "P07-T02",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "title": "Plan-bound writes",
+      "requirement": "Exact-ref plans and leases; invalidate approval on source/destination/policy drift.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-SNAPSHOT",
+        "TEST-PLAN-LEASE",
+        "TEST-ATOMIC-PUSH",
+        "TEST-UI-05",
+        "TEST-UI-10"
+      ],
+      "task_ids": [
+        "P05-T03",
+        "P06-T02",
+        "P06-T03",
+        "P08-T02"
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "title": "Deletion safeguards",
+      "requirement": "No backup deletion from incomplete discovery, access failure or missing source repo.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-PAGINATION",
+        "TEST-NO-DELETE-ON-404"
+      ],
+      "task_ids": [
+        "P04-T01",
+        "P06-T02",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "title": "Untrusted-input defense",
+      "requirement": "Validate paths/refs/URLs, disallow hooks and hostile Git configuration.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-ROOT",
+        "TEST-SUBMODULE",
+        "TEST-GIT-INPUT",
+        "TEST-CREDENTIAL-BROKER"
+      ],
+      "task_ids": [
+        "P03-T04",
+        "P05-T01",
+        "P06-T03",
+        "P09-T01",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "title": "UI visual fidelity",
+      "requirement": "Match reviewed Refined V2 plus corrections using genuine baselines and visual evidence.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-VISUAL",
+        "TEST-NATIVE-UI",
+        "TEST-UI-01",
+        "TEST-UI-03",
+        "TEST-UI-05"
+      ],
+      "task_ids": [
+        "P00-T03",
+        "P02-T01",
+        "P02-T04",
+        "P08-T05",
+        "P10-T02",
+        "P10-T04"
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "title": "Semantic icons",
+      "requirement": "Replace status dots/text placeholders with valid consistent icons and accessible labels.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-ICONS",
+        "TEST-UI-02",
+        "TEST-UI-03",
+        "TEST-UI-04",
+        "TEST-UI-05",
+        "TEST-UI-06",
+        "TEST-UI-07",
+        "TEST-UI-08",
+        "TEST-UI-09",
+        "TEST-UI-10"
+      ],
+      "task_ids": [
+        "P02-T01",
+        "P02-T02",
+        "P08-T05"
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "title": "Balanced clean UI",
+      "requirement": "No card/chart spam or sparse wireframe substitute; retain decision-relevant information.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-VISUAL",
+        "TEST-LAYOUT",
+        "TEST-UI-03"
+      ],
+      "task_ids": [
+        "P02-T01",
+        "P02-T02",
+        "P08-T05"
+      ]
+    },
+    {
+      "id": "REQ-26",
+      "title": "Usable adaptive UI",
+      "requirement": "Keyboard, focus, resizing, zoom, error/loading states without overlap or clipping.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-LAYOUT",
+        "TEST-KEYBOARD",
+        "TEST-NATIVE-UI",
+        "TEST-UI-01",
+        "TEST-UI-02",
+        "TEST-UI-04",
+        "TEST-UI-07",
+        "TEST-UI-09",
+        "TEST-UI-10"
+      ],
+      "task_ids": [
+        "P02-T02",
+        "P02-T04",
+        "P08-T05",
+        "P10-T02"
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "title": "Onboarding",
+      "requirement": "Folder, credentials, repository/destination review and initial scan progress.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-01",
+        "TEST-UI-02"
+      ],
+      "task_ids": [
+        "P08-T01"
+      ]
+    },
+    {
+      "id": "REQ-28",
+      "title": "Dashboard",
+      "requirement": "Derived totals, attention items, backup pipeline and recent activity.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-03"
+      ],
+      "task_ids": [
+        "P02-T03",
+        "P08-T05"
+      ]
+    },
+    {
+      "id": "REQ-29",
+      "title": "Repository management",
+      "requirement": "Search/filter/select and per-repo/bulk actions using stable IDs.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-04"
+      ],
+      "task_ids": [
+        "P02-T03",
+        "P08-T02"
+      ]
+    },
+    {
+      "id": "REQ-30",
+      "title": "Repository details",
+      "requirement": "Overview, selected ref comparison, history, logs and coverage.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-05"
+      ],
+      "task_ids": [
+        "P08-T02"
+      ]
+    },
+    {
+      "id": "REQ-31",
+      "title": "Sync center",
+      "requirement": "Queue and selected job stages; no default console wall or fake ETA.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-06"
+      ],
+      "task_ids": [
+        "P08-T03"
+      ]
+    },
+    {
+      "id": "REQ-32",
+      "title": "Activity screen",
+      "requirement": "Searchable timeline with optional sanitized event detail.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-07"
+      ],
+      "task_ids": [
+        "P08-T03"
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "title": "Connections screen",
+      "requirement": "Account, access/credential status, destination namespace, folder and safe disconnect.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-08"
+      ],
+      "task_ids": [
+        "P08-T01"
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "title": "Settings screen",
+      "requirement": "Typed, validated policies with explicit save and truthful capability availability.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-09"
+      ],
+      "task_ids": [
+        "P08-T04"
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "title": "Focused dialogs",
+      "requirement": "Distinct empty/error/warning/confirm states with a clear safe next action.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-UI-10"
+      ],
+      "task_ids": [
+        "P08-T04"
+      ]
+    },
+    {
+      "id": "REQ-36",
+      "title": "Contract parity",
+      "requirement": "Native DTOs, FE validators and fixtures agree on version, casing and error codes.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-IPC",
+        "TEST-CONTRACT-FIXTURES",
+        "TEST-DB",
+        "TEST-EVENTS"
+      ],
+      "task_ids": [
+        "P01-T02",
+        "P03-T01",
+        "P07-T03"
+      ]
+    },
+    {
+      "id": "REQ-37",
+      "title": "Evidence-driven implementation",
+      "requirement": "No invented APIs, production fakes or unexecuted-test success claims.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-NO-FAKES"
+      ],
+      "task_ids": [
+        "P00-T01",
+        "P00-T03",
+        "P01-T03",
+        "P08-T05",
+        "P10-T04"
+      ]
+    },
+    {
+      "id": "REQ-38",
+      "title": "Verified Linux package",
+      "requirement": "Build/install/run smoke test on a clean supported native environment.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-PACKAGE",
+        "TEST-NATIVE-UI"
+      ],
+      "task_ids": [
+        "P10-T03"
+      ]
+    },
+    {
+      "id": "REQ-39",
+      "title": "No telemetry",
+      "requirement": "No analytics or template debug-panel leakage in release builds.",
+      "origin": "SPEC_DEFAULT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-TEMPLATE",
+        "TEST-NO-FAKES",
+        "TEST-PRIVACY",
+        "TEST-UI-09"
+      ],
+      "task_ids": [
+        "P01-T01",
+        "P03-T02",
+        "P10-T01"
+      ]
+    },
+    {
+      "id": "REQ-40",
+      "title": "Stable identities",
+      "requirement": "Handle rename/transfer/case/path collision without duplicating or overwriting unrelated repos.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-IDENTITY",
+        "TEST-UI-04"
+      ],
+      "task_ids": [
+        "P04-T02"
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "title": "Provider limits and permissions",
+      "requirement": "Show partial scope, forbidden resources and rate limits without guessing token capability.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-SCOPE",
+        "TEST-PAGINATION",
+        "TEST-PAT",
+        "TEST-RETRY",
+        "TEST-PROJECT-CREATE",
+        "TEST-UI-02",
+        "TEST-UI-08"
+      ],
+      "task_ids": [
+        "P03-T03",
+        "P04-T01",
+        "P06-T01",
+        "P08-T01"
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "title": "Scoped backup verification",
+      "requirement": "Git refs, local objects, LFS, submodules and workspace statuses are independent.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-REFS",
+        "TEST-LFS",
+        "TEST-LFS-RESTORE",
+        "TEST-SUBMODULE",
+        "TEST-ATOMIC-PUSH",
+        "TEST-VERIFY",
+        "TEST-EMPTY-REPO",
+        "TEST-STATUS-AGGREGATION",
+        "TEST-UI-03",
+        "TEST-UI-05"
+      ],
+      "task_ids": [
+        "P04-T03",
+        "P05-T02",
+        "P06-T04",
+        "P09-T01",
+        "P09-T02",
+        "P09-T03",
+        "P10-T04"
+      ]
+    },
+    {
+      "id": "REQ-43",
+      "title": "Consistent summaries",
+      "requirement": "Derive card/table/detail statuses from the same snapshot and revision.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-FRESHNESS",
+        "TEST-CONTRACT-FIXTURES",
+        "TEST-EVENTS",
+        "TEST-STATUS-AGGREGATION",
+        "TEST-UI-03",
+        "TEST-UI-04"
+      ],
+      "task_ids": [
+        "P01-T03",
+        "P02-T03",
+        "P06-T04",
+        "P07-T03",
+        "P10-T04"
+      ]
+    },
+    {
+      "id": "REQ-44",
+      "title": "Lifecycle and tray fallback",
+      "requirement": "Closing vs quitting is explicit; no invisible unrecoverable background process.",
+      "origin": "OWNER_REQUIREMENT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-ENV",
+        "TEST-LIFECYCLE",
+        "TEST-UI-09"
+      ],
+      "task_ids": [
+        "P07-T02",
+        "P08-T04",
+        "P10-T02"
+      ]
+    },
+    {
+      "id": "REQ-45",
+      "title": "Safe Git credential bridge",
+      "requirement": "No credentials in CLI argv, env or URLs; bind helper requests to account/job/origin/path.",
+      "origin": "SAFETY_CONSTRAINT",
+      "release": "v1",
+      "test_ids": [
+        "TEST-REDACTION",
+        "TEST-CREDENTIAL-BROKER",
+        "TEST-UI-02"
+      ],
+      "task_ids": [
+        "P00-T02",
+        "P03-T04",
+        "P05-T01",
+        "P10-T01"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "statusRule": "Selected blueprint defaults are not claims of owner sign-off; record real future decisions with provenance.",
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "title": "Modular Tauri desktop",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/001-modular-tauri-desktop.md",
+      "requirements": [
+        "REQ-01",
+        "REQ-02"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-002",
+      "title": "System Git as the network engine",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/002-system-git-as-the-network-engine.md",
+      "requirements": [
+        "REQ-07",
+        "REQ-19",
+        "REQ-22"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-003",
+      "title": "Safe one-way managed mirroring",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/003-safe-one-way-managed-mirroring.md",
+      "requirements": [
+        "REQ-06",
+        "REQ-20",
+        "REQ-21"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-004",
+      "title": "SQLite state and OS keyring",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/004-sqlite-state-and-os-keyring.md",
+      "requirements": [
+        "REQ-10",
+        "REQ-12",
+        "REQ-13"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-005",
+      "title": "PAT first; OAuth separately gated",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/005-pat-first-oauth-separately-gated.md",
+      "requirements": [
+        "REQ-11",
+        "REQ-41"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-006",
+      "title": "Local mirrors separate from workspaces",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/006-local-mirrors-separate-from-workspaces.md",
+      "requirements": [
+        "REQ-05",
+        "REQ-17"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-007",
+      "title": "Snapshots and restore scope",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/007-snapshots-and-restore-scope.md",
+      "requirements": [
+        "REQ-15",
+        "REQ-16",
+        "REQ-18",
+        "REQ-42"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-008",
+      "title": "Durable scheduler without broker",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/008-durable-scheduler-without-broker.md",
+      "requirements": [
+        "REQ-09",
+        "REQ-10",
+        "REQ-44"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-009",
+      "title": "Design references plus human fidelity gate",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/009-design-references-plus-human-fidelity-gate.md",
+      "requirements": [
+        "REQ-23",
+        "REQ-24",
+        "REQ-25",
+        "REQ-26"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-010",
+      "title": "Typed app-owned command boundary",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/010-typed-app-owned-command-boundary.md",
+      "requirements": [
+        "REQ-13",
+        "REQ-36",
+        "REQ-43"
+      ],
+      "ownerApproved": false
+    },
+    {
+      "id": "ADR-011",
+      "title": "Runtime-scoped credentials and trust",
+      "status": "SELECTED_BLUEPRINT_DEFAULT",
+      "doc": "docs/architecture/adr/011-runtime-scoped-credentials-and-trust.md",
+      "requirements": [
+        "REQ-14",
+        "REQ-22",
+        "REQ-45"
+      ],
+      "ownerApproved": false
+    }
+  ],
+  "openGates": [
+    {
+      "id": "DG-VISUAL",
+      "scope": "P02/P08/P10 UI sign-off",
+      "question": "Obtain owner-approved references and apply pending semantic-icon correction.",
+      "status": "OPEN"
+    },
+    {
+      "id": "DG-RUNTIME",
+      "scope": "Initial onboarding before provider writes",
+      "question": "Owner selects GitLab account/namespace, local folder and repository scope.",
+      "status": "OPEN"
+    },
+    {
+      "id": "DG-TOOLCHAIN",
+      "scope": "P00/P01",
+      "question": "Resolve exact dependency/template versions and native capability evidence.",
+      "status": "OPEN"
+    },
+    {
+      "id": "DG-BROKER",
+      "scope": "P03/P05 network credentials",
+      "question": "Implement and verify the Linux credential broker transport and identity checks.",
+      "status": "OPEN"
+    }
+  ]
+}

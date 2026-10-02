@@ -1,0 +1,18 @@
+{
+  "profile": "frontend",
+  "status": "BLOCKED",
+  "reasons": [
+    "missing application package script: build",
+    "missing application package script: lint",
+    "missing application package script: test:unit",
+    "missing application package script: typecheck",
+    "missing application prerequisite: apps/desktop/package.json",
+    "missing application prerequisite: pnpm-lock.yaml",
+    "missing executable: pnpm"
+  ],
+  "results": [],
+  "generatedAt": "2026-10-01T14:01:06.442179+00:00",
+  "repoRoot": "/mnt/data/git-backup-manager-blueprint",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /mnt/data/gbm-validation-runs/20261001T140106Z-4dfc1dcc/report.json

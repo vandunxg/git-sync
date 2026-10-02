@@ -1,0 +1,160 @@
+{
+  "artifact": "blueprint utilities only",
+  "python": "3.13.5",
+  "os": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "checks": [
+    {
+      "check": "blueprint-lint",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/lint_pack.py"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "matchedExpectation": true,
+      "log": "quality/evidence/blueprint-lint.txt"
+    },
+    {
+      "check": "tool-unit-tests",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-v"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "matchedExpectation": true,
+      "log": "quality/evidence/tool-unit-tests.txt"
+    },
+    {
+      "check": "baseline-gate-missing",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/check_visual_baselines.py"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/baseline-gate-missing.txt"
+    },
+    {
+      "check": "profile-docs",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "docs",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-docs.txt"
+    },
+    {
+      "check": "profile-core",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "core",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-core.txt"
+    },
+    {
+      "check": "profile-frontend",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "frontend",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-frontend.txt"
+    },
+    {
+      "check": "profile-visual",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "visual",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-visual.txt"
+    },
+    {
+      "check": "profile-security",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "security",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-security.txt"
+    },
+    {
+      "check": "profile-native",
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_gates.py",
+        "--profile",
+        "native",
+        "--repo-root",
+        "/mnt/data/git-backup-manager-blueprint",
+        "--evidence-dir",
+        "/mnt/data/gbm-validation-runs"
+      ],
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "matchedExpectation": true,
+      "log": "quality/evidence/profile-native.txt"
+    },
+    {
+      "check": "path-scope-local-git-fixture",
+      "expectedAllowedExit": 0,
+      "actualAllowedExit": 0,
+      "expectedOutOfScopeExit": 1,
+      "actualOutOfScopeExit": 1,
+      "usedRemote": false,
+      "matchedExpectation": true
+    }
+  ],
+  "appImplemented": false,
+  "appAcceptanceScenariosExecuted": 0,
+  "visualBaselineApproved": false,
+  "note": "BLOCKED app/visual profiles are expected and were not counted as application PASS. No real provider accounts/projects were used."
+}

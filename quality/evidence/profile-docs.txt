@@ -1,0 +1,50 @@
+{
+  "profile": "docs",
+  "status": "PASS",
+  "reasons": [],
+  "results": [
+    {
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "scripts/lint_pack.py"
+      ],
+      "cwd": "/mnt/data/git-backup-manager-blueprint",
+      "log": "/mnt/data/gbm-validation-runs/20261001T140100Z-70c313f9/00-blueprint-lint.log",
+      "startedAt": "2026-10-01T14:01:00.818111+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 0.821,
+      "name": "blueprint-lint"
+    },
+    {
+      "argv": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-v"
+      ],
+      "cwd": "/mnt/data/git-backup-manager-blueprint",
+      "log": "/mnt/data/gbm-validation-runs/20261001T140100Z-70c313f9/01-blueprint-tool-tests.log",
+      "startedAt": "2026-10-01T14:01:01.638562+00:00",
+      "status": "PASS",
+      "exitCode": 0,
+      "timedOut": false,
+      "streamIncomplete": false,
+      "logCapped": false,
+      "readerErrors": [],
+      "elapsedSeconds": 3.282,
+      "name": "blueprint-tool-tests"
+    }
+  ],
+  "generatedAt": "2026-10-01T14:01:04.920093+00:00",
+  "repoRoot": "/mnt/data/git-backup-manager-blueprint",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /mnt/data/gbm-validation-runs/20261001T140100Z-70c313f9/report.json

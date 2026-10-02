@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "preparedAt": "2026-10-01",
+  "officialSources": [
+    {
+      "id": "S01",
+      "title": "Requested scaffold",
+      "url": "https://github.com/agmmnn/tauri-ui",
+      "accessedAt": "2026-10-01",
+      "use": "Verify the upstream template revision and actual supported frontend/Tauri versions during P00.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S02",
+      "title": "Tauri capabilities",
+      "url": "https://v2.tauri.app/security/capabilities/",
+      "accessedAt": "2026-10-01",
+      "use": "Capabilities and custom native command authorization must be reviewed together; frontend permission lists are not a substitute for native validation.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S03",
+      "title": "Git push",
+      "url": "https://git-scm.com/docs/git-push",
+      "accessedAt": "2026-10-01",
+      "use": "Mirror, atomic and exact expected-value lease semantics inform the safe explicit-ref plan.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S04",
+      "title": "GitHub repository duplication",
+      "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository",
+      "accessedAt": "2026-10-01",
+      "use": "Git LFS payload transfer is separate from a Git mirror.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S05",
+      "title": "GitHub repositories REST API",
+      "url": "https://docs.github.com/en/rest/repos/repos",
+      "accessedAt": "2026-10-01",
+      "use": "Authenticated repository enumeration, pagination and permissions must be matched to the chosen credential type.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S06",
+      "title": "GitHub App user authentication",
+      "url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app",
+      "accessedAt": "2026-10-01",
+      "use": "GitHub App user-access flow is not equivalent to a PAT and requires separately verified registration/permissions.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S07",
+      "title": "Rust API guidelines",
+      "url": "https://rust-lang.github.io/api-guidelines/checklist.html",
+      "accessedAt": "2026-10-01",
+      "use": "Use idiomatic typed public interfaces, useful errors and documented invariants.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S08",
+      "title": "Tokio process",
+      "url": "https://docs.rs/tokio/latest/tokio/process/index.html",
+      "accessedAt": "2026-10-01",
+      "use": "Child lifecycle, cancellation and waiting/reaping require deliberate implementation.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S09",
+      "title": "React effect guidance",
+      "url": "https://react.dev/learn/you-might-not-need-an-effect",
+      "accessedAt": "2026-10-01",
+      "use": "Avoid redundant derived state/effects; keep actual synchronization effects bounded and cleaned up.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S10",
+      "title": "Playwright visual comparisons",
+      "url": "https://playwright.dev/docs/test-snapshots",
+      "accessedAt": "2026-10-01",
+      "use": "Pinned rendering and managed expected screenshots are required for meaningful visual regressions.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S11",
+      "title": "Lucide React",
+      "url": "https://lucide.dev/guide/react",
+      "accessedAt": "2026-10-01",
+      "use": "Use actual supported icon exports; do not fabricate component names or recreate brand artwork.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S12",
+      "title": "GitLab projects API",
+      "url": "https://docs.gitlab.com/api/projects/",
+      "accessedAt": "2026-10-01",
+      "use": "Project creation, namespace, visibility and lookup behavior require verified API permissions.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S13",
+      "title": "SQLite WAL",
+      "url": "https://sqlite.org/wal.html",
+      "accessedAt": "2026-10-01",
+      "use": "Read concurrency does not remove writer/lifecycle/backup constraints; validate chosen journal setup.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S14",
+      "title": "Git bundle",
+      "url": "https://git-scm.com/docs/git-bundle",
+      "accessedAt": "2026-10-01",
+      "use": "Bundle creation and verification support isolated Git recovery; coverage is explicitly selected.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S15",
+      "title": "GitLab OAuth",
+      "url": "https://docs.gitlab.com/api/oauth2/",
+      "accessedAt": "2026-10-01",
+      "use": "OAuth/PKCE/device support and instance/version prerequisites must be checked for the deferred auth extension.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S16",
+      "title": "Tauri prerequisites",
+      "url": "https://v2.tauri.app/start/prerequisites/",
+      "accessedAt": "2026-10-01",
+      "use": "Linux native dependencies and target environment must be recorded, not inferred from a web build.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S17",
+      "title": "Tauri WebDriver testing",
+      "url": "https://v2.tauri.app/develop/tests/webdriver/",
+      "accessedAt": "2026-10-01",
+      "use": "Native application tests require platform-specific setup; they are distinct from browser mocks.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S18",
+      "title": "Git fetch",
+      "url": "https://git-scm.com/docs/git-fetch",
+      "accessedAt": "2026-10-01",
+      "use": "Refspec, tags, shallow/partial history and recursion behavior must be explicit in the backup engine.",
+      "exactDependencyVersionVerified": false
+    },
+    {
+      "id": "S19",
+      "title": "Rust keyring crate",
+      "url": "https://docs.rs/keyring/latest/keyring/",
+      "accessedAt": "2026-10-01",
+      "use": "Inspect the exact installed backend, feature flags and APIs during P00/P03; no exact version is claimed here.",
+      "exactDependencyVersionVerified": false
+    }
+  ],
+  "connectedEvidence": [
+    {
+      "id": "F-01",
+      "provider": "Figma",
+      "fileKey": "NCVVCfO9j9aMyh0E6YRXwU",
+      "pageId": "6:2",
+      "attempt": "get_metadata",
+      "result": "BLOCKED_MCP_STARTER_TOOL_CALL_LIMIT",
+      "newVisualEvidence": false,
+      "note": "Frame IDs in FIGMA_MAP.json are from earlier successful conversation tool results. Icon replacement write was not applied."
+    }
+  ],
+  "limitations": [
+    "No target application source repository was provided/inspected.",
+    "Source access does not establish installed software version or successful runtime testing.",
+    "No new Figma screenshot or validated design export was obtained."
+  ]
+}

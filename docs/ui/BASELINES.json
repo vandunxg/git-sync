@@ -1,0 +1,257 @@
+{
+  "version": 1,
+  "approvalRule": "owner or designated human reviewer; implementation author cannot self-approve",
+  "referencesOnly": true,
+  "screens": [
+    {
+      "screenId": "UI-01",
+      "figmaNodeId": "6:3",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-02",
+      "figmaNodeId": "6:73",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-03",
+      "figmaNodeId": "6:140",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-04",
+      "figmaNodeId": "6:359",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-05",
+      "figmaNodeId": "6:571",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-06",
+      "figmaNodeId": "6:755",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-07",
+      "figmaNodeId": "6:968",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-08",
+      "figmaNodeId": "6:1110",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-09",
+      "figmaNodeId": "6:1231",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    },
+    {
+      "screenId": "UI-10",
+      "figmaNodeId": "6:1406",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "missing",
+      "designReference": {
+        "path": null,
+        "sha256": null
+      },
+      "implementationGolden": {
+        "path": null,
+        "sha256": null,
+        "commit": null,
+        "renderer": null
+      },
+      "approval": {
+        "by": null,
+        "at": null,
+        "recordPath": null
+      },
+      "reason": "Figma MCP quota blocked; semantic-icon correction still pending"
+    }
+  ]
+}

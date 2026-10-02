@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "status": "candidate_requires_P02_visual_freeze",
+  "provenance": "Refined V2 source values from conversation, plus explicit readability correction; not measured from a fresh export",
+  "colors": {
+    "canvas": "#F7F7F9",
+    "surface": "#FFFFFF",
+    "sidebar": "#FBFBFC",
+    "text": "#1A1B1F",
+    "muted": "#6E737D",
+    "border": "#E4E6E9",
+    "subtle": "#F1F2F4",
+    "primary": "#1A5CE0",
+    "primarySoft": "#ECF2FF",
+    "success": "#128F47",
+    "successSoft": "#EDF9F0",
+    "warning": "#B86808",
+    "warningSoft": "#FFF7E6",
+    "danger": "#C8202B",
+    "dangerSoft": "#FFEEF0"
+  },
+  "typography": {
+    "family": "Geist",
+    "pageTitle": 26,
+    "sectionTitle": 15,
+    "body": 14,
+    "control": 13,
+    "metadata": 12,
+    "minimumMeaningfulText": 12,
+    "bodyLineHeight": 1.5
+  },
+  "spacing": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32,
+    40,
+    48
+  ],
+  "radii": {
+    "control": 8,
+    "panel": 10,
+    "status": 6
+  },
+  "layout": {
+    "referenceViewport": [
+      1440,
+      900
+    ],
+    "titleBarHeight": 36,
+    "sidebarWidth": 220,
+    "mainPadding": 28,
+    "sectionGap": 20,
+    "columnGap": 18,
+    "tableRowMinHeight": 52,
+    "controlMinHeight": 36,
+    "compactMinViewport": [
+      1024,
+      768
+    ]
+  },
+  "icons": {
+    "navigation": 16,
+    "status": 14,
+    "action": 16,
+    "section": 18,
+    "strokeWidth": 1.75
+  },
+  "motion": {
+    "durationMs": 150,
+    "honorReducedMotion": true
+  },
+  "approved": false
+}

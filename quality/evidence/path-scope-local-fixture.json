@@ -1,0 +1,29 @@
+{
+  "check": "path-scope-local-git-fixture",
+  "allowedExit": 0,
+  "rejectedExit": 1,
+  "usedRemote": false,
+  "allowedReport": {
+    "status": "PASS_PATH_SCOPE_ONLY",
+    "task": "P00-T01",
+    "resolvedBase": "a3f1c41f2a4ab5f02ad56f821cabf57417644e2a",
+    "changedPaths": [
+      "README.md"
+    ],
+    "outOfScope": [],
+    "semanticReviewStillRequired": true
+  },
+  "rejectedReport": {
+    "status": "FAIL",
+    "task": "P00-T01",
+    "resolvedBase": "a3f1c41f2a4ab5f02ad56f821cabf57417644e2a",
+    "changedPaths": [
+      "README.md",
+      "unrelated.rs"
+    ],
+    "outOfScope": [
+      "unrelated.rs"
+    ],
+    "semanticReviewStillRequired": true
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "version": 1,
+  "screens": [
+    {
+      "id": "UI-01",
+      "title": "Onboarding / welcome and folder",
+      "spec": "docs/ui/screens/01_ONBOARDING_WELCOME.md",
+      "figmaNodeId": "6:3",
+      "requirements": [
+        "REQ-05",
+        "REQ-23",
+        "REQ-26",
+        "REQ-27"
+      ],
+      "commands": [
+        "gbm_app_bootstrap",
+        "gbm_environment_diagnostics",
+        "gbm_storage_pick_root",
+        "gbm_storage_commit_root"
+      ],
+      "testId": "TEST-UI-01",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-02",
+      "title": "Onboarding / provider connections",
+      "spec": "docs/ui/screens/02_ONBOARDING_CONNECTIONS.md",
+      "figmaNodeId": "6:73",
+      "requirements": [
+        "REQ-11",
+        "REQ-12",
+        "REQ-24",
+        "REQ-26",
+        "REQ-27",
+        "REQ-41",
+        "REQ-45"
+      ],
+      "commands": [
+        "gbm_accounts_list",
+        "gbm_credentials_validate_store",
+        "gbm_namespaces_list",
+        "gbm_destination_preview",
+        "gbm_destination_commit"
+      ],
+      "testId": "TEST-UI-02",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-03",
+      "title": "Dashboard",
+      "spec": "docs/ui/screens/03_DASHBOARD.md",
+      "figmaNodeId": "6:140",
+      "requirements": [
+        "REQ-08",
+        "REQ-23",
+        "REQ-24",
+        "REQ-25",
+        "REQ-28",
+        "REQ-42",
+        "REQ-43"
+      ],
+      "commands": [
+        "gbm_dashboard_get",
+        "gbm_activity_list",
+        "gbm_source_scan_enqueue",
+        "gbm_sync_plan_create",
+        "gbm_sync_apply_enqueue"
+      ],
+      "testId": "TEST-UI-03",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-04",
+      "title": "Repository list",
+      "spec": "docs/ui/screens/04_REPOSITORIES.md",
+      "figmaNodeId": "6:359",
+      "requirements": [
+        "REQ-03",
+        "REQ-07",
+        "REQ-24",
+        "REQ-26",
+        "REQ-29",
+        "REQ-40",
+        "REQ-43"
+      ],
+      "commands": [
+        "gbm_repositories_list",
+        "gbm_repositories_select",
+        "gbm_repository_get",
+        "gbm_source_scan_enqueue",
+        "gbm_sync_plan_create",
+        "gbm_sync_apply_enqueue"
+      ],
+      "testId": "TEST-UI-04",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-05",
+      "title": "Repository detail and tabs",
+      "spec": "docs/ui/screens/05_REPOSITORY_DETAIL.md",
+      "figmaNodeId": "6:571",
+      "requirements": [
+        "REQ-17",
+        "REQ-20",
+        "REQ-23",
+        "REQ-24",
+        "REQ-30",
+        "REQ-42"
+      ],
+      "commands": [
+        "gbm_repository_get",
+        "gbm_repository_refs",
+        "gbm_activity_list",
+        "gbm_logs_read",
+        "gbm_sync_plan_create",
+        "gbm_sync_plan_get",
+        "gbm_sync_plan_approve",
+        "gbm_sync_apply_enqueue",
+        "gbm_repository_open_workspace",
+        "gbm_repository_open_provider"
+      ],
+      "testId": "TEST-UI-05",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-06",
+      "title": "Sync center",
+      "spec": "docs/ui/screens/06_SYNC_CENTER.md",
+      "figmaNodeId": "6:755",
+      "requirements": [
+        "REQ-09",
+        "REQ-10",
+        "REQ-19",
+        "REQ-24",
+        "REQ-31"
+      ],
+      "commands": [
+        "gbm_jobs_list",
+        "gbm_job_cancel",
+        "gbm_job_retry",
+        "gbm_queue_set_paused",
+        "gbm_logs_read"
+      ],
+      "testId": "TEST-UI-06",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-07",
+      "title": "Activity and logs",
+      "spec": "docs/ui/screens/07_ACTIVITY.md",
+      "figmaNodeId": "6:968",
+      "requirements": [
+        "REQ-14",
+        "REQ-24",
+        "REQ-26",
+        "REQ-32"
+      ],
+      "commands": [
+        "gbm_activity_list",
+        "gbm_logs_read",
+        "gbm_activity_export"
+      ],
+      "testId": "TEST-UI-07",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-08",
+      "title": "Connections",
+      "spec": "docs/ui/screens/08_CONNECTIONS.md",
+      "figmaNodeId": "6:1110",
+      "requirements": [
+        "REQ-11",
+        "REQ-12",
+        "REQ-24",
+        "REQ-33",
+        "REQ-41"
+      ],
+      "commands": [
+        "gbm_accounts_list",
+        "gbm_credentials_validate_store",
+        "gbm_accounts_disconnect",
+        "gbm_namespaces_list",
+        "gbm_environment_diagnostics"
+      ],
+      "testId": "TEST-UI-08",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-09",
+      "title": "Settings and preference sections",
+      "spec": "docs/ui/screens/09_SETTINGS.md",
+      "figmaNodeId": "6:1231",
+      "requirements": [
+        "REQ-24",
+        "REQ-26",
+        "REQ-34",
+        "REQ-39",
+        "REQ-44"
+      ],
+      "commands": [
+        "gbm_settings_get",
+        "gbm_settings_update",
+        "gbm_environment_diagnostics"
+      ],
+      "testId": "TEST-UI-09",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    },
+    {
+      "id": "UI-10",
+      "title": "Empty, error, warning and confirmation patterns",
+      "spec": "docs/ui/screens/10_STATES_AND_DIALOGS.md",
+      "figmaNodeId": "6:1406",
+      "requirements": [
+        "REQ-20",
+        "REQ-24",
+        "REQ-26",
+        "REQ-35"
+      ],
+      "commands": [
+        "gbm_source_scan_enqueue",
+        "gbm_credentials_validate_store",
+        "gbm_sync_plan_approve",
+        "gbm_sync_apply_enqueue",
+        "gbm_job_retry"
+      ],
+      "testId": "TEST-UI-10",
+      "baselineRequired": true,
+      "subviewPolicy": "Rendered subviews not present in the reference require separate capture/approval; never invent node IDs."
+    }
+  ]
+}

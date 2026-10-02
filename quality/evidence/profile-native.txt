@@ -1,0 +1,17 @@
+{
+  "profile": "native",
+  "status": "BLOCKED",
+  "reasons": [
+    "missing application package script: test:native",
+    "missing application prerequisite: apps/desktop/package.json",
+    "missing application prerequisite: pnpm-lock.yaml",
+    "missing executable: pnpm",
+    "native authorization: missing --sandbox-config",
+    "native profile requires --allow-native"
+  ],
+  "results": [],
+  "generatedAt": "2026-10-01T14:01:08.792698+00:00",
+  "repoRoot": "/mnt/data/git-backup-manager-blueprint",
+  "notice": "A profile pass is not full product, visual, security or owner acceptance. Review task-specific scenarios and native evidence."
+}
+Evidence: /mnt/data/gbm-validation-runs/20261001T140108Z-9b78ddb2/report.json

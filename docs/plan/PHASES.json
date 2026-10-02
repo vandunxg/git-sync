@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "phases": [
+    {
+      "id": "P00",
+      "title": "Reconnaissance and decision ledger",
+      "dependsOn": [],
+      "goal": "Resolve actual repository/toolchain context and record missing evidence without fabrication.",
+      "tasks": [
+        "P00-T01",
+        "P00-T02",
+        "P00-T03"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P00.md"
+    },
+    {
+      "id": "P01",
+      "title": "Foundation and typed boundaries",
+      "dependsOn": [
+        "P00"
+      ],
+      "goal": "A real buildable shell with narrow native contracts and test harnesses, not feature-complete backup.",
+      "tasks": [
+        "P01-T01",
+        "P01-T02",
+        "P01-T03"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P01.md"
+    },
+    {
+      "id": "P02",
+      "title": "UI baseline, components and first vertical slice",
+      "dependsOn": [
+        "P01"
+      ],
+      "goal": "Freeze an owner-reviewed visual target and prove a meaningful UI slice before implementing every screen.",
+      "tasks": [
+        "P02-T01",
+        "P02-T02",
+        "P02-T03",
+        "P02-T04"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P02.md"
+    },
+    {
+      "id": "P03",
+      "title": "Persistence, credentials and account setup",
+      "dependsOn": [
+        "P01"
+      ],
+      "goal": "Validated account/keyring and persistence flows, with a secure Git auth bridge.",
+      "tasks": [
+        "P03-T01",
+        "P03-T02",
+        "P03-T03",
+        "P03-T04"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P03.md"
+    },
+    {
+      "id": "P04",
+      "title": "Discovery, identity and source observation",
+      "dependsOn": [
+        "P03"
+      ],
+      "goal": "Complete selected catalog and all-ref observations without source writes.",
+      "tasks": [
+        "P04-T01",
+        "P04-T02",
+        "P04-T03"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P04.md"
+    },
+    {
+      "id": "P05",
+      "title": "Safe local Git engine and recovery foundation",
+      "dependsOn": [
+        "P04"
+      ],
+      "goal": "A cancellable local mirror engine plus verified recovery before any destructive remote work.",
+      "tasks": [
+        "P05-T01",
+        "P05-T02",
+        "P05-T03",
+        "P05-T04"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P05.md"
+    },
+    {
+      "id": "P06",
+      "title": "GitLab plan, apply and verification",
+      "dependsOn": [
+        "P05"
+      ],
+      "goal": "An audited one-way backup loop with exact-ref safety and post-write proof.",
+      "tasks": [
+        "P06-T01",
+        "P06-T02",
+        "P06-T03",
+        "P06-T04"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P06.md"
+    },
+    {
+      "id": "P07",
+      "title": "Persistent scheduling, retry and events",
+      "dependsOn": [
+        "P06"
+      ],
+      "goal": "Background work is owned, bounded, recoverable and accurately reflected in the UI.",
+      "tasks": [
+        "P07-T01",
+        "P07-T02",
+        "P07-T03"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P07.md"
+    },
+    {
+      "id": "P08",
+      "title": "Complete UI workflows on real native contracts",
+      "dependsOn": [
+        "P02",
+        "P07"
+      ],
+      "goal": "All screen families behave correctly, with approved visuals and no production mocks.",
+      "tasks": [
+        "P08-T01",
+        "P08-T02",
+        "P08-T03",
+        "P08-T04",
+        "P08-T05"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P08.md"
+    },
+    {
+      "id": "P09",
+      "title": "LFS, dependency coverage and full restore",
+      "dependsOn": [
+        "P06"
+      ],
+      "goal": "Backup scope includes real LFS payloads and tested recoverability with no misleading claims.",
+      "tasks": [
+        "P09-T01",
+        "P09-T02",
+        "P09-T03"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P09.md"
+    },
+    {
+      "id": "P10",
+      "title": "Hardening and Linux release acceptance",
+      "dependsOn": [
+        "P08",
+        "P09"
+      ],
+      "goal": "A tested Linux release candidate with user-reviewed UI; publication remains separately authorized.",
+      "tasks": [
+        "P10-T01",
+        "P10-T02",
+        "P10-T03",
+        "P10-T04"
+      ],
+      "status": "NOT_STARTED",
+      "doc": "docs/plan/phases/P10.md"
+    }
+  ]
+}

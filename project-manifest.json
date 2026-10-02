@@ -1,0 +1,20 @@
+{
+  "name": "git-backup-manager-blueprint",
+  "version": "1.0.0",
+  "preparedAt": "2026-10-01",
+  "artifactKind": "documentation_and_quality_tools",
+  "applicationImplemented": false,
+  "entrypoint": "AGENTS.md",
+  "startGuide": "START_HERE.vi.md",
+  "registries": {
+    "requirements": "docs/spec/REQUIREMENTS.json",
+    "phases": "docs/plan/PHASES.json",
+    "tasks": "docs/plan/TASKS.json",
+    "tests": "docs/quality/TESTS.json",
+    "screens": "docs/ui/SCREENS.json",
+    "ipc": "contracts/ipc.v1.json",
+    "gates": "quality/GATES.json"
+  },
+  "releaseScope": "v1_linux_first_pat_safe_mirror",
+  "visualBaselineStatus": "BLOCKED_MISSING_APPROVED_EXPORTS"
+}

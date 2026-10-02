@@ -1,0 +1,1595 @@
+{
+  "version": 1,
+  "rule": "Phase dependencies must be complete; within each phase follow dependsOn. BLOCKED affects dependent work only.",
+  "tasks": [
+    {
+      "id": "P00-T01",
+      "phase": "P00",
+      "title": "Inspect repository and current instructions",
+      "dependsOn": [],
+      "phaseDependencies": [],
+      "allowedPaths": [
+        "README.md",
+        "AGENTS.md",
+        "state/TOOLCHAIN.json",
+        "state/IMPLEMENTATION.json"
+      ],
+      "requirements": [
+        "REQ-02",
+        "REQ-37"
+      ],
+      "tests": [
+        "TEST-TEMPLATE",
+        "TEST-NO-FAKES"
+      ],
+      "outcome": "Inventory actual code, existing instructions, dependencies and test commands; do not scaffold over an existing app.",
+      "definitionOfDone": [
+        "Executed repository/version/source inspection with evidence; future product scenarios remain NOT_RUN",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "inspection"
+    },
+    {
+      "id": "P00-T02",
+      "phase": "P00",
+      "title": "Verify stack, template and Linux capability probes",
+      "dependsOn": [
+        "P00-T01"
+      ],
+      "phaseDependencies": [],
+      "allowedPaths": [
+        "state/TOOLCHAIN.json",
+        "docs/architecture/STACK_AND_VERSION_POLICY.md"
+      ],
+      "requirements": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-45"
+      ],
+      "tests": [
+        "TEST-ENV",
+        "TEST-TEMPLATE",
+        "TEST-CREDENTIAL-BROKER"
+      ],
+      "outcome": "Record exact verified versions, upstream template revision/checksum and capability probe plan; no fictional versions.",
+      "definitionOfDone": [
+        "Executed repository/version/source inspection with evidence; future product scenarios remain NOT_RUN",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "inspection"
+    },
+    {
+      "id": "P00-T03",
+      "phase": "P00",
+      "title": "Record source-of-truth gaps and runtime decisions",
+      "dependsOn": [
+        "P00-T02"
+      ],
+      "phaseDependencies": [],
+      "allowedPaths": [
+        "docs/architecture/DECISIONS.json",
+        "docs/ui/FIGMA_MAP.json",
+        "state/IMPLEMENTATION.json"
+      ],
+      "requirements": [
+        "REQ-04",
+        "REQ-23",
+        "REQ-37"
+      ],
+      "tests": [
+        "TEST-VISUAL",
+        "TEST-PRIVACY"
+      ],
+      "outcome": "Record known Figma access blocker, selected destination-policy defaults and owner-specific settings still needed; not final visual approval.",
+      "definitionOfDone": [
+        "Executed repository/version/source inspection with evidence; future product scenarios remain NOT_RUN",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "inspection"
+    },
+    {
+      "id": "P01-T01",
+      "phase": "P01",
+      "title": "Scaffold audited Tauri/Vite workspace",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P00"
+      ],
+      "allowedPaths": [
+        "apps/desktop/",
+        "crates/",
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "requirements": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-39"
+      ],
+      "tests": [
+        "TEST-TEMPLATE",
+        "TEST-ENV"
+      ],
+      "outcome": "Build and launch the actual empty shell; remove demo/dashboard/debug code and pin lockfiles.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P01-T02",
+      "phase": "P01",
+      "title": "Implement DTOs, narrow IPC facade and parity checks",
+      "dependsOn": [
+        "P01-T01"
+      ],
+      "phaseDependencies": [
+        "P00"
+      ],
+      "allowedPaths": [
+        "contracts/",
+        "crates/domain/",
+        "crates/application/",
+        "apps/desktop/src-tauri/src/commands/",
+        "apps/desktop/src/lib/native/"
+      ],
+      "requirements": [
+        "REQ-13",
+        "REQ-36"
+      ],
+      "tests": [
+        "TEST-IPC",
+        "TEST-CONTRACT-FIXTURES"
+      ],
+      "outcome": "Validate envelopes and native IDs; generate or assert FE/native parity; no unrestricted shell/file commands.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P01-T03",
+      "phase": "P01",
+      "title": "Create reproducible quality harness and fixtures",
+      "dependsOn": [
+        "P01-T02"
+      ],
+      "phaseDependencies": [
+        "P00"
+      ],
+      "allowedPaths": [
+        "apps/desktop/package.json",
+        "apps/desktop/src/test/",
+        "crates/",
+        "quality/",
+        ".github/"
+      ],
+      "requirements": [
+        "REQ-37",
+        "REQ-43"
+      ],
+      "tests": [
+        "TEST-NO-FAKES",
+        "TEST-CONTRACT-FIXTURES"
+      ],
+      "outcome": "Provide non-watch lint/typecheck/unit/build/visual script contracts and isolated local Git fixtures; preserve honest BLOCKED checks.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P02-T01",
+      "phase": "P02",
+      "title": "Capture and freeze design references and deltas",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "docs/ui/BASELINES.json",
+        "docs/ui/baselines/",
+        "contracts/design-tokens.json",
+        "contracts/icons.json"
+      ],
+      "requirements": [
+        "REQ-23",
+        "REQ-24",
+        "REQ-25"
+      ],
+      "tests": [
+        "TEST-VISUAL",
+        "TEST-ICONS"
+      ],
+      "outcome": "Obtain genuine Figma exports or owner-provided frames; review pending icon/readability/behavior deltas. Missing access blocks this task, not independent backend phases.",
+      "definitionOfDone": [
+        "Real reference captures and human review evidence; do not fabricate product test execution",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "design_review"
+    },
+    {
+      "id": "P02-T02",
+      "phase": "P02",
+      "title": "Build shell and shared semantic components",
+      "dependsOn": [
+        "P02-T01"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/app/",
+        "apps/desktop/src/components/",
+        "apps/desktop/src/lib/icons/"
+      ],
+      "requirements": [
+        "REQ-24",
+        "REQ-25",
+        "REQ-26"
+      ],
+      "tests": [
+        "TEST-ICONS",
+        "TEST-LAYOUT",
+        "TEST-KEYBOARD"
+      ],
+      "outcome": "Implement responsive shell, semantic status badges, async states, dialogs and actual icon exports with accessible labels.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P02-T03",
+      "phase": "P02",
+      "title": "Implement dashboard and repository-list fixture slice",
+      "dependsOn": [
+        "P02-T02"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/features/dashboard/",
+        "apps/desktop/src/features/repositories/"
+      ],
+      "requirements": [
+        "REQ-28",
+        "REQ-29",
+        "REQ-43"
+      ],
+      "tests": [
+        "TEST-UI-03",
+        "TEST-UI-04",
+        "TEST-STATUS-AGGREGATION"
+      ],
+      "outcome": "Render contract-compliant test fixtures only through explicit mock adapter; all visible controls have defined actions.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P02-T04",
+      "phase": "P02",
+      "title": "Review visual and interaction evidence",
+      "dependsOn": [
+        "P02-T03"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "docs/ui/BASELINES.json",
+        "docs/ui/baselines/",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-23",
+        "REQ-26"
+      ],
+      "tests": [
+        "TEST-VISUAL",
+        "TEST-LAYOUT",
+        "TEST-KEYBOARD"
+      ],
+      "outcome": "Produce source-vs-implementation overlay and viewport evidence; owner/designated reviewer approves the golden, not the implementing agent.",
+      "definitionOfDone": [
+        "Real reference captures and human review evidence; do not fabricate product test execution",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "design_review"
+    },
+    {
+      "id": "P03-T01",
+      "phase": "P03",
+      "title": "Implement SQLite repositories and migrations",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/sqlite/",
+        "crates/infrastructure/migrations/"
+      ],
+      "requirements": [
+        "REQ-10",
+        "REQ-36"
+      ],
+      "tests": [
+        "TEST-DB"
+      ],
+      "outcome": "Test actual schema upgrade/recovery, parameterized queries, revisions and active-job constraints.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P03-T02",
+      "phase": "P03",
+      "title": "Implement keyring and explicit session-only mode",
+      "dependsOn": [
+        "P03-T01"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/secrets/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-12",
+        "REQ-39"
+      ],
+      "tests": [
+        "TEST-KEYRING",
+        "TEST-REDACTION"
+      ],
+      "outcome": "No fallback plaintext; preserve backups when disconnecting; prevent secret serialization/debug output.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P03-T03",
+      "phase": "P03",
+      "title": "Implement PAT identity and capability validation",
+      "dependsOn": [
+        "P03-T02"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/github/",
+        "crates/infrastructure/src/gitlab/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-11",
+        "REQ-41"
+      ],
+      "tests": [
+        "TEST-PAT",
+        "TEST-PRIVACY"
+      ],
+      "outcome": "Validate each provider with real documented endpoints and controlled adapters; no fake OAuth button flow.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P03-T04",
+      "phase": "P03",
+      "title": "Implement and security-review credential broker",
+      "dependsOn": [
+        "P03-T03"
+      ],
+      "phaseDependencies": [
+        "P01"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/git_auth/",
+        "crates/infrastructure/src/platform/"
+      ],
+      "requirements": [
+        "REQ-22",
+        "REQ-45"
+      ],
+      "tests": [
+        "TEST-CREDENTIAL-BROKER",
+        "TEST-REDACTION"
+      ],
+      "outcome": "Test job-bound origin/path/peer authorization and credential-free argv/env/remote URLs before any authenticated Git operation.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P04-T01",
+      "phase": "P04",
+      "title": "Implement paginated repository discovery",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P03"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/github/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-03",
+        "REQ-21",
+        "REQ-41"
+      ],
+      "tests": [
+        "TEST-SCOPE",
+        "TEST-PAGINATION",
+        "TEST-NO-DELETE-ON-404"
+      ],
+      "outcome": "Treat partial page failures as incomplete observations; preserve existing backups and account scope transparency.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P04-T02",
+      "phase": "P04",
+      "title": "Implement stable mappings and owned storage paths",
+      "dependsOn": [
+        "P04-T01"
+      ],
+      "phaseDependencies": [
+        "P03"
+      ],
+      "allowedPaths": [
+        "crates/domain/",
+        "crates/infrastructure/src/filesystem/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-04",
+        "REQ-05",
+        "REQ-40"
+      ],
+      "tests": [
+        "TEST-IDENTITY",
+        "TEST-ROOT"
+      ],
+      "outcome": "Bind source provider IDs to safe root-relative paths and preview destination slugs; do not adopt foreign paths.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P04-T03",
+      "phase": "P04",
+      "title": "Implement full selected-ref observations and status inputs",
+      "dependsOn": [
+        "P04-T02"
+      ],
+      "phaseDependencies": [
+        "P03"
+      ],
+      "allowedPaths": [
+        "crates/domain/",
+        "crates/infrastructure/src/git/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-06",
+        "REQ-07",
+        "REQ-08",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-REFS",
+        "TEST-READONLY-SOURCE",
+        "TEST-FRESHNESS",
+        "TEST-EMPTY-REPO"
+      ],
+      "outcome": "Compare all heads/tags with exact OIDs, metadata only as hint; model empty/unavailable/changed states separately. P04 implements parsing/domain comparison and observation contracts with test adapters; real Git transport is wired only after the secure runner in P05-T01. No live transport completion is claimed in P04.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P05-T01",
+      "phase": "P05",
+      "title": "Implement secure bounded Git process runner",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P04"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/git/",
+        "crates/infrastructure/src/platform/"
+      ],
+      "requirements": [
+        "REQ-19",
+        "REQ-22",
+        "REQ-45"
+      ],
+      "tests": [
+        "TEST-GIT-INPUT",
+        "TEST-PROCESS-CANCEL",
+        "TEST-CREDENTIAL-BROKER"
+      ],
+      "outcome": "Validate binary/args/config/URLs, drain bounded output, terminate/reap process trees and redact before logging.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P05-T02",
+      "phase": "P05",
+      "title": "Capture complete local source snapshots",
+      "dependsOn": [
+        "P05-T01"
+      ],
+      "phaseDependencies": [
+        "P04"
+      ],
+      "allowedPaths": [
+        "crates/application/",
+        "crates/infrastructure/src/git/",
+        "crates/infrastructure/src/filesystem/"
+      ],
+      "requirements": [
+        "REQ-05",
+        "REQ-07",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-REFS",
+        "TEST-EMPTY-REPO",
+        "TEST-VERIFY"
+      ],
+      "outcome": "Fetch explicit refs to owned staging namespaces and promote only verified full observations.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P05-T03",
+      "phase": "P05",
+      "title": "Implement pre-change snapshots and basic restore drill",
+      "dependsOn": [
+        "P05-T02"
+      ],
+      "phaseDependencies": [
+        "P04"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/snapshots/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-18",
+        "REQ-20"
+      ],
+      "tests": [
+        "TEST-SNAPSHOT",
+        "TEST-BUNDLE-RESTORE"
+      ],
+      "outcome": "Create/verify complete Git bundles/manifests; a bad snapshot blocks destructive changes; LFS scope not falsely claimed yet.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P05-T04",
+      "phase": "P05",
+      "title": "Implement optional workspace updates safely",
+      "dependsOn": [
+        "P05-T03"
+      ],
+      "phaseDependencies": [
+        "P04"
+      ],
+      "allowedPaths": [
+        "crates/application/",
+        "crates/infrastructure/src/workspace/"
+      ],
+      "requirements": [
+        "REQ-17"
+      ],
+      "tests": [
+        "TEST-WORKSPACE"
+      ],
+      "outcome": "Only clean known-branch fast-forward; preserve dirty/ahead/detached/untracked/conflicting contents unchanged.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P06-T01",
+      "phase": "P06",
+      "title": "Implement destination preview/adoption/create policy",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P05"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/gitlab/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-04",
+        "REQ-41"
+      ],
+      "tests": [
+        "TEST-PROJECT-CREATE",
+        "TEST-PRIVACY"
+      ],
+      "outcome": "Owner-chosen namespace and explicit mapping; reconcile timed-out creates and never assume same name means same repo.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P06-T02",
+      "phase": "P06",
+      "title": "Implement immutable plan and approval validation",
+      "dependsOn": [
+        "P06-T01"
+      ],
+      "phaseDependencies": [
+        "P05"
+      ],
+      "allowedPaths": [
+        "crates/domain/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-20",
+        "REQ-21"
+      ],
+      "tests": [
+        "TEST-PLAN-LEASE",
+        "TEST-SNAPSHOT",
+        "TEST-NO-DELETE-ON-404"
+      ],
+      "outcome": "Classify exact ref operations; bind plan/approval to digest, expiry and revision; changed destination/source invalidates authority.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P06-T03",
+      "phase": "P06",
+      "title": "Apply scoped ref updates with leases",
+      "dependsOn": [
+        "P06-T02"
+      ],
+      "phaseDependencies": [
+        "P05"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/git/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-06",
+        "REQ-20",
+        "REQ-22"
+      ],
+      "tests": [
+        "TEST-ATOMIC-PUSH",
+        "TEST-PLAN-LEASE",
+        "TEST-READONLY-SOURCE"
+      ],
+      "outcome": "No blind mirror push; preserve branch protection; unsupported destructive atomic plans blocked; reconcile partial outcomes.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P06-T04",
+      "phase": "P06",
+      "title": "Verify ref maps and persist scoped results",
+      "dependsOn": [
+        "P06-T03"
+      ],
+      "phaseDependencies": [
+        "P05"
+      ],
+      "allowedPaths": [
+        "crates/application/",
+        "crates/domain/"
+      ],
+      "requirements": [
+        "REQ-07",
+        "REQ-08",
+        "REQ-42",
+        "REQ-43"
+      ],
+      "tests": [
+        "TEST-VERIFY",
+        "TEST-STATUS-AGGREGATION"
+      ],
+      "outcome": "Successful exit alone insufficient; source freshness and LFS/workspace scope remain independent. LFS jobs may be incomplete until P09.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P07-T01",
+      "phase": "P07",
+      "title": "Implement persistent queue and policy scheduler",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "crates/application/",
+        "crates/infrastructure/src/sqlite/"
+      ],
+      "requirements": [
+        "REQ-09",
+        "REQ-19"
+      ],
+      "tests": [
+        "TEST-SCHEDULER",
+        "TEST-RETRY"
+      ],
+      "outcome": "Dedupe jobs, enforce concurrency/per-repo locks and explicit pause semantics with bounded retry.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P07-T02",
+      "phase": "P07",
+      "title": "Implement cancel, shutdown and restart reconciliation",
+      "dependsOn": [
+        "P07-T01"
+      ],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "crates/application/",
+        "crates/infrastructure/src/platform/"
+      ],
+      "requirements": [
+        "REQ-10",
+        "REQ-19",
+        "REQ-44"
+      ],
+      "tests": [
+        "TEST-CRASH",
+        "TEST-PROCESS-CANCEL",
+        "TEST-LIFECYCLE"
+      ],
+      "outcome": "Reconcile uncertain writes/creates; never reuse stale approval or rely on recycled PID.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P07-T03",
+      "phase": "P07",
+      "title": "Wire revisioned read models and frontend invalidation",
+      "dependsOn": [
+        "P07-T02"
+      ],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src-tauri/src/events/",
+        "apps/desktop/src/lib/native/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-08",
+        "REQ-36",
+        "REQ-43"
+      ],
+      "tests": [
+        "TEST-EVENTS",
+        "TEST-FRESHNESS",
+        "TEST-CONTRACT-FIXTURES"
+      ],
+      "outcome": "Committed revisions drive the Query cache; gap/out-of-order events cannot regress data.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P08-T01",
+      "phase": "P08",
+      "title": "Complete onboarding and connections flows",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P02",
+        "P07"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/features/onboarding/",
+        "apps/desktop/src/features/connections/"
+      ],
+      "requirements": [
+        "REQ-27",
+        "REQ-33",
+        "REQ-41"
+      ],
+      "tests": [
+        "TEST-UI-01",
+        "TEST-UI-02",
+        "TEST-UI-08"
+      ],
+      "outcome": "Use actual PAT/root/mapping contracts with honest capability states and no browser-OAuth impersonation.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P08-T02",
+      "phase": "P08",
+      "title": "Complete repository details and native action wiring",
+      "dependsOn": [
+        "P08-T01"
+      ],
+      "phaseDependencies": [
+        "P02",
+        "P07"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/features/repositories/"
+      ],
+      "requirements": [
+        "REQ-29",
+        "REQ-30",
+        "REQ-20"
+      ],
+      "tests": [
+        "TEST-UI-04",
+        "TEST-UI-05",
+        "TEST-PLAN-LEASE"
+      ],
+      "outcome": "Tabs, ref plans, safe opener, history and logs work; no branch editor or destructive workspace actions.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P08-T03",
+      "phase": "P08",
+      "title": "Complete sync center and activity",
+      "dependsOn": [
+        "P08-T02"
+      ],
+      "phaseDependencies": [
+        "P02",
+        "P07"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/features/sync/",
+        "apps/desktop/src/features/activity/"
+      ],
+      "requirements": [
+        "REQ-14",
+        "REQ-31",
+        "REQ-32"
+      ],
+      "tests": [
+        "TEST-UI-06",
+        "TEST-UI-07",
+        "TEST-REDACTION"
+      ],
+      "outcome": "Queue semantics, cancellation, nullable progress and sanitized activity/export match native truth.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P08-T04",
+      "phase": "P08",
+      "title": "Complete settings and cross-screen dialogs",
+      "dependsOn": [
+        "P08-T03"
+      ],
+      "phaseDependencies": [
+        "P02",
+        "P07"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/features/settings/",
+        "apps/desktop/src/components/shared/"
+      ],
+      "requirements": [
+        "REQ-34",
+        "REQ-35",
+        "REQ-44"
+      ],
+      "tests": [
+        "TEST-UI-09",
+        "TEST-UI-10",
+        "TEST-KEYBOARD"
+      ],
+      "outcome": "Correct field controls, revisioned save, native capability fallback, explicit unsafe-plan approval and skip-workspace behavior.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P08-T05",
+      "phase": "P08",
+      "title": "Remove mocks and audit all screen states",
+      "dependsOn": [
+        "P08-T04"
+      ],
+      "phaseDependencies": [
+        "P02",
+        "P07"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src/",
+        "docs/ui/BASELINES.json",
+        "docs/ui/baselines/",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-23",
+        "REQ-24",
+        "REQ-25",
+        "REQ-26",
+        "REQ-28",
+        "REQ-37"
+      ],
+      "tests": [
+        "TEST-UI-03",
+        "TEST-VISUAL",
+        "TEST-ICONS",
+        "TEST-LAYOUT",
+        "TEST-NO-FAKES"
+      ],
+      "outcome": "Capture and review every required viewport/state; genuine native adapter in production, no unsupported active control.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P09-T01",
+      "phase": "P09",
+      "title": "Implement LFS transfer and local integrity",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/lfs/",
+        "crates/application/"
+      ],
+      "requirements": [
+        "REQ-15",
+        "REQ-22",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-LFS",
+        "TEST-REDACTION"
+      ],
+      "outcome": "Validate endpoints, fetch actual required objects and retain/upload them without claiming remote restore proof prematurely.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P09-T02",
+      "phase": "P09",
+      "title": "Implement submodule coverage disclosure",
+      "dependsOn": [
+        "P09-T01"
+      ],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "crates/domain/",
+        "crates/application/",
+        "apps/desktop/src/features/repositories/"
+      ],
+      "requirements": [
+        "REQ-16",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-SUBMODULE"
+      ],
+      "outcome": "Report gitlink/payload coverage; only separately selected authorized children can count as covered.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P09-T03",
+      "phase": "P09",
+      "title": "Run full backup-only restore and recovery acceptance",
+      "dependsOn": [
+        "P09-T02"
+      ],
+      "phaseDependencies": [
+        "P06"
+      ],
+      "allowedPaths": [
+        "crates/infrastructure/src/snapshots/",
+        "docs/quality/RESTORE_RUNBOOK.md",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-18",
+        "REQ-15",
+        "REQ-42"
+      ],
+      "tests": [
+        "TEST-LFS-RESTORE",
+        "TEST-BUNDLE-RESTORE",
+        "TEST-SNAPSHOT"
+      ],
+      "outcome": "Restore without source access, verify every selected ref and real LFS payload; record remaining gaps explicitly.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P10-T01",
+      "phase": "P10",
+      "title": "Run negative/security/data-loss suite",
+      "dependsOn": [],
+      "phaseDependencies": [
+        "P08",
+        "P09"
+      ],
+      "allowedPaths": [
+        "crates/",
+        "apps/desktop/src-tauri/",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-12",
+        "REQ-13",
+        "REQ-19",
+        "REQ-21",
+        "REQ-22",
+        "REQ-39",
+        "REQ-45"
+      ],
+      "tests": [
+        "TEST-IPC",
+        "TEST-GIT-INPUT",
+        "TEST-KEYRING",
+        "TEST-CRASH",
+        "TEST-REDACTION"
+      ],
+      "outcome": "No forbidden capabilities, credential disclosure, unsafe destructive path or hidden production fakes; audit dependencies.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P10-T02",
+      "phase": "P10",
+      "title": "Verify actual Arch/Hyprland UI and lifecycle",
+      "dependsOn": [
+        "P10-T01"
+      ],
+      "phaseDependencies": [
+        "P08",
+        "P09"
+      ],
+      "allowedPaths": [
+        "apps/desktop/",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-01",
+        "REQ-23",
+        "REQ-26",
+        "REQ-44"
+      ],
+      "tests": [
+        "TEST-NATIVE-UI",
+        "TEST-ENV",
+        "TEST-LIFECYCLE"
+      ],
+      "outcome": "Check real WebKitGTK, fonts, scaling, dialogs, keyring/tray fallback and suspend/restart behavior.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P10-T03",
+      "phase": "P10",
+      "title": "Build and install Linux package in clean target",
+      "dependsOn": [
+        "P10-T02"
+      ],
+      "phaseDependencies": [
+        "P08",
+        "P09"
+      ],
+      "allowedPaths": [
+        "apps/desktop/src-tauri/",
+        ".github/",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-38",
+        "REQ-02"
+      ],
+      "tests": [
+        "TEST-PACKAGE",
+        "TEST-TEMPLATE"
+      ],
+      "outcome": "Package/install/run/uninstall smoke test; verify backup preservation; no publication or signing claim without execution.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    },
+    {
+      "id": "P10-T04",
+      "phase": "P10",
+      "title": "Close traceability and obtain release review",
+      "dependsOn": [
+        "P10-T03"
+      ],
+      "phaseDependencies": [
+        "P08",
+        "P09"
+      ],
+      "allowedPaths": [
+        "docs/quality/",
+        "state/IMPLEMENTATION.json",
+        "state/evidence/"
+      ],
+      "requirements": [
+        "REQ-37",
+        "REQ-23",
+        "REQ-42",
+        "REQ-43"
+      ],
+      "tests": [
+        "TEST-NO-FAKES",
+        "TEST-VISUAL",
+        "TEST-VERIFY",
+        "TEST-STATUS-AGGREGATION"
+      ],
+      "outcome": "Every requirement links to executed evidence on the release commit and owner/designated review; blocked checks prevent release.",
+      "definitionOfDone": [
+        "Executed task-specific tests with evidence",
+        "Reviewed diff within allowed scope",
+        "Updated traceability and handoff",
+        "Visual/remote/safety approvals present where applicable"
+      ],
+      "forbidden": [
+        "Invented APIs or permissions",
+        "Fake production success",
+        "Scope expansion without change record",
+        "Self-approved UI baseline"
+      ],
+      "status": "NOT_STARTED",
+      "validationKind": "implementation"
+    }
+  ]
+}

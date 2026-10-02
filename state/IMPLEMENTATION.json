@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "blueprintVersion": "1.0.0",
+  "applicationImplemented": false,
+  "applicationTestsExecuted": false,
+  "visualBaselineApproved": false,
+  "currentTaskId": null,
+  "tasks": {
+    "P00-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P00-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P00-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P01-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P01-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P01-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P02-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P02-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P02-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P02-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P03-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P03-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P03-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P03-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P04-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P04-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P04-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P05-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P05-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P05-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P05-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P06-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P06-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P06-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P06-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P07-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P07-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P07-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P08-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P08-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P08-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P08-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P08-T05": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P09-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P09-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P09-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P10-T01": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P10-T02": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P10-T03": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    },
+    "P10-T04": {
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "review": null
+    }
+  },
+  "knownBlockers": [
+    {
+      "id": "BLOCK-FIGMA",
+      "affects": [
+        "P02-T01",
+        "P02-T04",
+        "P08-T05",
+        "P10-T04"
+      ],
+      "reason": "Fresh Figma export blocked by MCP quota; no approved screenshot baseline bundled.",
+      "resolution": "Obtain genuine export/owner image and recorded approval; never fabricate."
+    }
+  ],
+  "nextReadyTasks": [
+    "P00-T01"
+  ]
+}

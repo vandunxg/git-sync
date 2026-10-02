@@ -1,0 +1,309 @@
+{
+  "library": "lucide-react",
+  "versionPolicy": "Pin actual installed version at P00 and compile-check each named export before acceptance",
+  "status": "semantic_mapping_required; package_exports_not_compiled_in_this_documentation_run",
+  "entries": [
+    {
+      "key": "nav.dashboard",
+      "export": "LayoutDashboard",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "nav.repositories",
+      "export": "FolderGit2",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "nav.sync",
+      "export": "RefreshCw",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "nav.activity",
+      "export": "History",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "nav.connections",
+      "export": "Plug",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "nav.settings",
+      "export": "Settings",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.synced",
+      "export": "CircleCheck",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.healthy",
+      "export": "ShieldCheck",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.ready",
+      "export": "Check",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.connected",
+      "export": "Plug",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.failed",
+      "export": "CircleAlert",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.blocked",
+      "export": "ShieldAlert",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.update",
+      "export": "GitCommitHorizontal",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.waiting",
+      "export": "Clock",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.running",
+      "export": "RefreshCw",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.stale",
+      "export": "Clock",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.unknown",
+      "export": "CircleHelp",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.local_missing",
+      "export": "FolderX",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.auth_error",
+      "export": "KeyRound",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "status.no_changes",
+      "export": "CircleMinus",
+      "size": 14,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "metadata.branch",
+      "export": "GitBranch",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "metadata.size",
+      "export": "Database",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "metadata.lfs",
+      "export": "File",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.more",
+      "export": "Ellipsis",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.scan",
+      "export": "Search",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.sync",
+      "export": "RefreshCw",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.open_folder",
+      "export": "FolderOpen",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.reconnect",
+      "export": "Link2",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.pause",
+      "export": "Pause",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.cancel",
+      "export": "X",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.retry",
+      "export": "RotateCcw",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.export",
+      "export": "Download",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.next",
+      "export": "ChevronRight",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "action.previous",
+      "export": "ChevronLeft",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "job.verify",
+      "export": "ShieldCheck",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "job.workspace",
+      "export": "FolderSync",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "event.created",
+      "export": "FolderPlus",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "event.scan",
+      "export": "SearchCheck",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "event.auth",
+      "export": "KeyRound",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "setting.general",
+      "export": "SlidersHorizontal",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "setting.backup",
+      "export": "Archive",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "setting.notifications",
+      "export": "Bell",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "setting.appearance",
+      "export": "Palette",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "setting.advanced",
+      "export": "Wrench",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "state.empty",
+      "export": "Inbox",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "state.warning",
+      "export": "TriangleAlert",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "state.error",
+      "export": "CircleAlert",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    },
+    {
+      "key": "state.confirm",
+      "export": "CircleHelp",
+      "size": 16,
+      "accessibleRule": "decorative with text: aria-hidden; icon-only control: explicit action label"
+    }
+  ],
+  "brandIcons": {
+    "github": "verified official GitHub mark asset; preserve brand license",
+    "gitlab": "verified official GitLab mark asset; preserve brand license"
+  },
+  "forbiddenStatusGlyphs": [
+    "●",
+    "○",
+    "•"
+  ],
+  "forbiddenActionPlaceholders": [
+    "⋯",
+    "..."
+  ],
+  "exception": "Normal punctuation in prose and ellipsis inside real SVG geometry are not status glyphs. Do not ban text separators globally."
+}

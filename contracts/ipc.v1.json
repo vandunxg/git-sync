@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "status": "proposed_app_owned_contract",
+  "transport": "Tauri custom invoke commands; renderer passes one request object; native validates again",
+  "requestEnvelope": {
+    "schemaVersion": 1,
+    "requestId": "opaque id",
+    "args": "command-specific DTO"
+  },
+  "resultEnvelope": {
+    "ok": "boolean",
+    "requestId": "echo correlation id",
+    "data": "success DTO when ok=true",
+    "error": "AppError when ok=false"
+  },
+  "envelopeRule": "Exactly one of data or error; unknown fields rejected. Long jobs return queued, not success.",
+  "dtoSchema": "dtos.schema.json",
+  "commands": [
+    {
+      "name": "gbm_app_bootstrap",
+      "requestType": "Empty",
+      "responseType": "Bootstrap",
+      "effect": "read",
+      "requirementId": "REQ-36",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_accounts_list",
+      "requestType": "Empty",
+      "responseType": "AccountList",
+      "effect": "read",
+      "requirementId": "REQ-33",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_credentials_validate_store",
+      "requestType": "CredentialRequest",
+      "responseType": "AccountResult",
+      "effect": "secret_write",
+      "requirementId": "REQ-11",
+      "sensitive": true
+    },
+    {
+      "name": "gbm_accounts_disconnect",
+      "requestType": "AccountRequest",
+      "responseType": "Ack",
+      "effect": "credential_remove",
+      "requirementId": "REQ-12",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_storage_pick_root",
+      "requestType": "Empty",
+      "responseType": "StoragePickResult",
+      "effect": "native_dialog",
+      "requirementId": "REQ-05",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_storage_commit_root",
+      "requestType": "RootCommitRequest",
+      "responseType": "RootSummary",
+      "effect": "local_config",
+      "requirementId": "REQ-05",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repositories_list",
+      "requestType": "RepoListRequest",
+      "responseType": "RepoListResult",
+      "effect": "read",
+      "requirementId": "REQ-29",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repository_get",
+      "requestType": "RepoRequest",
+      "responseType": "RepositorySummary",
+      "effect": "read",
+      "requirementId": "REQ-30",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repositories_select",
+      "requestType": "SelectionRequest",
+      "responseType": "Ack",
+      "effect": "local_config",
+      "requirementId": "REQ-03",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_source_scan_enqueue",
+      "requestType": "ScanRequest",
+      "responseType": "QueuedResult",
+      "effect": "read_network_job",
+      "requirementId": "REQ-07",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_namespaces_list",
+      "requestType": "NamespaceRequest",
+      "responseType": "NamespaceList",
+      "effect": "read_network",
+      "requirementId": "REQ-04",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_destination_preview",
+      "requestType": "DestinationPreviewRequest",
+      "responseType": "DestinationPreview",
+      "effect": "read_network",
+      "requirementId": "REQ-04",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_destination_commit",
+      "requestType": "DestinationCommitRequest",
+      "responseType": "Ack",
+      "effect": "mapping_policy",
+      "requirementId": "REQ-04",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_sync_plan_create",
+      "requestType": "PlanRequest",
+      "responseType": "QueuedResult",
+      "effect": "local_snapshot_and_remote_read",
+      "requirementId": "REQ-20",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_sync_plan_approve",
+      "requestType": "PlanApprovalRequest",
+      "responseType": "ApprovalResult",
+      "effect": "approval",
+      "requirementId": "REQ-20",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_sync_apply_enqueue",
+      "requestType": "ApplyRequest",
+      "responseType": "QueuedResult",
+      "effect": "remote_write_job",
+      "requirementId": "REQ-06",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_jobs_list",
+      "requestType": "PagedRequest",
+      "responseType": "JobList",
+      "effect": "read",
+      "requirementId": "REQ-31",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_job_cancel",
+      "requestType": "JobRequest",
+      "responseType": "Job",
+      "effect": "cancel_request",
+      "requirementId": "REQ-19",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_job_retry",
+      "requestType": "JobRequest",
+      "responseType": "QueuedResult",
+      "effect": "new_attempt",
+      "requirementId": "REQ-19",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_queue_set_paused",
+      "requestType": "QueuePauseRequest",
+      "responseType": "Ack",
+      "effect": "scheduling",
+      "requirementId": "REQ-09",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_dashboard_get",
+      "requestType": "Empty",
+      "responseType": "Dashboard",
+      "effect": "read",
+      "requirementId": "REQ-28",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repository_refs",
+      "requestType": "RepoRequest",
+      "responseType": "RefList",
+      "effect": "read",
+      "requirementId": "REQ-30",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_activity_list",
+      "requestType": "ActivityRequest",
+      "responseType": "ActivityList",
+      "effect": "read",
+      "requirementId": "REQ-32",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_logs_read",
+      "requestType": "LogRequest",
+      "responseType": "LogResult",
+      "effect": "redacted_read",
+      "requirementId": "REQ-14",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_activity_export",
+      "requestType": "ActivityRequest",
+      "responseType": "ExportResult",
+      "effect": "native_save_dialog",
+      "requirementId": "REQ-14",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_settings_get",
+      "requestType": "Empty",
+      "responseType": "SettingsResult",
+      "effect": "read",
+      "requirementId": "REQ-34",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_settings_update",
+      "requestType": "SettingsUpdate",
+      "responseType": "SettingsResult",
+      "effect": "local_config",
+      "requirementId": "REQ-34",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repository_open_workspace",
+      "requestType": "RepoRequest",
+      "responseType": "Ack",
+      "effect": "safe_opener",
+      "requirementId": "REQ-17",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_repository_open_provider",
+      "requestType": "ProviderOpenRequest",
+      "responseType": "Ack",
+      "effect": "safe_opener",
+      "requirementId": "REQ-30",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_environment_diagnostics",
+      "requestType": "Empty",
+      "responseType": "Diagnostics",
+      "effect": "bounded_probe",
+      "requirementId": "REQ-01",
+      "sensitive": false
+    },
+    {
+      "name": "gbm_sync_plan_get",
+      "requestType": "PlanIdRequest",
+      "responseType": "SyncPlan",
+      "effect": "read",
+      "requirementId": "REQ-20",
+      "sensitive": false
+    }
+  ],
+  "events": {
+    "channel": "gbm://state",
+    "type": "Event",
+    "delivery": "invalidation; requery on gap; not durable history"
+  },
+  "forbidden": [
+    "run_shell",
+    "execute_git_arbitrary",
+    "read_file_arbitrary",
+    "write_file_arbitrary",
+    "fetch_url_arbitrary",
+    "get_stored_token"
+  ]
+}
