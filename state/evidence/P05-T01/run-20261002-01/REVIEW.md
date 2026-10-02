@@ -27,4 +27,5 @@ Reviewer: independent security review subagent (owner-designated 2026-10-02).
 7. Detached waiter/drain threads bounded per run, not capped across runs.
 Caller obligations: WorkDir::GitDir and Location::Local only for app-owned paths.
 
-Owner decision: PENDING.
+Owner decision: ACCEPTED residual risks 1–7 (owner answer in session, 2026-10-02:
+"Chấp nhận, làm tiếp"). Risk 1 hardening (subreaper/cgroup/pidfd) tracked as a later item.

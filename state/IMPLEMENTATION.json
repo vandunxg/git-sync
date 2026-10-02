@@ -407,8 +407,7 @@
       }
     },
     "P05-T01": {
-      "status": "BLOCKED_ON_OWNER",
-      "blocker": "Owner acceptance of security residual risks 1-7 in REVIEW.md",
+      "status": "DONE",
       "evidence": [
         "state/evidence/P05-T01/run-20261002-01/TASK_REPORT.md",
         "state/evidence/P05-T01/run-20261002-01/checks.log",
@@ -424,9 +423,10 @@
       },
       "review": {
         "by": "independent security review subagent (owner-designated 2026-10-02)",
-        "outcome": "ACCEPTED round 2, subject to owner residual-risk acceptance",
+        "outcome": "ACCEPTED round 2; owner accepted residual risks",
         "record": "state/evidence/P05-T01/run-20261002-01/REVIEW.md"
-      }
+      },
+      "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-7 (REVIEW.md)"
     },
     "P05-T02": {
       "status": "NOT_STARTED",
