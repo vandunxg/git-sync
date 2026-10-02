@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "blueprintVersion": "1.0.0",
   "applicationImplemented": false,
-  "applicationTestsExecuted": false,
+  "applicationTestsExecuted": true,
   "visualBaselineApproved": false,
-  "currentTaskId": "P01-T01",
+  "currentTaskId": "P01-T02",
   "tasks": {
     "P00-T01": {
       "status": "DONE",
@@ -52,12 +52,32 @@
       }
     },
     "P01-T01": {
-      "status": "IN_PROGRESS",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P01-T01/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P01-T01/run-20261002-01/scaffold-run.log",
+        "state/evidence/P01-T01/run-20261002-02/checks.log",
+        "state/evidence/P01-T01/run-20261002-02/test-template-assertions.txt",
+        "state/evidence/P01-T01/run-20261002-02/launch-release.png",
+        "state/evidence/P01-T01/run-20261002-02/scope-check.json"
+      ],
+      "scenarios": {
+        "TEST-TEMPLATE": "PARTIAL (bundle inspection NOT_RUN until P10)",
+        "TEST-ENV": "PARTIAL (XFCE/X11 launch only; Hyprland BLOCKED)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED (re-review after M1/L1/L2 fixes)",
+        "record": "state/evidence/P01-T01/run-20261002-01/REVIEW.md"
+      },
+      "carryForward": [
+        "P01-T02: add invoke-under-CSP check (ipc: allowance)",
+        "P10: revisit style-src unsafe-inline",
+        "Owner: confirm identifier com.gitbackupmanager.desktop"
+      ]
     },
     "P01-T02": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -268,6 +288,6 @@
     }
   ],
   "nextReadyTasks": [
-    "P01-T01"
+    "P01-T02"
   ]
 }

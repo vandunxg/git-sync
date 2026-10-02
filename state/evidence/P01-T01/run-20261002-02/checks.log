@@ -1,0 +1,66 @@
+# P01-T01 run 02 (post-review fixes M1/L1/L2) 2026-10-02T08:25:15+07:00 base=31b778f
+=== [cwd=apps/desktop] $ pnpm install --frozen-lockfile
+Already up to date
+Done in 471ms using pnpm v11.5.1
+--- exit=0
+=== [cwd=apps/desktop] $ test ! -e pnpm-workspace.yaml && echo no-release-age-exclusions
+no-release-age-exclusions
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run typecheck
+$ tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run lint
+$ eslint .
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run build
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2          18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2   25.96 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-DlMKjap_.css                              40.51 kB │ gzip:  7.44 kB
+dist/assets/index-hvyRT7dK.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 290ms
+--- exit=0
+=== [cwd=.] $ cargo fmt --all -- --check
+--- exit=0
+=== [cwd=.] $ cargo clippy --workspace --all-targets --locked -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.34s
+--- exit=0
+=== [cwd=.] $ cargo test --workspace --all-targets --locked 2>&1 | grep -E 'test |test result'
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test tests::bundled_origins_are_internal ... ok
+test tests::dev_server_is_internal_only_in_debug_builds ... ok
+test tests::external_and_lookalike_origins_are_refused ... ok
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm tauri build --no-bundle
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-DlMKjap_.css                              40.51 kB │ gzip:  7.44 kB
+dist/assets/index-hvyRT7dK.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 302ms
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `release` profile [optimized] target(s) in 2m 27s
+       Built application at: /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm list --depth 0
+├── prettier-plugin-tailwindcss@0.8.1
+├── shadcn@4.21.0
+├── tailwindcss@4.3.3
+├── typescript@6.0.3
+├── typescript-eslint@8.71.0
+└── vite@8.3.1
+
+27 packages
+--- exit=0
+=== launch release binary (env without harness token), wait 8s, find visible window
+--- alive-after-8s exit=0
+window=79691779 name=Git Backup Manager
+  Geometry: 1440x900
+--- window-found exit=0
+--- screenshot exit=0
+--- process exit after SIGTERM=143 (143 = terminated by SIGTERM)

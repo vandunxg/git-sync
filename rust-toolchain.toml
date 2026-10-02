@@ -1,0 +1,5 @@
+# Recorded toolchain (state/TOOLCHAIN.json, RD-002). The dev host uses the Arch rust
+# package without rustup, so this file documents the pin; rustup hosts enforce it.
+[toolchain]
+channel = "1.96.0"
+components = ["rustfmt", "clippy"]

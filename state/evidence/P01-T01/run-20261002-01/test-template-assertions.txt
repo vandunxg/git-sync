@@ -1,0 +1,14 @@
+# TEST-TEMPLATE assertions 2026-10-02T08:18:02+07:00 HEAD=31b778f+worktree
+PASS no debug panel/events in src
+PASS no sample greet command (native/src)
+PASS no tauri-plugin-log / opener deps
+PASS no telemetry/analytics libs in package.json
+PASS no remote script/font/style refs in dist
+PASS no debug/greet strings in dist bundle
+PASS no withGlobalTauri
+PASS csp not null
+PASS no bun hooks/lockfile
+PASS no release workflow/.github from template
+PASS no greet/plugin-log symbols in release binary
+PASS capabilities limited to core:event:default
+overall=PASS

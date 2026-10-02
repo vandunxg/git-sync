@@ -1,0 +1,40 @@
+Resolving dependencies
+Resolved, downloaded and extracted [28]
+Saved lockfile
+┌  create-tauri-ui 🦀
+│
+●  git-backup-manager · Vite · b0
+│  Features  1 selected
+│
+◇  Frontend scaffold
+│
+◆  Frontend scaffold · 101s
+│
+◇  Tauri native layer
+│
+◆  Tauri native layer · 888ms
+│
+◇  Components and batteries
+│
+◆  Components and batteries · 12s
+│
+◇  Finalizing project
+│
+◆  Finalizing project · 11s
+│
+◆  git-backup-manager is ready
+│
+◇  Next steps ─────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Run your app                                                                │
+│    cd /tmp/claude-1000/-home-dungnv1-Documents-vandunxg-git-sync/b3f83718-5  │
+│  ec1-4af9-a2b4-75816666d6e7/scratchpad/scaffold/git-backup-manager           │
+│    bun run tauri dev                                                         │
+│                                                                              │
+│  Optional                                                                    │
+│    bunx tauri icon app-icon.png                                              │
+│                                                                              │
+├──────────────────────────────────────────────────────────────────────────────╯
+│
+└  Built 4 phases in 125s
+

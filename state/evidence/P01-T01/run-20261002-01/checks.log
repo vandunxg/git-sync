@@ -1,0 +1,64 @@
+# P01-T01 checks after final source edit 2026-10-02T08:18:13+07:00 base=31b778f
+=== [cwd=apps/desktop] $ pnpm install --frozen-lockfile
+Already up to date
+Done in 543ms using pnpm v11.5.1
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run typecheck
+$ tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run lint
+$ eslint .
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm run build
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/index-DlMKjap_.css                              40.51 kB │ gzip:  7.44 kB
+dist/assets/index-hvyRT7dK.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 351ms
+--- exit=0
+=== [cwd=.] $ cargo fmt --all -- --check
+--- exit=0
+=== [cwd=.] $ cargo clippy --workspace --all-targets --locked -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.25s
+--- exit=0
+=== [cwd=.] $ cargo test --workspace --all-targets --locked
+     Running unittests src/main.rs (target/debug/deps/git_backup_manager-989dbdfd3125d37b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm tauri build --no-bundle
+dist/assets/index-hvyRT7dK.js                              219.85 kB │ gzip: 68.69 kB
+
+✓ built in 329ms
+   Compiling git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `release` profile [optimized] target(s) in 2m 30s
+       Built application at: /home/dungnv1/Documents/vandunxg/git-sync/target/release/git-backup-manager
+--- exit=0
+=== [cwd=.] $ cargo tree -p git-backup-manager --depth 1 --locked
+git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+└── tauri v2.12.1
+    [build-dependencies]
+[build-dependencies]
+└── tauri-build v2.7.1
+--- exit=0
+=== [cwd=.] $ grep -A1 -E '^name = "(tauri|tauri-build|tauri-runtime-wry|wry|webkit2gtk)"' Cargo.lock
+--
+name = "webkit2gtk"
+version = "2.0.2"
+--
+name = "wry"
+version = "0.57.0"
+--- exit=0
+=== [cwd=apps/desktop] $ pnpm list --depth 0
+├── tailwindcss@4.3.3
+├── typescript@6.0.3
+├── typescript-eslint@8.71.0
+└── vite@8.3.2
+
+27 packages
+--- exit=0

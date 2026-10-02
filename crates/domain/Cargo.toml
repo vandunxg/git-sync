@@ -1,0 +1,11 @@
+[package]
+name = "gbm-domain"
+description = "Pure domain types and policies for Git Backup Manager"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

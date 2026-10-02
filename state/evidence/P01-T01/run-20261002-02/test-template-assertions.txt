@@ -1,0 +1,15 @@
+# TEST-TEMPLATE assertions 2026-10-02T08:28:30+07:00 worktree on base 31b778f
+PASS no debug panel/events in src
+PASS no greet command
+PASS no tauri plugins
+PASS no telemetry libs
+PASS no remote refs in dist
+PASS no debug/greet in dist
+PASS withGlobalTauri false
+PASS csp set
+PASS no bun
+PASS no template .github
+PASS no plugin/greet strings in release binary
+PASS capabilities = core:event:default
+PASS no release-age exclusions
+overall=PASS
