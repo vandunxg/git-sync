@@ -4,15 +4,23 @@
   "applicationImplemented": false,
   "applicationTestsExecuted": false,
   "visualBaselineApproved": false,
-  "currentTaskId": null,
+  "currentTaskId": "P00-T02",
   "tasks": {
     "P00-T01": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "DONE",
+      "evidence": [
+        "state/evidence/P00-T01/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P00-T01/run-20261002-01/inspection.log",
+        "state/evidence/P00-T01/run-20261002-01/scope-check.json"
+      ],
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "ACCEPTED",
+        "record": "state/evidence/P00-T01/run-20261002-01/REVIEW.md"
+      }
     },
     "P00-T02": {
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "evidence": [],
       "review": null
     },
@@ -218,9 +226,26 @@
       ],
       "reason": "Fresh Figma export blocked by MCP quota; no approved screenshot baseline bundled.",
       "resolution": "Obtain genuine export/owner image and recorded approval; never fabricate."
+    },
+    {
+      "id": "BLOCK-NO-GIT",
+      "affects": [
+        "ALL"
+      ],
+      "reason": "Working directory is not a Git repository; check_task_scope.py cannot run and no task-start commit exists.",
+      "resolution": "Owner authorized local git init + per-task local commits on 2026-10-02 (no remote/push). Baseline commit 97eeef1.",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "GAP-PACKAGE-HIDDEN-FILES",
+      "affects": [
+        "P01-T03"
+      ],
+      "reason": ".github/pull_request_template.md and the packaged .gitignore were not extracted; .gitignore replaced by minimal owner-authorized version in 97eeef1, so MANIFEST check flags it.",
+      "resolution": "Owner supplies original files or accepts replacement."
     }
   ],
   "nextReadyTasks": [
-    "P00-T01"
+    "P00-T02"
   ]
 }

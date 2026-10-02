@@ -1,0 +1,132 @@
+# P00-T01 inspection log
+cwd: /home/dungnv1/Documents/vandunxg/git-sync
+timestamp: 2026-10-02T07:50:04+07:00
+
+=== $ git -C . rev-parse --show-toplevel
+fatal: not a git repository (or any of the parent directories): .git
+--- exit=128
+
+=== $ ls -la
+total 96
+drwxr-xr-x 13 dungnv1 dungnv1  4096 Oct  2 07:48 .
+drwxr-xr-x 22 dungnv1 dungnv1  4096 Oct  2 07:47 ..
+drwxr-xr-x  4 dungnv1 dungnv1  4096 Oct  2 07:48 agents
+-rw-r--r--  1 dungnv1 dungnv1  2799 Oct  1 13:40 AGENTS.md
+-rw-r--r--  1 dungnv1 dungnv1   410 Oct  1 13:40 CLAUDE.md
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 .codegraph
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 contracts
+drwxr-xr-x  7 dungnv1 dungnv1  4096 Oct  2 07:48 docs
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 fixtures
+-rw-r--r--  1 dungnv1 dungnv1 12542 Oct  1 14:02 MANIFEST.sha256
+-rw-r--r--  1 dungnv1 dungnv1  2435 Oct  1 14:02 PACKAGE_VALIDATION.md
+-rw-r--r--  1 dungnv1 dungnv1   663 Oct  1 13:56 project-manifest.json
+drwxr-xr-x  3 dungnv1 dungnv1  4096 Oct  2 07:48 quality
+-rw-r--r--  1 dungnv1 dungnv1  4418 Oct  1 14:02 README.md
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 rules
+drwxr-xr-x  4 dungnv1 dungnv1  4096 Oct  2 07:49 scripts
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 sources
+-rw-r--r--  1 dungnv1 dungnv1  3457 Oct  1 13:40 START_HERE.vi.md
+drwxr-xr-x  3 dungnv1 dungnv1  4096 Oct  2 07:48 state
+drwxr-xr-x  2 dungnv1 dungnv1  4096 Oct  2 07:48 templates
+--- exit=0
+
+=== $ find . -maxdepth 3 \( -name package.json -o -name Cargo.toml -o -name pnpm-lock.yaml -o -name Cargo.lock -o -name tauri.conf.json \) -not -path './.codegraph/*'
+--- exit=0
+
+=== $ sha256sum -c MANIFEST.sha256 --quiet
+sha256sum: .github/pull_request_template.md: No such file or directory
+.github/pull_request_template.md: FAILED open or read
+sha256sum: .gitignore: No such file or directory
+.gitignore: FAILED open or read
+sha256sum: WARNING: 2 listed files could not be read
+--- exit=1
+
+=== $ python3 scripts/lint_pack.py
+{
+  "status": "PASS_BLUEPRINT_STRUCTURE_ONLY",
+  "counts": {
+    "requirements": 45,
+    "phases": 11,
+    "tasks": 40,
+    "plannedProductScenarios": 54,
+    "screens": 10,
+    "commands": 31,
+    "ADRs": 11,
+    "jsonFiles": 20
+  },
+  "errors": [],
+  "warnings": [
+    "10 visual baselines are not approved; visual acceptance remains BLOCKED"
+  ],
+  "appImplemented": false,
+  "productTestsRun": false
+}
+--- exit=0
+
+=== $ python3 -m unittest discover -s scripts/tests
+.................E...............
+======================================================================
+ERROR: test_broken_registry_detected (test_blueprint_tools.GateAndRegistryTests.test_broken_registry_detected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/dungnv1/Documents/vandunxg/git-sync/scripts/tests/test_blueprint_tools.py", line 120, in test_broken_registry_detected
+    shutil.copytree(ROOT,target,ignore=shutil.ignore_patterns('__pycache__','local'))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 654, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+                     ignore=ignore, copy_function=copy_function,
+                     ignore_dangling_symlinks=ignore_dangling_symlinks,
+                     dirs_exist_ok=dirs_exist_ok)
+  File "/usr/lib/python3.14/shutil.py", line 608, in _copytree
+    raise Error(errors)
+shutil.Error: [('/home/dungnv1/Documents/vandunxg/git-sync/.codegraph/daemon.sock', '/tmp/tmpoun_tvwn/copy/.codegraph/daemon.sock', "[Errno 6] No such device or address: '/home/dungnv1/Documents/vandunxg/git-sync/.codegraph/daemon.sock'")]
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.287s
+
+FAILED (errors=1)
+--- exit=1
+
+=== $ python3 scripts/check_visual_baselines.py
+{
+  "status": "BLOCKED",
+  "reasons": [
+    "UI-01: baseline not owner approved",
+    "UI-01: missing approval.by",
+    "UI-01: missing approval.at",
+    "UI-01: missing approval.recordPath",
+    "UI-01: designReference: missing relative path",
+    "UI-02: baseline not owner approved",
+    "UI-02: missing approval.by",
+    "UI-02: missing approval.at",
+    "UI-02: missing approval.recordPath",
+    "UI-02: designReference: missing relative path",
+    "UI-03: baseline not owner approved",
+    "UI-03: missing approval.by",
+    "UI-03: missing approval.at",
+    "UI-03: missing approval.recordPath",
+    "UI-03: designReference: missing relative path",
+    "UI-04: baseline not owner approved",
+    "UI-04: missing approval.by",
+    "UI-04: missing approval.at",
+    "UI-04: missing approval.recordPath",
+    "UI-04: designReference: missing relative path",
+    "UI-05: baseline not owner approved",
+    "UI-05: missing approval.by",
+    "UI-05: missing approval.at",
+    "UI-05: missing approval.recordPath",
+    "UI-05: designReference: missing relative path",
+    "UI-06: baseline not owner approved",
+    "UI-06: missing approval.by",
+    "UI-06: missing approval.at",
+    "UI-06: missing approval.recordPath",
+    "UI-06: designReference: missing relative path",
+    "UI-07: baseline not owner approved",
+    "UI-07: missing approval.by",
+    "UI-07: missing approval.at",
+    "UI-07: missing approval.recordPath",
+    "UI-07: designReference: missing relative path",
+    "UI-08: baseline not owner approved",
+    "UI-08: missing approval.by",
+--- exit=2
+
