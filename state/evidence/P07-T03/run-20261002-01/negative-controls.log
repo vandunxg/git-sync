@@ -10,3 +10,4 @@ E8 store revision preferred over committed response: caught_by=['events::tests::
 
 ## After review fixes
 E9 unreadable revision leaves no gap: caught_by=['events::tests::without_a_response_revision_the_committed_store_revision_is_used']
+E10 plan not invalidated: caught_by=['FAIL  src/test/native/state-events.test.ts > freshness > maps each change type to the read models it affects', '× maps each change type to the read models it affects 10ms']
