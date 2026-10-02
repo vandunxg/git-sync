@@ -530,9 +530,37 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-10 (REVIEW.md)"
     },
     "P06-T02": {
-      "status": "NOT_STARTED",
-      "evidence": [],
-      "review": null
+      "status": "BLOCKED_ON_OWNER",
+      "blocker": "Owner acceptance of Medium residual risks R1-R2 (REVIEW.md); Low R3-R7 batched for end of P06",
+      "lifecycle": "Full",
+      "evidence": [
+        "state/evidence/P06-T02/run-20261002-01/TASK_REPORT.md",
+        "state/evidence/P06-T02/run-20261002-01/checks.log",
+        "state/evidence/P06-T02/run-20261002-01/negative-controls.log",
+        "state/evidence/P06-T02/run-20261002-01/scope-check.json",
+        "state/evidence/P06-T02/run-20261002-01/REVIEW.md"
+      ],
+      "scenarios": {
+        "TEST-PLAN-LEASE": "PASS (approval/plan invalidated on source, destination, identity, managed-state or policy drift; leases carried per operation; lease enforcement at write is P06-T03)",
+        "TEST-SNAPSHOT": "PASS (gate: good/missing/corrupt/disk-full/incomplete/foreign recovery)",
+        "TEST-NO-DELETE-ON-404": "PASS for planning (unavailable/unknown/changed/stale source never plans)"
+      },
+      "review": {
+        "by": "independent review subagent (owner-designated 2026-10-02)",
+        "outcome": "APPROVED round 2",
+        "record": "state/evidence/P06-T02/run-20261002-01/REVIEW.md"
+      },
+      "followUps": [
+        "P06-T03: production AncestryOracle (merge-base) and lease enforcement",
+        "Wiring: derive plan inputs from native state; mark approvals consumed; random plan/approval ids"
+      ],
+      "pendingLowRisks": [
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7"
+      ]
     },
     "P06-T03": {
       "status": "NOT_STARTED",

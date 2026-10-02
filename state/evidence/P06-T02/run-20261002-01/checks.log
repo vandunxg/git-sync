@@ -1,0 +1,66 @@
+## P06-T02 checks 2026-10-02T16:46:25+07:00 (rustc 1.96.0)
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.77s
+exit=0
+$ cargo test --workspace
+test result: ok. 80 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 135 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.69s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.22s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0
+$ cargo test -p gbm-domain plan:: ; cargo test -p gbm-application plan::
+test plan::tests::destructive_kinds_are_exactly_rewrite_move_and_delete ... ok
+test plan::tests::a_never_written_destination_must_be_empty ... ok
+test plan::tests::equal_state_needs_no_operations_and_formats_must_agree ... ok
+test plan::tests::every_operation_class_is_derived_from_state_and_ancestry ... ok
+test plan::tests::only_refs_the_app_verified_can_be_deleted ... ok
+test plan::tests::tags_are_never_fast_forwarded ... ok
+test plan::tests::unknown_ancestry_is_a_rewrite_never_a_fast_forward ... ok
+test plan::tests::any_destination_change_outside_the_app_blocks_the_whole_plan ... ok
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 36 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+test plan::tests::approval_binds_digest_policy_and_expiry ... ok
+test plan::tests::destructive_apply_needs_verified_recovery_of_the_old_destination ... ok
+test plan::tests::any_drift_after_approval_invalidates_the_apply ... ok
+test plan::tests::no_plan_unless_the_source_is_current ... ok
+test plan::tests::drift_and_inconsistent_snapshots_block_planning ... ok
+test plan::tests::plans_carry_exact_leases_and_require_approval_when_destructive ... ok
+test plan::tests::non_destructive_plans_run_automatically_only_while_the_policy_allows ... ok
+test plan::tests::the_plan_digest_covers_every_bound_field ... ok
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 72 filtered out; finished in 0.00s
+
+
+## round 2 (after review findings 1-6) 2026-10-02T16:52:05+07:00
+$ cargo fmt --check
+exit=0
+$ cargo clippy --workspace --all-targets -- -D warnings
+    Checking git-backup-manager v0.1.0 (/home/dungnv1/Documents/vandunxg/git-sync/apps/desktop/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.79s
+exit=0
+$ cargo test --workspace
+test result: ok. 84 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+test result: ok. 135 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.45s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.18s
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+exit=0

@@ -5,4 +5,5 @@
 pub mod contract;
 pub mod identity;
 pub mod observation;
+pub mod plan;
 pub mod refs;
