@@ -503,8 +503,7 @@
       "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-9 (REVIEW.md)"
     },
     "P06-T01": {
-      "status": "BLOCKED_ON_OWNER",
-      "blocker": "Owner acceptance of residual risks 1-10 in REVIEW.md",
+      "status": "DONE",
       "evidence": [
         "state/evidence/P06-T01/run-20261002-01/TASK_REPORT.md",
         "state/evidence/P06-T01/run-20261002-01/checks.log",
@@ -519,7 +518,7 @@
       },
       "review": {
         "by": "independent review subagent (owner-designated 2026-10-02)",
-        "outcome": "APPROVED round 2, subject to owner residual-risk acceptance",
+        "outcome": "APPROVED round 2; owner accepted residual risks",
         "record": "state/evidence/P06-T01/run-20261002-01/REVIEW.md"
       },
       "followUps": [
@@ -527,7 +526,8 @@
         "Namespace id/path from one verified record",
         "Intent store with random marker; job passes fresh source_private",
         "Bounded cancellable retry with jitter for uncertain creates"
-      ]
+      ],
+      "ownerRiskAcceptance": "2026-10-02 owner accepted residual risks 1-10 (REVIEW.md)"
     },
     "P06-T02": {
       "status": "NOT_STARTED",

@@ -25,4 +25,5 @@ HTTP hardening unchanged for GET and applied to POST.
 9. V1 blocks private source → non-private destination (no consent field).
 10. Scope exception in `http/` (POST, origin accessor, test server).
 
-Owner decision: PENDING.
+Owner decision: ACCEPTED residual risks 1–10 (owner answer in session, 2026-10-02:
+"Chấp nhận, làm tiếp"). Follow-ups tracked in IMPLEMENTATION.json.
